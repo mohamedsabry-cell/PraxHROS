@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Praxion — Wireframe System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0B1437;--ink:#2B2F3A;--mute:#7a8197;--line:#E6EAF2;--bg:#F5F7FA;--signal:#2F6BFF;--ion:#19D3C5}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.55}
+.wrap{max-width:1200px;margin:0 auto;padding:48px 36px}
+h1{font-size:42px;color:var(--navy);letter-spacing:-.02em;margin-bottom:8px}
+h2{font-size:26px;color:var(--navy);margin:48px 0 6px;letter-spacing:-.01em;border-bottom:2px solid var(--navy);padding-bottom:8px}
+h3{font-size:16px;color:var(--navy);margin:22px 0 6px;text-transform:uppercase;letter-spacing:.08em}
+h4{font-size:13px;color:var(--signal);margin:14px 0 4px;text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+p{max-width:80ch;color:#4a4f5c;margin-bottom:8px}
+ul{margin:4px 0 8px 20px}
+li{margin-bottom:3px}
+.lede{font-size:16px;color:var(--ink);max-width:72ch;margin-top:14px;margin-bottom:24px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--signal);margin-bottom:12px}
+pre.wf{font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.4;background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;overflow-x:auto;color:var(--navy);margin:12px 0}
+.area{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;margin-bottom:24px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-right:4px}
+.t-admin{background:#ffe8e8;color:#a8201a}
+.t-hr{background:#e6efff;color:#1d4ed8}
+.t-mgr{background:#e6fff8;color:#0a7a6b}
+.t-emp{background:#f0e6ff;color:#6332b8}
+.toc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin-bottom:32px}
+.toc a{color:var(--navy);text-decoration:none;font-size:13px}
+.toc ol{columns:2;margin-left:18px}
+.note{background:#f0f4ff;border-left:3px solid var(--signal);padding:10px 14px;border-radius:4px;font-size:13px;margin:10px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="eyebrow">Wireframe System · Low-to-Mid Fidelity</div>
+<h1>Praxion — Product Wireframes</h1>
+<p class="lede">A complete set of wireframes for the Praxion HR Operating System. Every functional area follows the same shell: left sidebar, top command bar, main canvas. Inspired by Stripe, Linear, Notion, and Deel.</p>
+
+<div class="toc">
+<strong>Contents</strong>
+<ol>
+<li><a href="#shell">Global Shell &amp; Roles</a></li>
+<li><a href="#org">1. Company Structure</a></li>
+<li><a href="#emp">2. Employee Profiles</a></li>
+<li><a href="#ats">3. Candidate Pipeline</a></li>
+<li><a href="#onb">4. Hiring &amp; Onboarding</a></li>
+<li><a href="#att">5. Attendance &amp; Time</a></li>
+<li><a href="#leave">6. Leave &amp; Requests</a></li>
+<li><a href="#pay">7. Payroll &amp; Compensation</a></li>
+<li><a href="#perf">8. Performance</a></li>
+<li><a href="#docs">9. Document Management</a></li>
+<li><a href="#dash">10. Analytics &amp; Dashboards</a></li>
+<li><a href="#set">11. Settings &amp; Permissions</a></li>
+</ol>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="shell">Global Shell &amp; Role Matrix</h2>
+
+<div class="area">
+<h3>App Shell (used on every screen)</h3>
+<pre class="wf">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ◆ PRAXION  Acme Global ▾    [⌘K  Search anything…]      🔔 ⚙  ●  Sarah C ▾ │
+├──────────┬──────────────────────────────────────────────────────────────────┤
+│          │                                                                  │
+│ ◉ Home   │                                                                  │
+│ ▣ People │                       MAIN CONTENT AREA                          │
+│ ▷ Hiring │                                                                  │
+│ ⟳ Time   │                  (cards · tables · tabs · forms)                 │
+│ $ Pay    │                                                                  │
+│ ★ Perf   │                                                                  │
+│ □ Docs   │                                                                  │
+│ ▥ Reports│                                                                  │
+│ ─────    │                                                                  │
+│ ⚙ Admin  │                                                                  │
+└──────────┴──────────────────────────────────────────────────────────────────┘
+</pre>
+<h4>Persistent elements</h4>
+<ul>
+<li><strong>Sidebar (240px):</strong> module nav, workspace switcher, collapse to icon-rail</li>
+<li><strong>Top bar (56px):</strong> workspace, ⌘K command bar, notifications, settings, profile</li>
+<li><strong>Main canvas:</strong> 12-col grid, page header (title + actions), tab strip when needed, content</li>
+</ul>
+<h4>Role visibility</h4>
+<ul>
+<li><span class="tag t-admin">Admin</span> Full access. Sees Admin module, billing, integrations, audit log.</li>
+<li><span class="tag t-hr">HR</span> All HR modules, no billing/integrations. Cannot impersonate.</li>
+<li><span class="tag t-mgr">Manager</span> Team-scoped views: direct reports only on People, Time, Leave, Perf, Pay (read).</li>
+<li><span class="tag t-emp">Employee</span> Self-service only: own profile, time, leave, pay, docs, perf.</li>
+</ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="org">1. Company Structure &amp; Hierarchy</h2>
+<div class="area">
+
+<h3>1.1 Screens</h3>
+<ul>
+<li>Org chart (visual tree)</li>
+<li>Department list view</li>
+<li>Department detail</li>
+<li>Create / edit department modal</li>
+<li>Location &amp; legal entity manager</li>
+</ul>
+
+<h3>1.2 Layout — Org Chart</h3>
+<pre class="wf">
+┌──────────┬──────────────────────────────────────────────────────────────────┐
+│ Sidebar  │ People › Org Chart                        [+ Department] [Export]│
+│          ├──────────────────────────────────────────────────────────────────┤
+│          │ [Tree] [List] [Locations] [Entities]    Filter: All ▾  Q Search  │
+│          ├──────────────────────────────────────────────────────────────────┤
+│          │                       ┌──────────┐                               │
+│          │                       │ CEO      │                               │
+│          │                       │ S. Chen  │                               │
+│          │                       └────┬─────┘                               │
+│          │            ┌───────────────┼───────────────┐                     │
+│          │       ┌────┴────┐     ┌────┴────┐     ┌────┴────┐                │
+│          │       │ Eng 142 │     │ GTM 88  │     │ Ops 47  │                │
+│          │       └────┬────┘     └─────────┘     └─────────┘                │
+│          │      ┌─────┴─────┐                                               │
+│          │  ┌───┴───┐   ┌───┴───┐                                           │
+│          │  │Plat 38│   │Prod 24│                                           │
+│          │  └───────┘   └───────┘                                           │
+└──────────┴──────────────────────────────────────────────────────────────────┘
+</pre>
+
+<h3>1.3 Components</h3>
+<ul><li>Drag-to-reparent tree, breadcrumb, side panel preview, bulk-move modal</li></ul>
+
+<h3>1.4 Data Fields</h3>
+<ul><li><strong>Department:</strong> name, code, parent, lead, headcount, cost center, location, entity</li>
+<li><strong>Entity:</strong> legal name, country, currency, tax ID, payroll provider</li></ul>
+
+<h3>1.5 Actions</h3>
+<ul><li><span class="tag t-admin">Admin</span><span class="tag t-hr">HR</span> Create / rename / merge / archive department · reassign lead · move sub-tree</li>
+<li><span class="tag t-mgr">Manager</span> View own branch · request reorg (creates approval task)</li></ul>
+
+<h3>1.6 UX Logic</h3>
+<ul><li>Reorg edits enter <em>Draft</em> → <em>Pending Approval</em> → <em>Live</em>; old version archived with timestamp</li>
+<li>Automation: changing a department lead reassigns approval chains for the affected branch</li></ul>
+
+<h3>1.7 States</h3>
+<ul><li><strong>Empty:</strong> "Build your first organization" CTA + import from CSV / HRIS</li>
+<li><strong>Loading:</strong> skeleton tree nodes</li>
+<li><strong>Success:</strong> toast "Department updated · 12 reports affected"</li>
+<li><strong>Error:</strong> inline banner "Cannot move — circular hierarchy"</li></ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="emp">2. Employee Profiles &amp; Records</h2>
+<div class="area">
+
+<h3>2.1 Screens</h3>
+<ul><li>People list (table)</li><li>Employee detail (tabs)</li><li>Add / edit employee form</li><li>Offboarding flow</li></ul>
+
+<h3>2.2 Layout — People List</h3>
+<pre class="wf">
+│ People                                            [+ Add] [Import] [⋯]      │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ [All 2,847] [Active] [Onboarding] [Leave] [Offboarded]    Filters ▾  ⌘F     │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ ☐  NAME            DEPT      ROLE         LOCATION  STATUS    MANAGER       │
+│ ☐  Ada Lovelace    Eng       Staff Eng    Berlin    ●Active   J. Patel      │
+│ ☐  Bilal Shah      GTM       AE           Dubai     ●Active   M. Cruz       │
+│ ☐  Carla Mendes    Ops       Coordinator  Lisbon    ◐Onbrd    R. Tanaka     │
+│ …                                                                            │
+│                                              ‹  1 of 142  ›                  │
+</pre>
+
+<h3>2.3 Layout — Employee Detail</h3>
+<pre class="wf">
+│ ← People  · Ada Lovelace · Staff Engineer            [Message] [⋯ Actions]   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ [Overview] [Job] [Compensation] [Time] [Leave] [Docs] [Perf] [Activity]     │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ ┌──── Profile ────┐ ┌──── Reporting ────┐ ┌──── Quick stats ───┐            │
+│ │ Avatar          │ │ Manager: J.Patel  │ │ Tenure  4y 2m      │            │
+│ │ Pronouns        │ │ Reports: 5        │ │ Utilization 94%    │            │
+│ │ Email · Phone   │ │ Department: Eng   │ │ Last review: Q1    │            │
+│ └─────────────────┘ └───────────────────┘ └────────────────────┘            │
+│ ┌──── Job History ──────────────────────────────────────────────┐           │
+│ │ 2024 — Staff Engineer · Berlin                                │           │
+│ │ 2022 — Senior Engineer · Berlin                               │           │
+│ └──────────────────────────────────────────────────────────────┘            │
+</pre>
+
+<h3>2.4 Components</h3>
+<ul><li>Table with column-picker, saved views, bulk action bar, tab strip, side drawer for quick edits</li></ul>
+
+<h3>2.5 Data Fields</h3>
+<ul><li><strong>Personal:</strong> legal name, preferred name, DOB, nationality, contact, emergency contact</li>
+<li><strong>Job:</strong> title, level, department, manager, location, entity, start date, employment type</li>
+<li><strong>Comp:</strong> base, currency, pay schedule, equity, bonus target</li></ul>
+
+<h3>2.6 Actions</h3>
+<ul><li><span class="tag t-hr">HR</span> Edit any field · transfer · promote · terminate</li>
+<li><span class="tag t-mgr">Manager</span> Edit reports' job/location (HR approval) · initiate review</li>
+<li><span class="tag t-emp">Employee</span> Edit personal info · upload document</li></ul>
+
+<h3>2.7 UX Logic</h3>
+<ul><li>Field changes with comp/legal impact route to HR approval queue; others save instantly</li>
+<li>Termination triggers offboarding workflow (revoke access, return assets, final pay)</li></ul>
+
+<h3>2.8 States</h3>
+<ul><li>Empty list: import wizard · Loading: skeleton rows · Success: inline check · Error: field-level red border + reason</li></ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="ats">3. Candidate Tracking &amp; Pipeline</h2>
+<div class="area">
+
+<h3>3.1 Screens</h3>
+<ul><li>Jobs board (req list)</li><li>Job detail with kanban pipeline</li><li>Candidate profile</li><li>Create requisition</li><li>Offer approval flow</li></ul>
+
+<h3>3.2 Layout — Pipeline (Kanban)</h3>
+<pre class="wf">
+│ Hiring › Senior PM · Berlin                    [+ Add candidate] [Share]    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ [Pipeline] [Candidates] [Scorecards] [Activity] [Settings]                  │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ APPLIED 38   SCREEN 12   INTERVIEW 6   OFFER 2   HIRED 1   REJECTED 47      │
+│ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐           │
+│ │ A.K.   │ │ R.O.   │ │ M.S.   │ │ T.J.   │ │ N.P.   │ │ …      │           │
+│ │ ●●●○○  │ │ ●●●●○  │ │ ●●●●●  │ │ ●●●●●  │ │ Hired  │ │        │           │
+│ │ 2d ago │ │ Today  │ │ Mon    │ │ Offer  │ │        │ │        │           │
+│ └────────┘ └────────┘ └────────┘ └────────┘ └────────┘ └────────┘           │
+</pre>
+
+<h3>3.3 Components</h3>
+<ul><li>Kanban with drag-stage, scorecard modal, interview scheduler, email composer drawer</li></ul>
+
+<h3>3.4 Data Fields</h3>
+<ul><li><strong>Req:</strong> title, dept, location, headcount, level, comp band, hiring manager, recruiter</li>
+<li><strong>Candidate:</strong> name, source, resume, current stage, scorecard avg, owner, tags</li></ul>
+
+<h3>3.5 Actions</h3>
+<ul><li><span class="tag t-hr">HR</span> Create req · open/close · move stage · send offer</li>
+<li><span class="tag t-mgr">Manager</span> Score · interview · request offer</li></ul>
+
+<h3>3.6 UX Logic</h3>
+<ul><li>Stage transitions: Applied → Screen → Interview → Offer → Hired (or Rejected at any step)</li>
+<li>Offer stage gates approval chain (Manager → HR → Finance)</li>
+<li>Hired → triggers onboarding workflow with one click</li></ul>
+
+<h3>3.7 States</h3>
+<ul><li>Empty req: "Post your first role" · Loading: skeleton cards · Success: toast on stage move · Error: validation banner on offer create</li></ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="onb">4. Hiring &amp; Onboarding Flow</h2>
+<div class="area">
+
+<h3>4.1 Screens</h3>
+<ul><li>Onboarding template builder</li><li>New-hire checklist (per employee)</li><li>Task detail / form</li><li>Welcome portal (employee view)</li></ul>
+
+<h3>4.2 Layout — Onboarding Checklist</h3>
+<pre class="wf">
+│ Onboarding · Carla Mendes · Day 3 of 30                  [Reassign] [⋯]     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Progress ████████░░░░░░░░░░░░  42%      Buddy: R. Tanaka                    │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ BEFORE DAY 1                                                                 │
+│  ✓ Sign offer letter                       (Carla)        Done · Mar 12      │
+│  ✓ Background check                        (HR)           Done · Mar 14      │
+│ WEEK 1                                                                       │
+│  ✓ Issue laptop                            (IT)           Done · Mar 18      │
+│  ◐ Provision Slack / Email                 (IT)           In progress        │
+│  ○ Welcome lunch                           (Manager)      Mar 20             │
+│ WEEK 2                                                                       │
+│  ○ Compliance training                     (Carla)        Due Mar 27         │
+</pre>
+
+<h3>4.3 Components</h3>
+<ul><li>Drag-orderable task list, owner chips, due dates, sub-task drawer, template selector</li></ul>
+
+<h3>4.4 Data Fields</h3>
+<ul><li>Task name, owner, due date, dependencies, attachments, completion proof</li></ul>
+
+<h3>4.5 Actions</h3>
+<ul><li><span class="tag t-hr">HR</span> Build templates · assign · reassign · mark complete</li>
+<li><span class="tag t-emp">Employee</span> Complete own tasks, upload docs, sign forms</li></ul>
+
+<h3>4.6 UX Logic</h3>
+<ul><li>Templates auto-apply on hire based on dept + location + employment type</li>
+<li>Overdue task → notification to owner + manager; 48h later escalation to HR</li></ul>
+
+<h3>4.7 States</h3>
+<ul><li>Empty: "Pick a template" · Loading: skeleton rows · Success: green check · Error: blocked dependency banner</li></ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="att">5. Attendance &amp; Time Tracking</h2>
+<div class="area">
+
+<h3>5.1 Screens</h3>
+<ul><li>My timesheet (employee)</li><li>Team timesheet (manager)</li><li>Approval queue</li><li>Attendance report</li><li>Schedule / shift planner</li></ul>
+
+<h3>5.2 Layout — Team Timesheet</h3>
+<pre class="wf">
+│ Time › Team · Week of Apr 6              [Approve all] [Export] [Filters ▾] │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NAME          MON   TUE   WED   THU   FRI   TOTAL   STATUS                  │
+│ Ada L.        8.0   8.0   8.0   8.0   7.5   39.5h   ◐ Pending               │
+│ Bilal S.      8.0   8.0   —     8.0   8.0   32.0h   ● Approved              │
+│ Carla M.      7.0   8.0   8.0   8.0   8.0   39.0h   ◐ Pending  [Approve] [✕]│
+│ ─────                                                                        │
+│ TOTAL TEAM                                  311 h    7 pending               │
+</pre>
+
+<h3>5.3 Components</h3>
+<ul><li>Editable grid, day-detail drawer, bulk approve, anomaly badges (overtime, missing punch)</li></ul>
+
+<h3>5.4 Data Fields</h3>
+<ul><li>Date, project, hours, break, location, in/out timestamps, notes</li></ul>
+
+<h3>5.5 Actions</h3>
+<ul><li><span class="tag t-emp">Employee</span> Clock in/out · log hours · submit week</li>
+<li><span class="tag t-mgr">Manager</span> Approve · reject with reason · adjust</li></ul>
+
+<h3>5.6 UX Logic</h3>
+<ul><li>States: Draft → Submitted → Approved / Rejected → Locked (after payroll cutoff)</li>
+<li>Automation: anomaly detection flags overtime &gt;10h, missing days, geofence mismatch</li></ul>
+
+<h3>5.7 States</h3>
+<ul><li>Empty week: "No hours logged yet" · Loading: shimmer · Success: row turns green · Error: red border + tooltip</li></ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="leave">6. Leave &amp; Request Handling</h2>
+<div class="area">
+
+<h3>6.1 Screens</h3>
+<ul><li>My balances</li><li>Request leave modal</li><li>Team calendar</li><li>Approval queue</li><li>Policy editor</li></ul>
+
+<h3>6.2 Layout — Team Calendar + Approvals</h3>
+<pre class="wf">
+│ Leave › Team Calendar · April 2026                  [Request] [Policies ▾]  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│        Mon 6  Tue 7  Wed 8  Thu 9  Fri 10  Sat 11  Sun 12                   │
+│ Ada L. ─────  ─────  PTO    PTO    PTO    ░░░░░  ░░░░░                      │
+│ Bilal  ─────  ─────  ─────  ─────  ─────  ░░░░░  ░░░░░                      │
+│ Carla  SICK   ─────  ─────  ─────  ─────  ░░░░░  ░░░░░                      │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ PENDING APPROVALS (3)                                                       │
+│ • Ada L. — PTO Apr 8–10 (3d)         [Approve] [Reject] [Comment]           │
+│ • Tim R. — Sick Apr 7 (1d)           [Approve] [Reject] [Comment]           │
+</pre>
+
+<h3>6.3 Components</h3>
+<ul><li>Month/quarter calendar, balance widget, request form, conflict warnings, policy modal</li></ul>
+
+<h3>6.4 Data Fields</h3>
+<ul><li>Type (PTO, sick, parental, unpaid), start, end, half-day, reason, attachment</li></ul>
+
+<h3>6.5 Actions</h3>
+<ul><li><span class="tag t-emp">Employee</span> Request · cancel · view balance</li>
+<li><span class="tag t-mgr">Manager</span> Approve / reject · suggest alternate dates</li>
+<li><span class="tag t-hr">HR</span> Adjust balances · override · edit policy</li></ul>
+
+<h3>6.6 UX Logic</h3>
+<ul><li>Submit → routes to manager (auto via reporting line) → optional HR step for &gt;5 days</li>
+<li>Approval auto-syncs to attendance + payroll + calendar</li>
+<li>Conflict guard: warns if &gt;30% of team off the same day</li></ul>
+
+<h3>6.7 States</h3>
+<ul><li>Empty: "No requests" · Loading: skeleton rows · Success: green pill · Error: "Insufficient balance"</li></ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="pay">7. Payroll &amp; Compensation</h2>
+<div class="area">
+
+<h3>7.1 Screens</h3>
+<ul><li>Payroll runs list</li><li>Run detail (review &amp; approve)</li><li>Employee compensation page</li><li>Pay statement (employee)</li><li>Compensation review cycle</li></ul>
+
+<h3>7.2 Layout — Payroll Run Review</h3>
+<pre class="wf">
+│ Payroll › Run · April 2026 · Acme DE                         [⋯ Actions]    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Status: ◐ Ready for review     Cutoff Apr 25     Pay date Apr 30            │
+│ ┌── Gross ──────┐ ┌── Net ────────┐ ┌── Variances ──┐ ┌── Issues ─────┐    │
+│ │ €1,284,500    │ │ €912,300      │ │ +2.4% vs Mar  │ │ 3 to resolve  │    │
+│ └───────────────┘ └───────────────┘ └───────────────┘ └───────────────┘    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ EMPLOYEE          BASE      VAR     DEDUCT   NET       FLAGS                │
+│ Ada L.            6,800     0       1,920    4,880     —                    │
+│ Bilal S.          5,200     500     1,610    4,090     ⚠ new bonus          │
+│ Carla M.          3,400     0       1,020    2,380     —                    │
+│ ─────                                                                        │
+│ [Approve & Submit]   [Send for HR Review]   [Export]                        │
+</pre>
+
+<h3>7.3 Components</h3>
+<ul><li>Run wizard (4 steps), variance side-panel, line-item drawer, audit trail, two-step approval</li></ul>
+
+<h3>7.4 Data Fields</h3>
+<ul><li>Base, bonus, commission, allowances, deductions, taxes, net, currency, entity, payslip</li></ul>
+
+<h3>7.5 Actions</h3>
+<ul><li><span class="tag t-admin">Admin</span><span class="tag t-hr">HR</span> Create / preview / approve / submit run · adjust line</li>
+<li><span class="tag t-mgr">Manager</span> Read-only on team · request comp change</li>
+<li><span class="tag t-emp">Employee</span> View payslips, download</li></ul>
+
+<h3>7.6 UX Logic</h3>
+<ul><li>States: Draft → Review → Approved → Submitted → Paid (each timestamped + signed)</li>
+<li>Variance &gt;5% requires written justification before submit</li>
+<li>Auto-pull: time, leave, expenses, comp changes, new hires, terminations</li></ul>
+
+<h3>7.7 States</h3>
+<ul><li>Empty: "No runs yet" · Loading: progress bar with phases · Success: confetti-free toast + receipt · Error: blocking modal listing issues</li></ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="perf">8. Performance &amp; Evaluations</h2>
+<div class="area">
+
+<h3>8.1 Screens</h3>
+<ul><li>Review cycle dashboard</li><li>My reviews</li><li>Goals / OKRs</li><li>1:1s</li><li>Calibration board (HR)</li></ul>
+
+<h3>8.2 Layout — Review Cycle</h3>
+<pre class="wf">
+│ Performance › Q1 2026 Cycle              [Launch new cycle] [Templates ▾]   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Progress 312 / 480 reviews · Due Apr 30                                     │
+│ [Self  92%] [Peer  78%] [Manager 64%] [Calibration 0%]                      │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NAME            SELF   PEER   MGR    OVERALL   STATUS                       │
+│ Ada L.          ✓      ✓      ◐      —          In progress                 │
+│ Bilal S.        ✓      ✓      ✓      4.2        Calibration                 │
+│ Carla M.        ✓      ◐      ○      —          Awaiting peer               │
+</pre>
+
+<h3>8.3 Components</h3>
+<ul><li>Cycle wizard, template editor, review form, rating rubric, goal tree, calibration grid (9-box)</li></ul>
+
+<h3>8.4 Data Fields</h3>
+<ul><li>Goal title, key result, weight, progress, rating, comments, peer list, evidence links</li></ul>
+
+<h3>8.5 Actions</h3>
+<ul><li><span class="tag t-emp">Employee</span> Self-review, set goals, request peer feedback</li>
+<li><span class="tag t-mgr">Manager</span> Write reviews, hold 1:1s, approve goals</li>
+<li><span class="tag t-hr">HR</span> Launch cycle, calibrate, publish, link to comp</li></ul>
+
+<h3>8.6 UX Logic</h3>
+<ul><li>Cycle phases auto-advance: Self → Peer → Manager → Calibration → Share → Acknowledge</li>
+<li>Reviews unlock comp adjustment recommendations after calibration</li></ul>
+
+<h3>8.7 States</h3>
+<ul><li>Empty: "No active cycle" · Loading: progress · Success: cycle complete card · Error: missing reviewers banner</li></ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="docs">9. Document Management</h2>
+<div class="area">
+
+<h3>9.1 Screens</h3>
+<ul><li>Document library</li><li>Template gallery</li><li>Document detail / signing</li><li>Compliance dashboard</li></ul>
+
+<h3>9.2 Layout — Library</h3>
+<pre class="wf">
+│ Documents                                       [+ Upload] [Templates] [⋯]  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ FOLDERS: Contracts · Policies · Personal · Compliance · Payroll             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NAME                          OWNER       UPDATED     STATUS    EXPIRES     │
+│ □ Employment Agreement.pdf    HR          Mar 12      ✓ Signed  —           │
+│ □ NDA Template v3.docx        Legal       Feb 28      Draft     —           │
+│ □ Visa B1 — Carla M.pdf       HR          Apr 1       ⚠ Action  Jun 30      │
+</pre>
+
+<h3>9.3 Components</h3>
+<ul><li>File grid + list toggle, preview pane, e-signature flow, version history, share modal</li></ul>
+
+<h3>9.4 Data Fields</h3>
+<ul><li>Name, owner, type, tags, visibility, expiration, signers, status</li></ul>
+
+<h3>9.5 Actions</h3>
+<ul><li><span class="tag t-hr">HR</span> Upload, create from template, send for signature, archive</li>
+<li><span class="tag t-emp">Employee</span> View / sign / download personal docs</li></ul>
+
+<h3>9.6 UX Logic</h3>
+<ul><li>Templates merge employee fields automatically; signature requests track status (Sent → Viewed → Signed)</li>
+<li>Expiry &lt;30 days triggers compliance alert + assigned task</li></ul>
+
+<h3>9.7 States</h3>
+<ul><li>Empty: drag-to-upload zone · Loading: progress · Success: green badge · Error: "Unsupported file type"</li></ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="dash">10. Analytics &amp; Dashboards</h2>
+<div class="area">
+
+<h3>10.1 Screens</h3>
+<ul><li>Executive home</li><li>Workforce analytics</li><li>Hiring funnel</li><li>Comp &amp; payroll insights</li><li>Custom report builder</li></ul>
+
+<h3>10.2 Layout — Executive Home</h3>
+<pre class="wf">
+│ Home · Acme Global                                  Apr 9, 2026             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ ┌── Headcount ──┐ ┌── Attrition ──┐ ┌── Open reqs ──┐ ┌── Payroll ────┐    │
+│ │ 2,847   +1.2% │ │ 4.8%   ↓0.6   │ │ 38       12▲  │ │ €1.28M  Apr   │    │
+│ └───────────────┘ └───────────────┘ └───────────────┘ └───────────────┘    │
+│ ┌── Headcount over time ───────────────┐ ┌── Pipeline ──────────────┐      │
+│ │     ▁▂▃▄▅▆▇█                          │ │  ████  Applied 218       │      │
+│ │                                        │ │  ███   Screen   72       │      │
+│ │                                        │ │  ██    Onsite   34       │      │
+│ │                                        │ │  █     Offer    9        │      │
+│ └────────────────────────────────────────┘ └──────────────────────────┘     │
+│ ┌── Intelligence panel ──────────────────────────────────────────────────┐  │
+│ │ ◇ Eng attrition spiked +1.4% in Berlin — investigate                   │  │
+│ │ ◇ 12 reqs older than 60 days — bottleneck at screening                 │  │
+│ │ ◇ Q2 payroll forecast +2.4% vs budget                                  │  │
+│ └────────────────────────────────────────────────────────────────────────┘  │
+</pre>
+
+<h3>10.3 Components</h3>
+<ul><li>KPI tiles, line / bar / funnel charts, AI insight cards, drill-through, export, scheduled email</li></ul>
+
+<h3>10.4 Data Fields</h3>
+<ul><li>Metric, dimension, filter, time range, comparison, owner, alert threshold</li></ul>
+
+<h3>10.5 Actions</h3>
+<ul><li><span class="tag t-admin">Admin</span><span class="tag t-hr">HR</span> Build, share, schedule, set thresholds</li>
+<li><span class="tag t-mgr">Manager</span> View team-scoped dashboards</li></ul>
+
+<h3>10.6 UX Logic</h3>
+<ul><li>Role scoping enforced server-side; managers see only their reporting tree</li>
+<li>AI insight panel runs on a schedule and pins anomalies to the home view</li></ul>
+
+<h3>10.7 States</h3>
+<ul><li>Empty: "Pick a template dashboard" · Loading: skeleton tiles · Success: live data · Error: per-tile retry</li></ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="set">11. Settings &amp; Permissions</h2>
+<div class="area">
+
+<h3>11.1 Screens</h3>
+<ul><li>Workspace settings</li><li>Roles &amp; permissions matrix</li><li>Integrations</li><li>Audit log</li><li>Billing</li></ul>
+
+<h3>11.2 Layout — Roles Matrix</h3>
+<pre class="wf">
+│ Admin › Roles &amp; Permissions                    [+ Custom role] [Audit log] │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ MODULE          ADMIN   HR     MANAGER   EMPLOYEE                           │
+│ People          ●●●     ●●●    ●● team   ● self                             │
+│ Hiring          ●●●     ●●●    ●● team   —                                  │
+│ Time            ●●●     ●●●    ●● team   ● self                             │
+│ Payroll         ●●●     ●●●    ● read    ● payslip                          │
+│ Performance     ●●●     ●●●    ●● team   ● self                             │
+│ Documents       ●●●     ●●●    ●● team   ● self                             │
+│ Reports         ●●●     ●●●    ● team    —                                  │
+│ Settings        ●●●     ● lim  —         —                                  │
+│ ●●● Full   ●● Manage   ● Read                                               │
+</pre>
+
+<h3>11.3 Components</h3>
+<ul><li>Permission matrix, custom-role builder, SSO config, integration cards, audit table, invoice list</li></ul>
+
+<h3>11.4 Data Fields</h3>
+<ul><li>Role name, scope, module, action grants, members, SSO provider, billing plan, seats</li></ul>
+
+<h3>11.5 Actions</h3>
+<ul><li><span class="tag t-admin">Admin</span> Create role · invite user · revoke · enable integration · view audit · manage billing</li></ul>
+
+<h3>11.6 UX Logic</h3>
+<ul><li>Permission changes log to audit trail; destructive changes require re-auth</li>
+<li>Integration toggles run a connection test before activation</li></ul>
+
+<h3>11.7 States</h3>
+<ul><li>Empty: "No custom roles yet" · Loading: skeleton · Success: green check · Error: "Cannot revoke last admin"</li></ul>
+</div>
+
+<div class="note"><strong>Cross-cutting patterns:</strong> every screen supports ⌘K (jump anywhere · run anything), every list supports saved views, every approval routes through a unified inbox, and every state change is captured in a per-record activity log.</div>
+
+</div>
+</body>
+</html>

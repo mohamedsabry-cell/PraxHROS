@@ -1,0 +1,2129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praxion HROS - Workflows Master</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0A1628;
+            --signal-blue: #2563EB;
+            --white: #FFFFFF;
+            --success: #16A34A;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --light-gray: #F5F7FA;
+            --border-gray: #E5E7EB;
+            --text-gray: #6B7280;
+            --dark-text: #1F2937;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ==================== SIDEBAR ==================== */
+        .sidebar {
+            width: 280px;
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-brand-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--signal-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .sidebar-brand-text h1 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .sidebar-brand-text p {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .sidebar-section {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-section-header {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            user-select: none;
+            transition: background-color 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+
+        .sidebar-section-header:hover {
+            background-color: rgba(37, 99, 235, 0.2);
+        }
+
+        .sidebar-section-header .toggle-icon {
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.2s;
+            width: 16px;
+            text-align: center;
+        }
+
+        .sidebar-section-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .sidebar-items {
+            margin-top: 8px;
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s;
+        }
+
+        .sidebar-items.collapsed {
+            max-height: 0;
+        }
+
+        .sidebar-item {
+            padding: 8px 12px;
+            margin: 4px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.2s;
+            border-left: 2px solid transparent;
+            display: block;
+        }
+
+        .sidebar-item:hover {
+            background-color: rgba(37, 99, 235, 0.15);
+            color: var(--white);
+        }
+
+        .sidebar-item.active {
+            background-color: var(--signal-blue);
+            color: var(--white);
+            border-left-color: var(--white);
+        }
+
+        .sidebar-controls {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 10px;
+        }
+
+        .sidebar-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background-color: var(--signal-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        .main-content {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            padding: 40px;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid var(--border-gray);
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: var(--navy);
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: var(--text-gray);
+        }
+
+        /* ==================== SECTION STYLES ==================== */
+        .section {
+            margin-bottom: 60px;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--signal-blue);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--signal-blue);
+            color: var(--white);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .section-title {
+            flex: 1;
+        }
+
+        .section-title h2 {
+            font-size: 24px;
+            color: var(--navy);
+            margin-bottom: 5px;
+        }
+
+        .section-title p {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        /* ==================== WORKFLOW DIAGRAM ==================== */
+        .workflow-container {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-gray);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .workflow-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .workflow-title .badge {
+            display: inline-block;
+            background-color: var(--signal-blue);
+            color: var(--white);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .workflow-description {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .diagram-wrapper {
+            background: var(--light-gray);
+            border-radius: 6px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* ==================== BACK TO TOP ==================== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--signal-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .back-to-top:hover {
+            background: #1d4ed8;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5);
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .main-content {
+                margin-left: 240px;
+                width: calc(100% - 240px);
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 15px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .sidebar-controls {
+                display: none;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .section-icon {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+        }
+
+        /* ==================== PRINT STYLES ==================== */
+        @media print {
+            .sidebar,
+            .back-to-top,
+            .sidebar-controls {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 0;
+            }
+
+            .section {
+                page-break-inside: avoid;
+                margin-bottom: 30px;
+            }
+
+            .workflow-container {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid var(--border-gray);
+            }
+        }
+
+        /* ==================== SYSTEM OVERVIEW ==================== */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border-gray);
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--signal-blue);
+            color: var(--white);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .stat-content h3 {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 5px;
+        }
+
+        .stat-content p {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        /* ==================== INTEGRATION VIEW ==================== */
+        .integration-note {
+            background: #E3F2FD;
+            border-left: 4px solid var(--signal-blue);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #0D47A1;
+        }
+
+        .integration-note strong {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ==================== SIDEBAR ==================== -->
+        <nav class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon">P</div>
+                <div class="sidebar-brand-text">
+                    <h1>Praxion</h1>
+                    <p>HROS Workflows</p>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    System Overview
+                </div>
+                <div class="sidebar-items">
+                    <a href="#system-overview" class="sidebar-item" onclick="setActive(this)">All Modules & Events</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M1: Core HRIS
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m1-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m1-leave-request" class="sidebar-item" onclick="setActive(this)">Leave Request Flow</a>
+                    <a href="#m1-document-expiry" class="sidebar-item" onclick="setActive(this)">Document Expiry Mgmt</a>
+                    <a href="#m1-termination" class="sidebar-item" onclick="setActive(this)">Employee Termination</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M2: Recruitment & ATS
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m2-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m2-hiring-pipeline" class="sidebar-item" onclick="setActive(this)">Hiring Pipeline</a>
+                    <a href="#m2-offer-acceptance" class="sidebar-item" onclick="setActive(this)">Offer & Acceptance</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M3: Onboarding & Offboarding
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m3-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m3-dual-onboarding" class="sidebar-item" onclick="setActive(this)">Dual Onboarding</a>
+                    <a href="#m3-offboarding" class="sidebar-item" onclick="setActive(this)">Offboarding & EOSB</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M4: Performance & KPIs
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m4-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m4-review-cycle" class="sidebar-item" onclick="setActive(this)">Review Cycle</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M5: Training & LMS
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m5-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m5-enroll-learn-certify" class="sidebar-item" onclick="setActive(this)">Enroll-Learn-Certify</a>
+                    <a href="#m5-auto-enrolment" class="sidebar-item" onclick="setActive(this)">Auto-Enrolment</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M6: Payroll & Compensation
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m6-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m6-payroll-run" class="sidebar-item" onclick="setActive(this)">Monthly Payroll Run</a>
+                    <a href="#m6-nosi-filing" class="sidebar-item" onclick="setActive(this)">NOSI Filing</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M7: Benefits & Expenses
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m7-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m7-expense-claim" class="sidebar-item" onclick="setActive(this)">Expense Claim (OCR)</a>
+                    <a href="#m7-benefits-enrolment" class="sidebar-item" onclick="setActive(this)">Benefits Enrolment</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M8: Contractor Management
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m8-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m8-payout" class="sidebar-item" onclick="setActive(this)">Contractor Payout</a>
+                    <a href="#m8-engagement" class="sidebar-item" onclick="setActive(this)">Engagement Lifecycle</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M9: Analytics & Reporting
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m9-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m9-daily-refresh" class="sidebar-item" onclick="setActive(this)">Daily Refresh Pipeline</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M10: System Administration
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m10-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m10-provisioning" class="sidebar-item" onclick="setActive(this)">Tenant Provisioning</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M11: Mobile App
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m11-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m11-mobile-approval" class="sidebar-item" onclick="setActive(this)">Mobile Approval</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M12: Client Portal
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m12-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m12-self-config" class="sidebar-item" onclick="setActive(this)">Self-Configuration</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    M13: Billing & Invoicing
+                </div>
+                <div class="sidebar-items">
+                    <a href="#m13-overview" class="sidebar-item" onclick="setActive(this)">Overview</a>
+                    <a href="#m13-monthly-billing" class="sidebar-item" onclick="setActive(this)">Monthly Client Billing</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" onclick="toggleSection(this)">
+                    <span class="toggle-icon">▶</span>
+                    Cross-Module Integration
+                </div>
+                <div class="sidebar-items">
+                    <a href="#cross-module-lifecycle" class="sidebar-item" onclick="setActive(this)">Employee Lifecycle</a>
+                </div>
+            </div>
+
+            <div class="sidebar-controls">
+                <button class="sidebar-btn" onclick="expandAll()">Expand All</button>
+                <button class="sidebar-btn" onclick="collapseAll()">Collapse All</button>
+            </div>
+        </nav>
+
+        <!-- ==================== MAIN CONTENT ==================== -->
+        <main class="main-content">
+            <!-- ==================== PAGE HEADER ==================== -->
+            <div class="page-header">
+                <h1>Praxion HROS Workflow Documentation</h1>
+                <p>Comprehensive visual guide to all system workflows, processes, and integrations</p>
+            </div>
+
+            <!-- ==================== SYSTEM OVERVIEW ==================== -->
+            <section id="system-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">🎯</div>
+                    <div class="section-title">
+                        <h2>System Overview</h2>
+                        <p>All 13 modules and cross-module event flows</p>
+                    </div>
+                </div>
+
+                <div class="overview-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">13</div>
+                        <div class="stat-content">
+                            <h3>Total Modules</h3>
+                            <p>Integrated System</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        All Modules & Primary Event Flows
+                        <span class="badge">ARCHITECTURE</span>
+                    </div>
+                    <div class="workflow-description">
+                        Shows all 13 Praxion HROS modules with their primary integrations and event-driven connections. Core HRIS (M1) acts as the central hub connecting to all modules.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TB
+    subgraph Core["Core Systems"]
+        M1["<b>M1: Core HRIS</b><br/>Employee Hub"]
+    end
+
+    subgraph Talent["Talent Management"]
+        M2["M2: Recruitment<br/>& ATS"]
+        M3["M3: Onboarding<br/>& Offboarding"]
+        M4["M4: Performance<br/>& KPIs"]
+        M5["M5: Training<br/>& LMS"]
+    end
+
+    subgraph Finance["Finance & Admin"]
+        M6["M6: Payroll &<br/>Compensation"]
+        M7["M7: Benefits &<br/>Expenses"]
+        M8["M8: Contractor<br/>Management"]
+        M13["M13: Billing &<br/>Invoicing"]
+    end
+
+    subgraph Operations["Operations & Access"]
+        M9["M9: Analytics &<br/>Reporting"]
+        M10["M10: System<br/>Administration"]
+        M11["M11: Mobile<br/>App"]
+        M12["M12: Client<br/>Portal"]
+    end
+
+    M2 -->|Hire Event| M1
+    M1 -->|Onboarding Trigger| M3
+    M3 -->|Course Enrollment| M5
+    M3 -->|User Provisioning| M10
+    M4 -->|Merit/Bonus| M6
+    M4 -->|Development Plans| M5
+    M6 -->|Invoice Lines| M13
+    M6 -->|Disbursement| M1
+    M7 -->|Claims Reimbursement| M6
+    M8 -->|Pass-Through Billing| M13
+    M8 -->|Coordinated Payout| M6
+    M9 -->|CDC from All| M1
+    M9 -->|CDC from All| M2
+    M9 -->|CDC from All| M3
+    M9 -->|CDC from All| M4
+    M9 -->|CDC from All| M5
+    M9 -->|CDC from All| M6
+    M9 -->|CDC from All| M7
+    M9 -->|CDC from All| M8
+    M10 -->|Tenant Provisioning| M1
+    M11 -->|Mobile Access| M1
+    M11 -->|Mobile Access| M2
+    M11 -->|Mobile Access| M3
+    M11 -->|Mobile Access| M4
+    M11 -->|Mobile Access| M6
+    M12 -->|Client Self-Service| M1
+    M13 -->|ETA e-Invoicing| M1
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M1: CORE HRIS ==================== -->
+            <section id="m1-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">👤</div>
+                    <div class="section-title">
+                        <h2>M1: Core HRIS</h2>
+                        <p>Employee lifecycle management and centralized records</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Employee Lifecycle
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Master employee record lifecycle from hire through termination, tracking employment status changes across all related modules.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+    A["🎯 Hire"] --> B["📋 Active"]
+    B --> C["🔄 Transfer"]
+    C --> B
+    B --> D["🚪 Terminate"]
+    D --> E["📦 Archived"]
+
+    B -.->|Core Record Hub| F["All 13 Modules<br/>Reference"]
+    style A fill:#16A34A
+    style D fill:#DC2626
+    style E fill:#6B7280
+    style B fill:#2563EB
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Leave Request Flow
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Employee submits leave request → System validates balance → Routes to Line Manager → Approve/Reject → Balance updated → Notifications sent. Insufficient balance blocks request; SLA breach escalates.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+    A["🏢 Employee Submits<br/>Leave Request"] --> B{Validate<br/>Balance}
+    B -->|Insufficient| C["⛔ Block Request<br/>Notify Employee"]
+    B -->|Sufficient| D["📤 Route to<br/>Line Manager"]
+    D --> E{Manager<br/>Decision}
+    E -->|Reject| F["❌ Reject<br/>Notify Employee"]
+    E -->|Approve| G["✅ Approve<br/>Update Balance"]
+    G --> H["📧 Send Notifications<br/>All Stakeholders"]
+    H --> I["✔️ Leave Recorded"]
+
+    H -.->|SLA Monitor| J{SLA<br/>Breach?}
+    J -->|Yes| K["⚠️ Escalate<br/>to HR Manager"]
+    J -->|No| I
+
+    style A fill:#2563EB,color:#fff
+    style B fill:#F59E0B,color:#000
+    style C fill:#DC2626,color:#fff
+    style G fill:#16A34A,color:#fff
+    style K fill:#DC2626,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Document Expiry Management
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Daily job runs at 06:00 → Queries documents expiring in 60 days → Tiered alerts (info 60d, warning 30d, critical 7d) → Notifications → HR uploads renewal → System verifies → Alert chain terminated.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+    A["⏰ Daily Job<br/>06:00 UTC"] --> B["🔍 Query Docs<br/>Expiring in 60d"]
+    B --> C{Days Until<br/>Expiry}
+    C -->|60+ days| D["ℹ️ Info Alert"]
+    C -->|30-60 days| E["⚠️ Warning Alert"]
+    C -->|7-30 days| F["🔴 Critical Alert"]
+    C -->|&lt;7 days| G["🆘 Urgent Alert"]
+
+    D --> H["📧 Send Notifications"]
+    E --> H
+    F --> H
+    G --> H
+
+    H --> I["👨‍💼 HR Reviews & Acts"]
+    I --> J["📤 Upload Renewal<br/>Document"]
+    J --> K["✓ System Verifies<br/>Expiry Date"]
+    K --> L{Valid?}
+    L -->|No| M["❌ Request Resubmit"]
+    M --> J
+    L -->|Yes| N["✅ Alert Chain<br/>Terminated"]
+
+    style A fill:#2563EB,color:#fff
+    style D fill:#2563EB,color:#fff
+    style E fill:#F59E0B,color:#000
+    style F fill:#DC2626,color:#fff
+    style G fill:#DC2626,color:#fff
+    style N fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Employee Termination
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        HR Manager sets Terminated status → Domain event published on Kafka → M3 offboarding workflow triggered → M10 access revocation → M6 EOSB/final pay → Record archived.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+    A["👤 HR Manager<br/>Sets Terminated"] --> B["📤 Domain Event<br/>Published on Kafka"]
+    B --> C["🔀 Parallel Workflows"]
+
+    C --> D["🚪 M3: Offboarding<br/>Workflow Triggered"]
+    C --> E["🔐 M10: Access<br/>Revocation"]
+    C --> F["💰 M6: EOSB &<br/>Final Pay"]
+
+    D --> G["✓ All Tasks<br/>Completed"]
+    E --> G
+    F --> G
+
+    G --> H["📦 Employee Record<br/>Archived"]
+    H --> I["✔️ Termination<br/>Cycle Closed"]
+
+    style A fill:#DC2626,color:#fff
+    style B fill:#2563EB,color:#fff
+    style H fill:#6B7280,color:#fff
+    style I fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M2: RECRUITMENT & ATS ==================== -->
+            <section id="m2-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">🎯</div>
+                    <div class="section-title">
+                        <h2>M2: Recruitment & ATS</h2>
+                        <p>Requisition through hire event generation</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Recruitment Pipeline
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Complete hiring funnel from requisition through offer acceptance and employee creation in Core HRIS.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+    A["📝 Requisition"] --> B["🔎 Source"]
+    B --> C["📋 Screen"]
+    C --> D["⭐ Shortlist"]
+    D --> E["🎤 Interview"]
+    E --> F["💼 Offer"]
+    F --> G["✍️ Accept"]
+    G --> H["🎉 Hired"]
+
+    style A fill:#2563EB,color:#fff
+    style H fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Hiring Request Pipeline
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Client submits request → SLA timer starts → Recruiter assigned → Candidate sourcing → Screening with notes/ratings → Shortlist (3-5 candidates) → Client notification. Clarification return or SLA breach escalation possible.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+    A["🏢 Client Submits<br/>Hiring Request"] --> B["⏱️ SLA Timer<br/>Starts"]
+    B --> C["👥 Recruiter<br/>Assigned"]
+    C --> D["🔎 Candidate<br/>Sourcing"]
+    D --> E["📋 Screening<br/>with Notes/Ratings"]
+    E --> F{Candidate<br/>Quality}
+    F -->|Below Quality| G["🔄 Return to Sourcing"]
+    G --> D
+    F -->|Good| H["⭐ Build Shortlist<br/>3-5 Candidates"]
+    H --> I["📧 Notify Client<br/>with Profiles"]
+    I --> J{SLA<br/>Monitor}
+    J -->|Breach| K["⚠️ Escalate<br/>to Manager"]
+    J -->|On Track| L["✓ Awaiting Client<br/>Feedback"]
+
+    style A fill:#2563EB,color:#fff
+    style H fill:#16A34A,color:#fff
+    style K fill:#DC2626,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Offer & Digital Acceptance
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Recruiter generates offer → Template merge → Send to candidate → e-Signature request → Candidate signs → Webhook acceptance → Stage=Hired → M1 creates employee → M3 onboarding starts.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+    A["💼 Recruiter<br/>Generates Offer"] --> B["📄 Template Merge<br/>Personalize Terms"]
+    B --> C["📤 Send to<br/>Candidate"]
+    C --> D["✍️ e-Signature<br/>Request"]
+    D --> E{Candidate<br/>Action}
+    E -->|Sign| F["✓ Signed by<br/>Candidate"]
+    E -->|Reject| G["❌ Rejection<br/>Recorded"]
+    E -->|Counter| H["🔄 Counter-Offer<br/>Negotiation"]
+    H --> A
+
+    F --> I["🔗 Webhook<br/>Acceptance Event"]
+    I --> J["📌 Stage = Hired"]
+    J --> K["👤 M1: Create<br/>Employee Record"]
+    K --> L["🚀 M3: Onboarding<br/>Starts"]
+    L --> M["✔️ Hire Workflow<br/>Complete"]
+
+    style A fill:#2563EB,color:#fff
+    style F fill:#16A34A,color:#fff
+    style M fill:#16A34A,color:#fff
+    style G fill:#DC2626,color:#fff
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M3: ONBOARDING & OFFBOARDING ==================== -->
+            <section id="m3-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">🚀</div>
+                    <div class="section-title">
+                        <h2>M3: Onboarding & Offboarding</h2>
+                        <p>Dual-lane onboarding and comprehensive offboarding</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Onboarding & Offboarding Lifecycle
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Hire Event → Dual-Lane Onboarding → Day 1 Ready. Terminate Event → Dual-Lane Offboarding → Closure.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+    A["🎉 Hire Event"] --> B["🔀 Dual Lane<br/>Onboarding"]
+    B --> C["✅ Day 1 Ready"]
+
+    D["🚪 Terminate<br/>Event"] --> E["🔀 Dual Lane<br/>Offboarding"]
+    E --> F["🏁 Closure"]
+
+    style A fill:#16A34A,color:#fff
+    style C fill:#16A34A,color:#fff
+    style D fill:#DC2626,color:#fff
+    style F fill:#6B7280,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Dual Onboarding: Egybell + Client Lanes
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Hire event from M2 → Instantiate template → Egybell lane (tax, SI, docs, policy signing) + Client lane (badge, workspace, systems, orientation). Cross-lane dependency: client access requires Egybell doc signing. All tasks done → HR sign-off.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+    A["🎉 Hire Event<br/>from M2"] --> B["📋 Instantiate<br/>Onboarding Template"]
+
+    B --> C["🔀 Split into<br/>Dual Lanes"]
+
+    C --> D["🏛️ Egybell Lane"]
+    C --> E["🏢 Client Lane"]
+
+    D --> D1["📋 Tax Setup"]
+    D --> D2["🏦 SI Registration"]
+    D --> D3["📄 Document Signing"]
+    D --> D4["📜 Policy Acknowledgment"]
+
+    E --> E1["🆔 Badge Provisioning"]
+    E --> E2["💻 Workspace Setup"]
+    E --> E3["🔐 System Access"]
+    E --> E4["🎓 Orientation"]
+
+    D1 --> D5{All Egybell<br/>Tasks Done}
+    D2 --> D5
+    D3 --> D5
+    D4 --> D5
+
+    E1 --> E5{All Client<br/>Tasks Done}
+    E2 --> E5
+    E3 --> E5
+    E4 --> E5
+
+    D5 -->|Block if not done| E3
+    E5 -->|Requires Egybell| D5
+
+    D5 --> F["✓ Cross-Lane<br/>Dependencies Met"]
+    E5 --> F
+
+    F --> G["👨‍💼 HR Sign-Off"]
+    G --> H["✅ Onboarding<br/>Complete"]
+
+    style A fill:#2563EB,color:#fff
+    style D fill:#16A34A,color:#fff
+    style E fill:#16A34A,color:#fff
+    style H fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Offboarding & EOSB
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Terminate event from M1 → Access revocation lane (24h SLA) + Settlement lane (EOSB via M6, final pay) → Equipment return → Exit checklist → NDA acknowledgement → HR sign-off.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+    A["🚪 Terminate Event<br/>from M1"] --> B["🔀 Split Offboarding<br/>Lanes"]
+
+    B --> C["🔐 Access Revocation<br/>SLA: 24 Hours"]
+    B --> D["💰 Settlement Lane"]
+
+    C --> C1["🔐 Revoke System Access"]
+    C --> C2["🆔 Disable Badge"]
+    C --> C3["📧 Email Disable"]
+    C1 --> C4{24h SLA<br/>Met?}
+    C2 --> C4
+    C3 --> C4
+
+    D --> D1["💸 EOSB via M6"]
+    D --> D2["💳 Final Pay"]
+    D --> D3["🔢 Calculate Benefits"]
+    D1 --> D4{Settlement<br/>Complete?}
+    D2 --> D4
+    D3 --> D4
+
+    C4 --> E["📦 Equipment<br/>Return"]
+    D4 --> E
+
+    E --> F["✓ Exit<br/>Checklist"]
+    F --> G["📜 NDA<br/>Acknowledgement"]
+    G --> H["👨‍💼 HR Sign-Off"]
+    H --> I["🏁 Offboarding<br/>Complete"]
+
+    style A fill:#DC2626,color:#fff
+    style C fill:#F59E0B,color:#000
+    style D fill:#2563EB,color:#fff
+    style I fill:#6B7280,color:#fff
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M4: PERFORMANCE & KPIs ==================== -->
+            <section id="m4-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">📊</div>
+                    <div class="section-title">
+                        <h2>M4: Performance & KPIs</h2>
+                        <p>Goal setting, review cycles, and calibration</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Performance Review Cycle
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Goal Setting → Review Cycle → Calibration → Outcomes with merit/bonus and development plan integration.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+                        A["🎯 Goal Setting"] --> B["📋 Review Cycle"]
+                        B --> C["⚖️ Calibration"]
+                        C --> D["🏆 Outcomes"]
+                        D -.->|Merit/Bonus| E["M6: Payroll"]
+                        D -.->|Dev Plans| F["M5: LMS"]
+                        style A fill:#2563EB,color:#fff
+                        style D fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Review Cycle: Self-Assessment through Outcomes
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        HR opens cycle → Self-assessment window → Employee submits → Manager review window → 360°/client ratings → System aggregates scores → Calibration workspace → Final outcomes communicated → Acknowledgement.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+    A["👨‍💼 HR Opens<br/>Review Cycle"] --> B["⏰ Self-Assessment<br/>Window Opens"]
+    B --> C["📝 Employee<br/>Submits Self-Assessment"]
+    C --> D{Self-Assessment<br/>Completed?}
+    D -->|No| E["⏭️ Proceed with<br/>Manager Only"]
+    D -->|Yes| F["📋 Manager Review<br/>Window Opens"]
+    E --> F
+
+    F --> G["👤 Manager<br/>Submits Review"]
+    G --> H["⭐ 360°/Client<br/>Ratings"]
+    H --> I{All Ratings<br/>Received?}
+    I -->|Missing Client| J["⚖️ Apply<br/>Default Weights"]
+    I -->|Complete| K["📊 System Aggregates<br/>Scores"]
+    J --> K
+
+    K --> L["🔀 Calibration<br/>Workspace"]
+    L --> M["📋 Review & Adjust<br/>Outcomes"]
+    M --> N["🎯 Final Outcomes<br/>Determined"]
+
+    N --> O{Dispute<br/>Raised?}
+    O -->|Yes| P["📁 Open Dispute<br/>Case"]
+    O -->|No| Q["📢 Communicate<br/>to Employee"]
+    P --> Q
+
+    Q --> R["✓ Employee<br/>Acknowledgement"]
+    R --> S["🎉 Cycle<br/>Complete"]
+
+    style A fill:#2563EB,color:#fff
+    style S fill:#16A34A,color:#fff
+    style P fill:#F59E0B,color:#000
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M5: TRAINING & LMS ==================== -->
+            <section id="m5-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">🎓</div>
+                    <div class="section-title">
+                        <h2>M5: Training & LMS</h2>
+                        <p>Course catalogue, enrolment, learning, and certification</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Learning Lifecycle
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Catalogue → Enrol → Learn → Certify → Report with auto-enrolment and competency tracking.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+                        A["📚 Catalogue"] --> B["📝 Enrol"]
+                        B --> C["📖 Learn"]
+                        C --> D["🏆 Certify"]
+                        D --> E["📊 Report"]
+                        style B fill:#2563EB,color:#fff
+                        style D fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Enrol-Learn-Certify Flow
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Enrolment created (manual/auto) → Learner notified → Course started → Content progression → Quiz/assessment → Pass/fail → Certificate with QR code → Completion event to M4/M9.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+    A["📝 Enrolment Created<br/>Manual or Auto"] --> B["📧 Learner<br/>Notified"]
+    B --> C["📖 Course<br/>Started"]
+    C --> D["📚 Content<br/>Progression"]
+    D --> E["✍️ Quiz &<br/>Assessment"]
+    E --> F{Pass/Fail<br/>Threshold}
+    F -->|Fail| G["❌ Failed<br/>Allow Retry"]
+    G --> E
+    F -->|Pass| H["🏆 Passed<br/>Certificate Generated"]
+
+    H --> I["🔐 QR Code<br/>Certificate"]
+    I --> J["🔗 Completion Event<br/>to M4 & M9"]
+    J --> K["✅ Learning<br/>Record Updated"]
+    K --> L["📊 Analytics<br/>Captured"]
+
+    style A fill:#2563EB,color:#fff
+    style H fill:#16A34A,color:#fff
+    style G fill:#DC2626,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Auto-Enrolment via Onboarding
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        New hire event from M3 → Rule engine matches employee attributes → Auto-enrol in mandatory courses → Courses appear in dashboard → Completion deadline tracking → HR/manager notified on miss.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["🎉 New Hire Event<br/>from M3"] --> B["🔧 Rule Engine<br/>Evaluates"]
+                        B --> C["🎯 Match Rules:<br/>Role, Level, Location"]
+                        C --> D["📝 Auto-Enrol<br/>Mandatory Courses"]
+                        D --> E["📌 Courses Appear<br/>in Dashboard"]
+                        E --> F["📅 Deadline<br/>Tracking"]
+                        F --> G{Deadline<br/>Met?}
+                        G -->|No| H["⚠️ Notify HR/<br/>Manager"]
+                        G -->|Yes| I["✓ Completion<br/>Recorded"]
+
+                        style A fill:#2563EB,color:#fff
+                        style D fill:#16A34A,color:#fff
+                        style H fill:#F59E0B,color:#000
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M6: PAYROLL & COMPENSATION ==================== -->
+            <section id="m6-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">💰</div>
+                    <div class="section-title">
+                        <h2>M6: Payroll & Compensation</h2>
+                        <p>Monthly payroll processing and NOSI compliance</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Payroll Lifecycle
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Data Collection → Calculation → Preview → Approval → Lock → Disburse → Report.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+                        A["📊 Data"] --> B["🧮 Calc"]
+                        B --> C["👀 Preview"]
+                        C --> D["✅ Approve"]
+                        D --> E["🔒 Lock"]
+                        E --> F["💸 Disburse"]
+                        F --> G["📋 Report"]
+                        style D fill:#16A34A,color:#fff
+                        style F fill:#2563EB,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Monthly Payroll Run
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Finance Officer starts cycle → System loads employee snapshot → Earnings/deductions evaluated per rules → PIT, SI, net computed → Preview with variances → Finance Officer reviews → Finance Director approves (dual approval) → Cycle locked → Bank file generated → Payslips issued → Invoice lines to M13 → NOSI forms generated.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["💼 Finance Officer<br/>Starts Cycle"] --> B["📸 Load Employee<br/>Snapshot"]
+                        B --> C["📋 Evaluate<br/>Earnings/Deductions"]
+                        C --> D["🧮 Compute PIT,<br/>SI, Net"]
+                        D --> E["👀 Preview<br/>with Variances"]
+                        E --> F{Variance<br/>Threshold}
+                        F -->|Exceeds| G["⏸️ Pause Cycle<br/>Upstream Correction"]
+                        G --> B
+                        F -->|OK| H["👨‍💼 Finance Officer<br/>Reviews"]
+                        H --> I["📋 Finance Director<br/>Approves"]
+                        I --> J{Dual Approval<br/>SoD OK?}
+                        J -->|No| K["❌ Approve Denied"]
+                        K --> H
+                        J -->|Yes| L["🔒 Cycle Locked"]
+                        L --> M["🏦 Bank File<br/>Generated"]
+                        M --> N["📄 Payslips<br/>Issued"]
+                        N --> O["📊 Invoice Lines<br/>to M13"]
+                        O --> P["📋 NOSI Forms<br/>Generated"]
+                        P --> Q["✅ Payroll<br/>Complete"]
+
+                        style A fill:#2563EB,color:#fff
+                        style L fill:#16A34A,color:#fff
+                        style Q fill:#16A34A,color:#fff
+                        style G fill:#F59E0B,color:#000
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        NOSI Filing & Compliance
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Cycle locked → Scheduled job generates NOSI forms 1/2/6 → Finance Officer reviews → Approves submission → System submits to NOSI API/SFTP → Receipt captured.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["🔒 Cycle<br/>Locked"] --> B["⏰ Scheduled Job<br/>Runs"]
+                        B --> C["📋 Generate NOSI<br/>Forms 1/2/6"]
+                        C --> D["👨‍💼 Finance Officer<br/>Reviews"]
+                        D --> E{Review<br/>OK?}
+                        E -->|Issues Found| F["❌ Request<br/>Corrections"]
+                        F --> C
+                        E -->|OK| G["✅ Approve<br/>Submission"]
+                        G --> H["📤 Submit to<br/>NOSI API/SFTP"]
+                        H --> I{"Submission<br/>Accepted?"}
+                        I -->|Rejected| J["❌ Retry<br/>Submission"]
+                        J --> H
+                        I -->|Accepted| K["✔️ Receipt<br/>Captured"]
+                        K --> L["📊 Audit Log<br/>Updated"]
+                        L --> M["✅ NOSI Filing<br/>Complete"]
+
+                        style A fill:#16A34A,color:#fff
+                        style M fill:#16A34A,color:#fff
+                        style F fill:#DC2626,color:#fff
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M7: BENEFITS & EXPENSES ==================== -->
+            <section id="m7-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">🛡️</div>
+                    <div class="section-title">
+                        <h2>M7: Benefits & Expenses</h2>
+                        <p>Benefits enrolment and expense claim management</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Benefits & Expenses Lifecycle
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Eligibility → Enrol → Claim → Approve → Reimburse with OCR processing for receipts.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+                        A["✓ Eligibility"] --> B["📝 Enrol"]
+                        B --> C["🧾 Claim"]
+                        C --> D["✅ Approve"]
+                        D --> E["💳 Reimburse"]
+                        style B fill:#2563EB,color:#fff
+                        style D fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Expense Claim with OCR
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Employee captures receipt → OCR extracts fields → Employee reviews/submits → System validates policy & duplicates → Route to Line Manager → Approve/reject (escalate if above limit) → Queue for next payroll → Reimburse on payslip.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["📸 Employee<br/>Captures Receipt"] --> B["🤖 OCR Extracts<br/>Fields"]
+                        B --> C["👀 Employee Reviews<br/>OCR Data"]
+                        C --> D{Data<br/>Correct?}
+                        D -->|No| E["✏️ Manual Correct"]
+                        E --> F["📤 Submit Claim"]
+                        D -->|Yes| F
+
+                        F --> G["✓ Validate Policy<br/>& Duplicates"]
+                        G --> H{Validation<br/>Result}
+                        H -->|Duplicate| I["⛔ Block<br/>Notify Employee"]
+                        H -->|Policy Violation| J["⚠️ Flag for<br/>Manager Review"]
+                        H -->|OK| K["📋 Route to<br/>Line Manager"]
+
+                        J --> K
+                        K --> L{Manager<br/>Decision}
+                        L -->|Reject| M["❌ Rejection<br/>Notify Employee"]
+                        L -->|Approve| N{Amount<br/>Over Limit?}
+                        N -->|Yes| O["⬆️ Escalate<br/>to HR"]
+                        N -->|No| P["📅 Queue for<br/>Next Payroll"]
+                        O --> P
+                        P --> Q["💳 Reimburse<br/>on Payslip"]
+                        Q --> R["✅ Claim<br/>Processed"]
+
+                        style A fill:#2563EB,color:#fff
+                        style R fill:#16A34A,color:#fff
+                        style I fill:#DC2626,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Benefits Enrolment
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        HR configures plans → System evaluates eligibility (type, tenure, role) → Employee selects plan → Enrolment with effective date → Active benefits fed to M6 for payroll allowances.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["👨‍💼 HR Configures<br/>Benefit Plans"] --> B["⏰ Enrolment<br/>Window Opens"]
+                        B --> C["✓ System Evaluates<br/>Eligibility"]
+                        C --> D["📋 Display Eligible<br/>Plans to Employee"]
+                        D --> E["👤 Employee<br/>Selects Plan"]
+                        E --> F["📝 Create Enrolment<br/>with Effective Date"]
+                        F --> G["✅ Benefits<br/>Activated"]
+                        G --> H["🔗 Feed to M6<br/>for Payroll"]
+                        H --> I["💰 Payroll<br/>Allowances Applied"]
+
+                        style A fill:#2563EB,color:#fff
+                        style G fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M8: CONTRACTOR MANAGEMENT ==================== -->
+            <section id="m8-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">👷</div>
+                    <div class="section-title">
+                        <h2>M8: Contractor Management</h2>
+                        <p>Contractor lifecycle and payout management</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Contractor Lifecycle
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Engage → Contract → Deliver → Invoice → Pay → Terminate with AML screening and pass-through billing.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+                        A["🤝 Engage"] --> B["📄 Contract"]
+                        B --> C["📦 Deliver"]
+                        C --> D["📋 Invoice"]
+                        D --> E["💸 Pay"]
+                        E --> F["🚪 Terminate"]
+                        style A fill:#2563EB,color:#fff
+                        style E fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Contractor Payout with AML Screening
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Contractor submits invoice → System validates against engagement limits → Finance reviews/approves → AML screening if threshold exceeded → Payout disbursed in engagement currency → Tax/pass-through lines posted.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["📋 Contractor<br/>Submits Invoice"] --> B["✓ Validate Against<br/>Engagement Limits"]
+                        B --> C{Budget<br/>OK?}
+                        C -->|Exceeded| D["⛔ Block<br/>Request Extension"]
+                        D --> B
+                        C -->|OK| E["👨‍💼 Finance<br/>Reviews/Approves"]
+                        E --> F{Amount<br/>Over Threshold?}
+                        F -->|Yes| G["🔐 AML Screening<br/>Initiated"]
+                        F -->|No| H["💸 Payout<br/>Approved"]
+
+                        G --> I{"AML<br/>Pass?"}
+                        I -->|Flag| J["🚨 Compliance<br/>Review"]
+                        J --> K{Review<br/>OK?}
+                        K -->|No| L["❌ Payout<br/>Blocked"]
+                        K -->|Yes| H
+                        I -->|Pass| H
+
+                        H --> M["💳 Disbursed in<br/>Engagement Currency"]
+                        M --> N["📊 Tax/Pass-Through<br/>Lines Posted"]
+                        N --> O["✅ Payout<br/>Complete"]
+
+                        style A fill:#2563EB,color:#fff
+                        style O fill:#16A34A,color:#fff
+                        style D fill:#F59E0B,color:#000
+                        style J fill:#F59E0B,color:#000
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Engagement Lifecycle Management
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Create engagement (scope, term, rate, currency) → e-Signature of contracts/NDA → Active → Milestone tracking → Renewal/amendment → Termination (blocks further invoices).
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["✏️ Create Engagement<br/>Scope/Term/Rate/Currency"] --> B["✍️ e-Signature<br/>Contracts/NDA"]
+                        B --> C{Signatures<br/>Complete?}
+                        C -->|No| D["⏳ Await Signatures"]
+                        D --> B
+                        C -->|Yes| E["✅ Active<br/>Engagement"]
+                        E --> F["📊 Milestone<br/>Tracking"]
+                        F --> G{Milestone<br/>Complete?}
+                        G -->|Yes| H["✔️ Record<br/>Completion"]
+                        G -->|No| F
+                        H --> I{Engagement<br/>Continues?}
+                        I -->|Renew| J["🔄 Amendment/<br/>Renewal"]
+                        J --> E
+                        I -->|End| K["🚪 Terminate"]
+                        K --> L["⛔ Block Further<br/>Invoices"]
+                        L --> M["✅ Engagement<br/>Closed"]
+
+                        style A fill:#2563EB,color:#fff
+                        style E fill:#16A34A,color:#fff
+                        style M fill:#6B7280,color:#fff
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M9: ANALYTICS & REPORTING ==================== -->
+            <section id="m9-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">📊</div>
+                    <div class="section-title">
+                        <h2>M9: Analytics & Reporting</h2>
+                        <p>CDC pipeline and data warehouse</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Analytics Pipeline
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        CDC Sources → Transform → Warehouse → Dashboard → Export with Change Data Capture from all modules.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+                        A["📤 CDC Sources<br/>All Modules"] --> B["🔄 Transform"]
+                        B --> C["🏢 Data Warehouse<br/>ClickHouse"]
+                        C --> D["📊 Dashboard"]
+                        D --> E["📥 Export"]
+                        style A fill:#2563EB,color:#fff
+                        style C fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Daily Refresh Pipeline
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Debezium captures PostgreSQL WAL changes → Events to NATS/Kafka → Transformation jobs → Load into ClickHouse (partitioned by tenant/date) → Analytics Service queries → Dashboards refreshed → CSV/Parquet exports available.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["🗄️ PostgreSQL<br/>WAL Changes"] --> B["🔍 Debezium<br/>CDC Capture"]
+                        B --> C["📤 Events to<br/>NATS/Kafka"]
+                        C --> D["🔄 Transformation<br/>Jobs"]
+                        D --> E{Job<br/>Success?}
+                        E -->|Fail| F["⚠️ Retry<br/>Logic"]
+                        F --> D
+                        E -->|Success| G["📊 Load into<br/>ClickHouse"]
+
+                        G --> H["📈 Partition by<br/>Tenant/Date"]
+                        H --> I{Data Quality<br/>Check}
+                        I -->|Issues| J["⚠️ Validation<br/>Alert"]
+                        J --> K["👨‍💼 Review"]
+                        I -->|OK| L["✓ Warehouse<br/>Updated"]
+                        K --> L
+
+                        L --> M["🔗 Analytics<br/>Service Queries"]
+                        M --> N["📊 Dashboards<br/>Refreshed"]
+                        N --> O["📥 CSV/Parquet<br/>Exports"]
+                        O --> P["✅ Daily Refresh<br/>Complete"]
+
+                        style A fill:#2563EB,color:#fff
+                        style G fill:#16A34A,color:#fff
+                        style P fill:#16A34A,color:#fff
+                        style F fill:#F59E0B,color:#000
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M10: SYSTEM ADMINISTRATION ==================== -->
+            <section id="m10-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">⚙️</div>
+                    <div class="section-title">
+                        <h2>M10: System Administration</h2>
+                        <p>Tenant provisioning and configuration</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Tenant Provisioning Lifecycle
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Tenant Request → Provision → Configure → Go Live.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+                        A["📋 Tenant<br/>Request"] --> B["🚀 Provision"]
+                        B --> C["⚙️ Configure"]
+                        C --> D["✅ Go Live"]
+                        style B fill:#2563EB,color:#fff
+                        style D fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Tenant Provisioning: Setup to Go-Live
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Admin selects template → System creates tenant record → Database schema initialized → DEK (Data Encryption Key) created → Default roles/permissions seeded → Client Admin account created → Welcome email sent → 7-day login reminder.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["👨‍💼 Admin Selects<br/>Provisioning Template"] --> B["📝 Create Tenant<br/>Record"]
+                        B --> C{Tenant<br/>Created?}
+                        C -->|No| D["❌ Validation<br/>Error"]
+                        C -->|Yes| E["🗄️ Initialize<br/>Database Schema"]
+                        D --> B
+
+                        E --> F{Schema<br/>OK?}
+                        F -->|Fail| G["🔄 Rollback<br/>Tenant Creation"]
+                        G --> H["❌ Provisioning<br/>Failed"]
+                        F -->|Success| I["🔐 Create DEK<br/>Data Encryption Key"]
+
+                        I --> J{DEK<br/>Created?}
+                        J -->|Fail| G
+                        J -->|Success| K["👥 Seed Default<br/>Roles/Permissions"]
+
+                        K --> L["🔑 Create Client Admin<br/>Account"]
+                        L --> M["📧 Welcome Email<br/>Sent"]
+                        M --> N["⏰ Set 7-Day<br/>Login Reminder"]
+                        N --> O["✅ Provisioning<br/>Complete"]
+                        O --> P["🚀 Ready for<br/>Go-Live"]
+
+                        style A fill:#2563EB,color:#fff
+                        style O fill:#16A34A,color:#fff
+                        style H fill:#DC2626,color:#fff
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M11: MOBILE APP ==================== -->
+            <section id="m11-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">📱</div>
+                    <div class="section-title">
+                        <h2>M11: Mobile App</h2>
+                        <p>Mobile approval and offline-first capabilities</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Mobile Workflow
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Push Notification → Action → Offline Queue → Sync with FCM/APNs integration.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+                        A["📨 Push<br/>Notification"] --> B["👁️ User<br/>Opens"]
+                        B --> C["✅ Action<br/>Taken"]
+                        C --> D["🔄 Offline<br/>Queue"]
+                        D --> E["🔗 Sync on<br/>Reconnect"]
+                        style C fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Mobile Approval via Push Notification
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        System sends push notification (FCM/APNs) → User opens notification → Approval screen loads → User approves/rejects → If offline: action queued locally → On reconnect: queue synced → Confirmation.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["📤 System Sends<br/>Push Notification<br/>FCM/APNs"] --> B["📱 User Opens<br/>Notification"]
+                        B --> C["📋 Approval Screen<br/>Loads"]
+                        C --> D{User<br/>Decision}
+                        D -->|Approve| E["✅ Approve"]
+                        D -->|Reject| F["❌ Reject"]
+                        F --> G["📝 Rejection<br/>Reason"]
+
+                        E --> H{Online<br/>Status?}
+                        G --> H
+
+                        H -->|Offline| I["📦 Queue Action<br/>Locally"]
+                        H -->|Online| J["🔗 Submit<br/>Immediately"]
+
+                        I --> K["🔄 Wait for<br/>Reconnection"]
+                        K --> L["🔗 Sync Queue<br/>to Server"]
+                        L --> M["✔️ Confirmation<br/>Received"]
+                        J --> M
+
+                        M --> N["✅ Approval<br/>Workflow Complete"]
+
+                        style A fill:#2563EB,color:#fff
+                        style E fill:#16A34A,color:#fff
+                        style M fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M12: CLIENT PORTAL ==================== -->
+            <section id="m12-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">🌐</div>
+                    <div class="section-title">
+                        <h2>M12: Client Portal</h2>
+                        <p>Client self-service and configuration</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Client Portal Lifecycle
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Client Login → Dashboard → Configure → Request → Track.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+                        A["🔑 Login"] --> B["📊 Dashboard"]
+                        B --> C["⚙️ Configure"]
+                        C --> D["📋 Request"]
+                        D --> E["📈 Track"]
+                        style B fill:#2563EB,color:#fff
+                        style C fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Client Self-Configuration
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        Client Admin logs in → Manage org chart → Add/edit users and roles → Configure policies → System validates against tenant constraints → Changes audited → Notifications sent.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["🔑 Client Admin<br/>Logs In"] --> B["🏢 Manage<br/>Org Chart"]
+                        B --> C["👥 Add/Edit<br/>Users & Roles"]
+                        C --> D["📋 Configure<br/>Policies"]
+                        D --> E["✓ System Validates<br/>Tenant Constraints"]
+                        E --> F{Valid?}
+                        F -->|No| G["⚠️ Validation<br/>Error"]
+                        G --> H["👨‍💼 Show Error<br/>Message"]
+                        H --> D
+                        F -->|Yes| I["✅ Changes<br/>Applied"]
+                        I --> J["📝 Audit Log<br/>Updated"]
+                        J --> K["📧 Notifications<br/>Sent"]
+                        K --> L["✅ Configuration<br/>Complete"]
+
+                        style A fill:#2563EB,color:#fff
+                        style I fill:#16A34A,color:#fff
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== M13: BILLING & INVOICING ==================== -->
+            <section id="m13-overview" class="section">
+                <div class="section-header">
+                    <div class="section-icon">💳</div>
+                    <div class="section-title">
+                        <h2>M13: Billing & Invoicing</h2>
+                        <p>Monthly client billing and Egyptian Tax Authority integration</p>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        High-Level: Billing Lifecycle
+                        <span class="badge">OVERVIEW</span>
+                    </div>
+                    <div class="workflow-description">
+                        Meter Usage → Generate Invoice → Approve → Submit to ETA → Collect → Reconcile.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph LR
+                        A["📊 Meter<br/>Usage"] --> B["📋 Generate<br/>Invoice"]
+                        B --> C["✅ Approve"]
+                        C --> D["📤 ETA<br/>Submit"]
+                        D --> E["💳 Collect"]
+                        E --> F["🔄 Reconcile"]
+                        style C fill:#16A34A,color:#fff
+                        style D fill:#2563EB,color:#fff
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Monthly Client Billing with ETA Integration
+                        <span class="badge">DETAILED</span>
+                    </div>
+                    <div class="workflow-description">
+                        System aggregates metering data (headcount, usage) → Invoice generated from contract terms → Line items from M6 payroll and M8 contractor pass-through → Finance Officer reviews → Finance Director approves (dual approval) → e-Invoice submitted to Egyptian Tax Authority (ETA) → Payment link sent to client → Payment webhook confirms receipt → Revenue recognized → Audit logged.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+graph TD
+                        A["📊 Aggregate<br/>Metering Data<br/>Headcount/Usage"] --> B["📋 Generate Invoice<br/>from Contract"]
+                        B --> C["➕ Add Line Items<br/>M6 Payroll & M8"]
+                        C --> D["👨‍💼 Finance Officer<br/>Reviews"]
+                        D --> E["📋 Finance Director<br/>Approves"]
+                        E --> F{Dual Approval<br/>OK?}
+                        F -->|No| G["❌ Approval<br/>Denied"]
+                        G --> D
+                        F -->|Yes| H["📤 e-Invoice to<br/>Egyptian Tax Authority"]
+
+                        H --> I{ETA<br/>Accepted?}
+                        I -->|Rejected| J["❌ Resubmit<br/>Corrections"]
+                        J --> H
+                        I -->|Accepted| K["✅ Submission<br/>Logged"]
+
+                        K --> L["💳 Payment Link<br/>Sent to Client"]
+                        L --> M["🔄 Payment<br/>Processing"]
+                        M --> N["🔗 Payment Webhook<br/>Confirmation"]
+                        N --> O["📊 Revenue<br/>Recognized"]
+                        O --> P["📝 Audit Log<br/>Updated"]
+                        P --> Q["✅ Billing<br/>Cycle Complete"]
+
+                        style A fill:#2563EB,color:#fff
+                        style K fill:#16A34A,color:#fff
+                        style Q fill:#16A34A,color:#fff
+                        style G fill:#DC2626,color:#fff
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== CROSS-MODULE INTEGRATION ==================== -->
+            <section id="cross-module-lifecycle" class="section">
+                <div class="section-header">
+                    <div class="section-icon">🔗</div>
+                    <div class="section-title">
+                        <h2>Cross-Module Integration</h2>
+                        <p>Complete employee lifecycle across all systems</p>
+                    </div>
+                </div>
+
+                <div class="integration-note">
+                    <strong>Employee Lifecycle Sequence:</strong> This diagram shows the full journey of an employee from recruitment through termination, demonstrating how all 13 modules coordinate through event-driven architecture to support the complete employee lifecycle.
+                </div>
+
+                <div class="workflow-container">
+                    <div class="workflow-title">
+                        Full Employee Lifecycle Sequence
+                        <span class="badge">INTEGRATION</span>
+                    </div>
+                    <div class="workflow-description">
+                        M2 (Hire) → M1 (Create) → M3 (Onboard) → M5 (Train) → M4 (Review) → M6 (Pay) → M1 (Terminate) → M3 (Offboard) showing all module interactions and data flows.
+                    </div>
+                    <div class="diagram-wrapper">
+                        <pre class="mermaid">
+sequenceDiagram
+    participant Candidate as 👤 Candidate
+    participant M2 as M2: ATS
+    participant M1 as M1: HRIS
+    participant M3 as M3: Onboarding
+    participant M10 as M10: Admin
+    participant M5 as M5: LMS
+    participant M4 as M4: Performance
+    participant M6 as M6: Payroll
+    participant M13 as M13: Billing
+
+    Candidate->>M2: Apply & Interview
+    M2->>M2: Offer Created & Signed
+    M2->>M1: Hire Event
+    M1->>M1: Create Employee Record
+    M1->>M3: Trigger Onboarding
+    M3->>M10: Provision Access
+    M3->>M3: Egybell & Client Lanes
+    M3->>M1: Confirm Ready
+
+    M1->>M5: Auto-Enrol Courses
+    M5->>M5: Employee Learning
+    M5->>M4: Completion Event
+
+    M4->>M4: Review Cycle
+    M4->>M6: Merit/Bonus Data
+    M4->>M5: Dev Plans
+
+    loop Monthly
+        M6->>M6: Payroll Calculation
+        M6->>M1: Update Balances
+        M6->>M13: Invoice Lines
+        M13->>M13: Client Billing
+    end
+
+    M1->>M1: Termination Decision
+    M1->>M3: Offboarding Start
+    M3->>M10: Revoke Access
+    M3->>M6: EOSB & Final Pay
+    M6->>M1: Settlement Complete
+    M3->>M1: Offboarding Done
+    M1->>M1: Archive Record
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer spacer -->
+            <div style="height: 100px;"></div>
+        </main>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+
+        // Render all diagrams when page loads
+        window.addEventListener('load', function() {
+            mermaid.run();
+        });
+
+        // Sidebar toggle functionality
+        function toggleSection(header) {
+            const items = header.nextElementSibling;
+            header.classList.toggle('collapsed');
+            items.classList.toggle('collapsed');
+        }
+
+        // Set active sidebar item
+        function setActive(item) {
+            document.querySelectorAll('.sidebar-item.active').forEach(el => {
+                el.classList.remove('active');
+            });
+            item.classList.add('active');
+        }
+
+        // Expand all sections
+        function expandAll() {
+            document.querySelectorAll('.sidebar-section-header').forEach(header => {
+                header.classList.remove('collapsed');
+                header.nextElementSibling.classList.remove('collapsed');
+            });
+        }
+
+        // Collapse all sections
+        function collapseAll() {
+            document.querySelectorAll('.sidebar-section-header').forEach(header => {
+                header.classList.add('collapsed');
+                header.nextElementSibling.classList.add('collapsed');
+            });
+        }
+
+        // Back to top button functionality
+        const backToTopButton = document.querySelector('.back-to-top');
+
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Smooth scroll for sidebar links
+        document.querySelectorAll('.sidebar-item').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const target = this.getAttribute('href');
+                if (target && target.startsWith('#')) {
+                    const element = document.querySelector(target);
+                    if (element) {
+                        e.preventDefault();
+                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
+        // Initialize first section as expanded
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstSection = document.querySelector('.sidebar-section-header');
+            if (firstSection) {
+                firstSection.classList.remove('collapsed');
+                firstSection.nextElementSibling.classList.remove('collapsed');
+            }
+        });
+    </script>
+</body>
+</html>

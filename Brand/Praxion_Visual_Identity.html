@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Praxion — Visual Identity System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1437; --indigo:#1E2A5E; --graphite:#2B2F3A;
+  --signal:#2F6BFF; --ion:#19D3C5; --violet:#7C5CFF;
+  --cloud:#F5F7FA; --mist:#E6EAF2; --line:#1a2550;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--cloud);color:var(--graphite);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:64px 40px}
+section{margin-bottom:96px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--signal);margin-bottom:16px}
+h1,h2,h3{font-family:'Inter';color:var(--navy);letter-spacing:-.02em}
+h1{font-size:64px;font-weight:700;line-height:1.05}
+h2{font-size:34px;font-weight:600;margin-bottom:8px}
+h3{font-size:18px;font-weight:600;margin-bottom:8px;color:var(--graphite)}
+p{max-width:72ch;color:#4a4f5c}
+.lede{font-size:19px;color:var(--graphite);max-width:64ch;margin-top:18px}
+.divider{height:1px;background:var(--mist);margin:48px 0}
+.grid{display:grid;gap:24px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:#fff;border:1px solid var(--mist);border-radius:14px;padding:32px}
+.card.dark{background:var(--navy);border-color:var(--line);color:#cfd6ee}
+.card.dark h3{color:#fff}
+.logoBox{display:flex;align-items:center;justify-content:center;height:200px;background:#fff;border:1px solid var(--mist);border-radius:14px;padding:24px}
+.logoBox.dark{background:var(--navy);border-color:var(--line)}
+.swatch{border-radius:14px;padding:24px;height:160px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;font-family:'JetBrains Mono';font-size:12px;border:1px solid var(--mist)}
+.swatch .nm{font-family:'Inter';font-weight:600;font-size:14px;margin-bottom:4px}
+.swatchGrid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.tag{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--signal);font-weight:600;background:rgba(47,107,255,.08);padding:6px 10px;border-radius:999px;margin-right:6px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:10px;font-weight:500;font-size:14px;border:1px solid transparent;cursor:pointer}
+.btn.primary{background:var(--signal);color:#fff;box-shadow:0 6px 18px -8px rgba(47,107,255,.6)}
+.btn.secondary{background:#fff;color:var(--navy);border-color:var(--mist)}
+.btn.ghost{background:transparent;color:#cfd6ee;border-color:var(--line)}
+.kbd{font-family:'JetBrains Mono';font-size:11px;background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 6px;border-radius:4px;color:#cfd6ee}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.typeSpec{display:flex;align-items:baseline;justify-content:space-between;padding:14px 0;border-bottom:1px dashed var(--mist)}
+.typeSpec:last-child{border:0}
+.typeSpec .meta{font-family:'JetBrains Mono';font-size:11px;color:#7a8197}
+.iconStrip{display:grid;grid-template-columns:repeat(8,1fr);gap:14px}
+.iconCell{aspect-ratio:1;border:1px solid var(--mist);border-radius:12px;display:flex;align-items:center;justify-content:center;background:#fff}
+.dashboard{background:var(--navy);border-radius:18px;padding:28px;color:#cfd6ee;border:1px solid var(--line);box-shadow:0 40px 80px -40px rgba(11,20,55,.5)}
+.dash-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.dash-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px}
+.tile{background:#101a44;border:1px solid var(--line);border-radius:12px;padding:20px}
+.tile h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7a8197;font-weight:600;margin-bottom:10px}
+.tile .big{font-size:32px;font-weight:600;color:#fff;letter-spacing:-.02em}
+.tile .delta{font-size:12px;color:var(--ion);margin-left:6px}
+.bar{height:6px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:10px}
+.bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--signal),var(--ion))}
+.spark{display:flex;gap:3px;align-items:flex-end;height:48px;margin-top:12px}
+.spark span{flex:1;background:linear-gradient(180deg,var(--signal),rgba(47,107,255,.15));border-radius:2px}
+.cmdk{background:#0a112e;border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono';font-size:13px;color:#7a8197}
+.cmdk b{color:#fff;font-weight:500}
+.tagline{font-size:42px;font-weight:600;color:var(--navy);letter-spacing:-.02em;line-height:1.1;max-width:18ch}
+.foot{font-size:12px;color:#7a8197;text-align:center;padding:48px 0}
+.bgPattern{position:relative;overflow:hidden}
+.bgPattern svg{position:absolute;inset:0;width:100%;height:100%;opacity:.18}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<!-- HERO -->
+<section>
+  <div class="eyebrow">Brand Identity System · v1.0</div>
+  <h1>Praxion.</h1>
+  <p class="lede">The HR Operating System for modern enterprises. A central command layer for hiring, payroll, workforce, and lifecycle — engineered with the clarity of Linear, the polish of Stripe, and the calm of a system that runs itself.</p>
+  <div class="row" style="margin-top:28px">
+    <span class="tag">Execution</span><span class="tag">Intelligence</span><span class="tag">Flow</span><span class="tag">Orchestration</span>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<section>
+  <div class="eyebrow">01 — Logo System</div>
+  <h2>Three directions, one system.</h2>
+  <p>Each direction shares a common construction grid (6×6), the same wordmark, and the same negative space rhythm. None use human icons or HR clichés.</p>
+
+  <div class="grid g3" style="margin-top:32px">
+
+    <!-- SAFE -->
+    <div>
+      <div class="logoBox">
+        <svg width="240" height="64" viewBox="0 0 240 64">
+          <g transform="translate(8,12)">
+            <rect x="0" y="0" width="40" height="40" rx="10" fill="none" stroke="#0B1437" stroke-width="2.5"/>
+            <circle cx="20" cy="20" r="3.2" fill="#2F6BFF"/>
+            <line x1="20" y1="20" x2="6" y2="6" stroke="#0B1437" stroke-width="2"/>
+            <line x1="20" y1="20" x2="34" y2="6" stroke="#0B1437" stroke-width="2"/>
+            <line x1="20" y1="20" x2="6" y2="34" stroke="#0B1437" stroke-width="2"/>
+            <line x1="20" y1="20" x2="34" y2="34" stroke="#0B1437" stroke-width="2"/>
+            <circle cx="6" cy="6" r="2.2" fill="#0B1437"/><circle cx="34" cy="6" r="2.2" fill="#0B1437"/>
+            <circle cx="6" cy="34" r="2.2" fill="#0B1437"/><circle cx="34" cy="34" r="2.2" fill="#0B1437"/>
+          </g>
+          <text x="64" y="42" font-family="Inter" font-size="26" font-weight="700" fill="#0B1437" letter-spacing="1">PRAXION</text>
+        </svg>
+      </div>
+      <h3 style="margin-top:18px">01 · Safe / Corporate</h3>
+      <p style="font-size:13px">A symmetrical node mark — four endpoints converging on a Signal Blue nucleus. Reads as a system diagram. Enterprise sales, RFPs, compliance.</p>
+    </div>
+
+    <!-- BOLD -->
+    <div>
+      <div class="logoBox">
+        <svg width="240" height="64" viewBox="0 0 240 64">
+          <g transform="translate(8,12)">
+            <rect x="0" y="0" width="40" height="40" rx="12" fill="#0B1437"/>
+            <path d="M9 28 L19 18 L25 24 L33 14" stroke="#19D3C5" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="33" cy="14" r="3" fill="#2F6BFF"/>
+          </g>
+          <text x="64" y="42" font-family="Inter" font-size="26" font-weight="700" fill="#0B1437" letter-spacing="1">PRAX<tspan fill="#2F6BFF">ION</tspan></text>
+        </svg>
+      </div>
+      <h3 style="margin-top:18px">02 · Bold / Modern</h3>
+      <p style="font-size:13px">A kinetic ascent — three accelerating segments terminating in a charged node. The 'ION' suffix carries the accent color. Marketing, launches, hero.</p>
+    </div>
+
+    <!-- FUTURISTIC -->
+    <div>
+      <div class="logoBox">
+        <svg width="240" height="64" viewBox="0 0 240 64">
+          <g transform="translate(8,12)">
+            <g stroke="#0B1437" stroke-width="1.6" fill="none">
+              <path d="M20 4 L36 12 L36 28 L20 36 L4 28 L4 12 Z"/>
+              <path d="M20 4 L20 36 M4 12 L36 28 M36 12 L4 28"/>
+            </g>
+            <circle cx="20" cy="4" r="2.4" fill="#2F6BFF"/>
+            <circle cx="36" cy="12" r="2.4" fill="#0B1437"/>
+            <circle cx="36" cy="28" r="2.4" fill="#19D3C5"/>
+            <circle cx="20" cy="36" r="2.4" fill="#0B1437"/>
+            <circle cx="4" cy="28" r="2.4" fill="#2F6BFF"/>
+            <circle cx="4" cy="12" r="2.4" fill="#0B1437"/>
+            <circle cx="20" cy="20" r="3" fill="#0B1437"/>
+          </g>
+          <text x="64" y="42" font-family="Inter" font-size="26" font-weight="500" fill="#0B1437" letter-spacing="2">PRAXION</text>
+        </svg>
+      </div>
+      <h3 style="margin-top:18px">03 · Futuristic / System</h3>
+      <p style="font-size:13px">An isometric lattice of six nodes around a core — a workforce graph in miniature. Pairs with monoline wordmark. AI surfaces, platform pages.</p>
+    </div>
+
+  </div>
+
+  <!-- DARK MODE -->
+  <h3 style="margin-top:48px">Dark mode lockups</h3>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="logoBox dark">
+      <svg width="240" height="64" viewBox="0 0 240 64">
+        <g transform="translate(8,12)">
+          <rect x="0" y="0" width="40" height="40" rx="10" fill="none" stroke="#fff" stroke-width="2.5"/>
+          <circle cx="20" cy="20" r="3.2" fill="#19D3C5"/>
+          <line x1="20" y1="20" x2="6" y2="6" stroke="#fff" stroke-width="2"/>
+          <line x1="20" y1="20" x2="34" y2="6" stroke="#fff" stroke-width="2"/>
+          <line x1="20" y1="20" x2="6" y2="34" stroke="#fff" stroke-width="2"/>
+          <line x1="20" y1="20" x2="34" y2="34" stroke="#fff" stroke-width="2"/>
+          <circle cx="6" cy="6" r="2.2" fill="#fff"/><circle cx="34" cy="6" r="2.2" fill="#fff"/>
+          <circle cx="6" cy="34" r="2.2" fill="#fff"/><circle cx="34" cy="34" r="2.2" fill="#fff"/>
+        </g>
+        <text x="64" y="42" font-family="Inter" font-size="26" font-weight="700" fill="#fff" letter-spacing="1">PRAXION</text>
+      </svg>
+    </div>
+    <div class="logoBox dark">
+      <svg width="240" height="64" viewBox="0 0 240 64">
+        <g transform="translate(8,12)">
+          <rect x="0" y="0" width="40" height="40" rx="12" fill="#fff"/>
+          <path d="M9 28 L19 18 L25 24 L33 14" stroke="#0B1437" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="33" cy="14" r="3" fill="#2F6BFF"/>
+        </g>
+        <text x="64" y="42" font-family="Inter" font-size="26" font-weight="700" fill="#fff" letter-spacing="1">PRAX<tspan fill="#19D3C5">ION</tspan></text>
+      </svg>
+    </div>
+    <div class="logoBox dark">
+      <svg width="240" height="64" viewBox="0 0 240 64">
+        <g transform="translate(8,12)">
+          <g stroke="#fff" stroke-width="1.6" fill="none">
+            <path d="M20 4 L36 12 L36 28 L20 36 L4 28 L4 12 Z"/>
+            <path d="M20 4 L20 36 M4 12 L36 28 M36 12 L4 28"/>
+          </g>
+          <circle cx="20" cy="4" r="2.4" fill="#19D3C5"/>
+          <circle cx="36" cy="28" r="2.4" fill="#19D3C5"/>
+          <circle cx="4" cy="12" r="2.4" fill="#2F6BFF"/>
+          <circle cx="20" cy="20" r="3" fill="#fff"/>
+        </g>
+        <text x="64" y="42" font-family="Inter" font-size="26" font-weight="500" fill="#fff" letter-spacing="2">PRAXION</text>
+      </svg>
+    </div>
+  </div>
+
+  <h3 style="margin-top:48px">Usage rules</h3>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Clear space</h3>
+      <p style="font-size:13px">Always preserve clear space equal to the height of the 'P' on every side of the lockup. The mark may stand alone in dense UI; the wordmark may stand alone in body text.</p>
+    </div>
+    <div class="card">
+      <h3>Minimum size</h3>
+      <p style="font-size:13px">Mark: 24 px digital / 8 mm print. Lockup: 96 px digital / 22 mm print. Never re-color, skew, outline, drop-shadow, or set on a busy photographic background.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COLOR -->
+<section>
+  <div class="eyebrow">02 — Color System</div>
+  <h2>A restrained palette built for instruments, not infographics.</h2>
+  <p>60% deep base · 30% neutral surfaces · 10% charged accent. Signal Blue is reserved for interactive elements so color always carries meaning.</p>
+
+  <div class="swatchGrid" style="margin-top:32px">
+    <div class="swatch" style="background:#0B1437"><div class="nm">Praxion Navy</div>#0B1437</div>
+    <div class="swatch" style="background:#1E2A5E"><div class="nm">Deep Indigo</div>#1E2A5E</div>
+    <div class="swatch" style="background:#2B2F3A"><div class="nm">Graphite</div>#2B2F3A</div>
+    <div class="swatch" style="background:#2F6BFF"><div class="nm">Signal Blue</div>#2F6BFF</div>
+    <div class="swatch" style="background:#19D3C5"><div class="nm">Ion Teal</div>#19D3C5</div>
+    <div class="swatch" style="background:#F5F7FA;color:#0B1437;border:1px solid #E6EAF2"><div class="nm">Cloud White</div>#F5F7FA</div>
+  </div>
+
+  <div class="grid g3" style="margin-top:32px">
+    <div class="card"><h3>Primary</h3><p style="font-size:13px">Navy and Indigo carry the brand. Use as page backgrounds, hero sections, and product chrome. Never use as body text on white.</p></div>
+    <div class="card"><h3>Neutral</h3><p style="font-size:13px">Cloud White and Mist (#E6EAF2) hold dense data. Graphite is the default body text color on light surfaces.</p></div>
+    <div class="card"><h3>Accent</h3><p style="font-size:13px">Signal Blue = interaction. Ion Teal = automation, AI, success. Subtle Violet (#7C5CFF) is permitted only for AI-generated content.</p></div>
+  </div>
+</section>
+
+<!-- TYPE -->
+<section>
+  <div class="eyebrow">03 — Typography</div>
+  <h2>Inter. With JetBrains Mono for data.</h2>
+  <p>Inter is the primary UI and marketing typeface — neutral, technically capable, and globally legible. JetBrains Mono is reserved for IDs, numerical tables, and API surfaces.</p>
+
+  <div class="card" style="margin-top:32px">
+    <div class="typeSpec"><div style="font-size:56px;font-weight:600;color:var(--navy);letter-spacing:-.02em">Run the work behind the work.</div><div class="meta">Display · 56 / 64 · 600</div></div>
+    <div class="typeSpec"><div style="font-size:34px;font-weight:600;color:var(--navy);letter-spacing:-.02em">Section heading</div><div class="meta">H1 · 34 / 42 · 600</div></div>
+    <div class="typeSpec"><div style="font-size:22px;font-weight:500;color:var(--graphite)">Subsection title</div><div class="meta">H2 · 22 / 30 · 500</div></div>
+    <div class="typeSpec"><div style="font-size:16px;color:var(--graphite)">Primary body — used across the marketing surface and product help content. Reads cleanly down to 14 px on dense dashboards.</div><div class="meta">Body · 16 / 24 · 400</div></div>
+    <div class="typeSpec"><div style="font-family:'JetBrains Mono';font-size:14px;color:var(--graphite)">EMP-00482 · $124,580.00</div><div class="meta">Mono · 14 / 20 · 500</div></div>
+  </div>
+</section>
+
+<!-- UI -->
+<section>
+  <div class="eyebrow">04 — Product UI Direction</div>
+  <h2>Mission control, not a homepage.</h2>
+  <p>Praxion's surface is a calm, dense, dark-canvas command center. Cards are modular operational units. Signal Blue marks action; Ion Teal marks automation. Motion is functional, never decorative (150–250 ms ease-out).</p>
+
+  <div class="dashboard" style="margin-top:32px">
+    <div class="dash-top">
+      <div class="row">
+        <svg width="120" height="28" viewBox="0 0 240 64">
+          <g transform="translate(0,8)">
+            <rect x="0" y="0" width="40" height="40" rx="10" fill="none" stroke="#fff" stroke-width="2.5"/>
+            <circle cx="20" cy="20" r="3.2" fill="#19D3C5"/>
+            <line x1="20" y1="20" x2="6" y2="6" stroke="#fff" stroke-width="2"/>
+            <line x1="20" y1="20" x2="34" y2="6" stroke="#fff" stroke-width="2"/>
+            <line x1="20" y1="20" x2="6" y2="34" stroke="#fff" stroke-width="2"/>
+            <line x1="20" y1="20" x2="34" y2="34" stroke="#fff" stroke-width="2"/>
+          </g>
+          <text x="56" y="38" font-family="Inter" font-size="22" font-weight="700" fill="#fff" letter-spacing="1">PRAXION</text>
+        </svg>
+        <span style="color:#7a8197;font-size:13px;margin-left:18px">Workspace · Acme Global</span>
+      </div>
+      <div class="row">
+        <span class="kbd">⌘ K</span>
+        <button class="btn primary">Run Payroll</button>
+      </div>
+    </div>
+
+    <div class="cmdk" style="margin-bottom:20px">
+      <span style="color:var(--ion)">▸</span> <b>Hire</b> Senior Engineer · Berlin · <span style="color:#fff">Sarah Chen approved</span> · 2m ago
+    </div>
+
+    <div class="dash-grid">
+      <div class="tile">
+        <h4>Headcount</h4>
+        <div class="big">2,847<span class="delta">+12 this week</span></div>
+        <div class="spark">
+          <span style="height:30%"></span><span style="height:42%"></span><span style="height:38%"></span><span style="height:55%"></span><span style="height:48%"></span><span style="height:62%"></span><span style="height:58%"></span><span style="height:74%"></span><span style="height:68%"></span><span style="height:82%"></span><span style="height:90%"></span><span style="height:100%"></span>
+        </div>
+      </div>
+      <div class="tile">
+        <h4>Payroll cycle</h4>
+        <div class="big">94%</div>
+        <div class="bar"><span style="width:94%"></span></div>
+        <p style="font-size:12px;color:#7a8197;margin-top:10px">3 of 47 entities pending · ETA 4 min</p>
+      </div>
+      <div class="tile">
+        <h4>Open requisitions</h4>
+        <div class="big">38</div>
+        <p style="font-size:12px;color:#7a8197;margin-top:10px"><span style="color:var(--ion)">●</span> 12 in final stage</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:48px">Components</h3>
+  <div class="grid g3">
+    <div class="card">
+      <h3>Buttons</h3>
+      <p style="font-size:13px;margin-bottom:14px">10 px radius · 12/18 padding · 500 weight · 150 ms ease.</p>
+      <div class="row"><button class="btn primary">Primary</button><button class="btn secondary">Secondary</button></div>
+    </div>
+    <div class="card dark" style="background:var(--navy)">
+      <h3>Dark variant</h3>
+      <p style="font-size:13px;margin-bottom:14px;color:#7a8197">For product surfaces.</p>
+      <div class="row"><button class="btn primary">Primary</button><button class="btn ghost">Ghost</button></div>
+    </div>
+    <div class="card">
+      <h3>Surfaces</h3>
+      <p style="font-size:13px">Cards: 14 px radius, 1 px hairline border (#E6EAF2), no drop shadow. Elevation is implied through contrast, not blur. Modals use a single 24 px radius and a 40 px navy backdrop.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ICONS -->
+<section>
+  <div class="eyebrow">05 — Iconography</div>
+  <h2>Geometric. 1.5 px. On a 24-grid.</h2>
+  <p>A single line system, rounded terminals, never decorative. People are represented as nodes — never silhouettes. Module families share a rounded-square base so the product line reads as one system.</p>
+
+  <div class="iconStrip" style="margin-top:32px">
+    <!-- 8 icons -->
+    <div class="iconCell"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B1437" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M8 5v-2M16 5v-2"/></svg></div>
+    <div class="iconCell"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B1437" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 6l3 4M17 6l-3 4M7 18l3-4M17 18l-3-4"/></svg></div>
+    <div class="iconCell"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B1437" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div>
+    <div class="iconCell"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B1437" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg></div>
+    <div class="iconCell"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B1437" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+    <div class="iconCell"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B1437" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V8l8-5 8 5v11"/><path d="M9 19v-6h6v6"/></svg></div>
+    <div class="iconCell"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B1437" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M5 12h14M5 17h9"/></svg></div>
+    <div class="iconCell"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B1437" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg></div>
+  </div>
+</section>
+
+<!-- PATTERN -->
+<section>
+  <div class="eyebrow">06 — Visual Elements</div>
+  <h2>Pattern: the workforce graph.</h2>
+  <p>A single system motif — a sparse lattice of nodes and connectors — appears across hero backgrounds, loaders, and slide dividers. It is always low-opacity, always behind content, and always derived from the logo grid.</p>
+
+  <div class="card dark bgPattern" style="margin-top:32px;height:260px;display:flex;align-items:center;padding:48px">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="xMidYMid slice">
+      <g stroke="#2F6BFF" stroke-width="1" fill="none">
+        <path d="M50 50 L200 80 L380 40 L560 90 L740 60"/>
+        <path d="M80 200 L260 160 L420 220 L600 170 L760 210"/>
+        <path d="M50 50 L80 200 M200 80 L260 160 M380 40 L420 220 M560 90 L600 170 M740 60 L760 210"/>
+      </g>
+      <g fill="#19D3C5">
+        <circle cx="50" cy="50" r="3"/><circle cx="200" cy="80" r="3"/><circle cx="380" cy="40" r="3"/><circle cx="560" cy="90" r="3"/><circle cx="740" cy="60" r="3"/>
+        <circle cx="80" cy="200" r="3"/><circle cx="260" cy="160" r="3"/><circle cx="420" cy="220" r="3"/><circle cx="600" cy="170" r="3"/><circle cx="760" cy="210" r="3"/>
+      </g>
+    </svg>
+    <div style="position:relative;z-index:2">
+      <div class="tagline" style="color:#fff">Intelligence in motion.</div>
+      <p style="color:#cfd6ee;margin-top:14px">The brain behind modern workforce operations.</p>
+    </div>
+  </div>
+</section>
+
+<div class="foot">Praxion · Visual Identity System · Crafted for enterprises that run HR like an operation.</div>
+
+</div>
+</body>
+</html>

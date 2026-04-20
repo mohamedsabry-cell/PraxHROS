@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Praxion HROS — Brand Showcase</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ============================================
+   TOKENS
+   ============================================ */
+:root {
+  --c-navy:    #0B1437;
+  --c-signal:  #2F6BFF;
+  --c-ion:     #19D3C5;
+  --c-indigo:  #1E2A5E;
+  --c-cloud:   #F5F7FA;
+  --c-mist:    #E8ECF3;
+  --c-muted:   #6B7A99;
+  --c-white:   #FFFFFF;
+  --c-success: #22C55E;
+  --c-warn:    #F59E0B;
+  --c-danger:  #EF4444;
+  --f-head:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --f-body:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --f-mono:    'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --r:         14px;
+  --max-w:     1100px;
+}
+
+/* ============================================
+   RESET
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+body { font-family: var(--f-body); font-size: 15px; line-height: 1.6; color: var(--c-navy); background: var(--c-cloud); }
+img, svg { display: block; max-width: 100%; }
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 32px; }
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+  background: var(--c-navy);
+  padding: 72px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 50% 70% at 8% 95%, rgba(47,107,255,.28), transparent),
+    radial-gradient(ellipse 40% 60% at 92% 8%, rgba(25,211,197,.18), transparent);
+  pointer-events: none;
+}
+.hero .container { position: relative; z-index: 1; }
+.hero__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 44px;
+}
+.hero__logo svg { width: 44px; height: 44px; }
+.hero__logo span {
+  font-family: var(--f-head);
+  font-weight: 800;
+  font-size: 19px;
+  color: var(--c-white);
+  letter-spacing: -0.02em;
+}
+.hero__badge {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-ion);
+  margin-bottom: 18px;
+}
+.hero h1 {
+  font-family: var(--f-head);
+  font-weight: 800;
+  font-size: clamp(36px, 5vw, 68px);
+  line-height: 1.06;
+  color: var(--c-white);
+  letter-spacing: -0.03em;
+  margin-bottom: 18px;
+  max-width: 680px;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--c-ion), #80F2E6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero__desc {
+  font-family: var(--f-body);
+  font-size: 17px;
+  color: #AAB8D6;
+  max-width: 560px;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 36px;
+  font-size: 13px;
+  color: #7A8AAE;
+}
+.hero__meta dt {
+  font-family: var(--f-head);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-white);
+  margin-bottom: 3px;
+}
+
+/* ============================================
+   SECTION
+   ============================================ */
+.section {
+  padding: 72px 0;
+  border-top: 1px solid var(--c-mist);
+}
+.section:first-of-type { border-top: none; }
+.section__num {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--c-signal);
+  margin-bottom: 10px;
+}
+.section h2 {
+  font-family: var(--f-head);
+  font-weight: 800;
+  font-size: clamp(26px, 3vw, 38px);
+  letter-spacing: -0.025em;
+  margin-bottom: 10px;
+}
+.section__lead {
+  font-size: 15.5px;
+  color: var(--c-muted);
+  max-width: 600px;
+  line-height: 1.65;
+  margin-bottom: 40px;
+}
+
+/* ============================================
+   GRID HELPERS
+   ============================================ */
+.g { display: grid; gap: 18px; }
+.g-2 { grid-template-columns: repeat(2, 1fr); }
+.g-3 { grid-template-columns: repeat(3, 1fr); }
+.g-4 { grid-template-columns: repeat(4, 1fr); }
+.g-5 { grid-template-columns: repeat(5, 1fr); }
+.g-12 { grid-template-columns: repeat(12, 1fr); }
+@media (max-width: 800px) {
+  .g-2, .g-3, .g-4, .g-5 { grid-template-columns: 1fr; }
+  .g-12 > * { grid-column: span 12 !important; }
+}
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+.col-6 { grid-column: span 6; }
+.col-8 { grid-column: span 8; }
+
+/* ============================================
+   CARD
+   ============================================ */
+.card {
+  background: var(--c-white);
+  border: 1px solid var(--c-mist);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.card--dark { background: var(--c-navy); border-color: #1C2650; }
+.card--mist { background: var(--c-mist); }
+
+/* ============================================
+   01 — BRAND STORY: PILLARS
+   ============================================ */
+.pillar {
+  padding: 28px 24px;
+  border-left: 4px solid var(--c-signal);
+}
+.pillar--ion  { border-left-color: var(--c-ion); }
+.pillar--navy { border-left-color: var(--c-navy); }
+.pillar h4 { font-family: var(--f-head); font-weight: 700; font-size: 18px; margin-bottom: 6px; }
+.pillar p { font-size: 14px; color: var(--c-muted); line-height: 1.6; }
+
+/* ============================================
+   02 — LOGO SYSTEM
+   ============================================ */
+.logo-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 44px 24px;
+  min-height: 170px;
+}
+.logo-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  border-top: 1px solid var(--c-mist);
+  font-size: 12px;
+  color: var(--c-muted);
+}
+.card--dark .logo-label { border-color: #1C2650; }
+.logo-label strong {
+  font-family: var(--f-head);
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--c-navy);
+}
+.card--dark .logo-label strong { color: var(--c-white); }
+.logo-label code {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  background: var(--c-cloud);
+  padding: 3px 8px;
+  border-radius: 5px;
+  color: var(--c-indigo);
+}
+.card--dark .logo-label code { background: #1C2650; color: #AAB8D6; }
+
+/* CLEAR SPACE */
+.clearspace {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  margin-top: 36px;
+  padding: 32px;
+  border: 1.5px dashed #C0C9DA;
+  border-radius: var(--r);
+  background: var(--c-white);
+}
+.clearspace__frame {
+  flex-shrink: 0;
+  padding: 28px;
+  border: 2px dashed var(--c-signal);
+  border-radius: 8px;
+  position: relative;
+}
+.clearspace__frame svg { width: 240px; }
+.clearspace__frame::before,
+.clearspace__frame::after {
+  font-family: var(--f-mono); font-size: 11px; font-weight: 600; color: var(--c-signal); position: absolute;
+}
+.clearspace__frame::before { content: 'x'; top: 6px; left: 50%; transform: translateX(-50%); }
+.clearspace__frame::after  { content: 'x'; left: 6px; top: 50%; transform: translateY(-50%); }
+.clearspace h4 { font-family: var(--f-head); font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.clearspace p  { font-size: 13.5px; color: var(--c-muted); max-width: 360px; line-height: 1.55; }
+@media (max-width: 800px) { .clearspace { flex-direction: column; } }
+
+/* MISUSE */
+.misuse-title {
+  font-family: var(--f-head);
+  font-weight: 700;
+  font-size: 17px;
+  margin-top: 44px;
+  margin-bottom: 16px;
+}
+.dont__vis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  min-height: 100px;
+  background: var(--c-cloud);
+  position: relative;
+}
+.dont__vis svg { width: 110px; }
+.dont__vis--hue svg   { filter: hue-rotate(90deg) saturate(2); }
+.dont__vis--skew      { background: repeating-linear-gradient(45deg, #fff, #fff 8px, #ffe2e2 8px, #ffe2e2 16px) !important; }
+.dont__vis--skew svg  { transform: skewX(-18deg); }
+.dont__vis--tiny svg  { transform: scale(.38); }
+.dont__vis--clash     { background: #ffc8cc !important; }
+.dont__x {
+  position: absolute; top: 6px; right: 6px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--c-danger); color: var(--c-white);
+  font-family: var(--f-head); font-weight: 700; font-size: 12px;
+  display: grid; place-items: center;
+}
+.dont__cap {
+  padding: 12px 14px;
+  border-top: 1px solid var(--c-mist);
+  font-size: 11.5px; color: var(--c-muted); line-height: 1.45;
+}
+.dont__cap strong { display: block; color: var(--c-danger); font-family: var(--f-head); font-weight: 600; font-size: 11.5px; margin-bottom: 1px; }
+
+/* ============================================
+   03 — COLOUR
+   ============================================ */
+.swatch__chip {
+  height: 130px;
+  display: flex;
+  align-items: flex-end;
+  padding: 14px;
+  color: var(--c-white);
+  font-family: var(--f-head);
+  font-weight: 700;
+  font-size: 13px;
+}
+.swatch__info { padding: 14px; }
+.swatch__name { font-family: var(--f-head); font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+.swatch__row {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--c-mist);
+  color: var(--c-indigo);
+}
+.swatch__row:last-child { border: none; }
+.swatch__row span:first-child { color: var(--c-muted); }
+
+.support-title {
+  margin-top: 36px;
+  margin-bottom: 14px;
+  font-family: var(--f-head);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--c-muted);
+}
+.mini__block { height: 56px; }
+.mini__meta {
+  padding: 8px 12px;
+  font-size: 10.5px;
+}
+.mini__meta strong { display: block; font-family: var(--f-head); font-weight: 600; font-size: 11.5px; color: var(--c-navy); margin-bottom: 1px; }
+.mini__meta span { font-family: var(--f-mono); color: var(--c-muted); }
+
+/* ============================================
+   04 — TYPOGRAPHY
+   ============================================ */
+.type-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 20px; }
+@media (max-width: 800px) { .type-grid { grid-template-columns: 1fr; } }
+.type-card { padding: 28px; }
+.type-card__head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 14px; margin-bottom: 18px; border-bottom: 1px solid var(--c-mist);
+}
+.type-card__head b { font-family: var(--f-head); font-size: 17px; }
+.type-card__head span { font-family: var(--f-mono); font-size: 10.5px; color: var(--c-muted); letter-spacing: .06em; }
+.type-display {
+  font-family: var(--f-head); font-weight: 800; font-size: 60px;
+  line-height: 1; letter-spacing: -0.03em; color: var(--c-navy); margin-bottom: 14px;
+}
+.type-subtitle {
+  font-family: var(--f-head); font-weight: 600; font-size: 19px;
+  color: var(--c-indigo); margin-bottom: 10px;
+}
+.type-body { font-size: 14.5px; line-height: 1.65; }
+.type-body .m { color: var(--c-muted); }
+.type-data {
+  display: inline-block; margin-top: 12px;
+  font-family: var(--f-mono); font-size: 11.5px; color: var(--c-indigo);
+  background: var(--c-cloud); padding: 8px 14px; border-radius: 7px;
+}
+
+.scale { padding: 24px; }
+.scale__row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 10px 0; border-bottom: 1px dashed var(--c-mist);
+}
+.scale__row:last-child { border: none; }
+.scale__spec { font-family: var(--f-mono); font-size: 10px; color: var(--c-muted); letter-spacing: .06em; }
+.scale__sample { font-family: var(--f-head); font-weight: 700; color: var(--c-navy); }
+.scale__sample--body { font-family: var(--f-body); font-weight: 400; color: var(--c-indigo); }
+.scale__sample--mono { font-family: var(--f-mono); font-weight: 500; color: var(--c-indigo); }
+
+.body-card { margin-top: 20px; padding: 28px; }
+
+/* ============================================
+   05 — VOICE
+   ============================================ */
+.voice { padding: 24px 22px; border-left: 4px solid var(--c-signal); }
+.voice--ion  { border-left-color: var(--c-ion); }
+.voice--navy { border-left-color: var(--c-navy); }
+.voice h4 { font-family: var(--f-head); font-weight: 700; font-size: 17px; margin-bottom: 6px; }
+.voice > p { color: var(--c-muted); font-size: 13.5px; line-height: 1.55; margin-bottom: 14px; }
+.voice__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; }
+.voice__yes {
+  background: rgba(25,211,197,.09); color: #0D7D72;
+  padding: 10px; border-radius: 7px; line-height: 1.4;
+}
+.voice__no {
+  background: rgba(239,68,68,.06); color: #B83636;
+  padding: 10px; border-radius: 7px; line-height: 1.4;
+  text-decoration: line-through;
+}
+.voice__pair b {
+  display: block; font-family: var(--f-head); font-size: 9.5px;
+  letter-spacing: .13em; text-transform: uppercase; margin-bottom: 3px;
+  text-decoration: none;
+}
+
+/* ============================================
+   06 — APPLICATION MOCKUPS
+   ============================================ */
+.app-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; }
+@media (max-width: 800px) { .app-grid { grid-template-columns: 1fr; } }
+
+.bizcard {
+  background: var(--c-navy);
+  border-radius: var(--r);
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  color: var(--c-white);
+}
+.bizcard::after {
+  content: ''; position: absolute; right: -40px; top: -40px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(25,211,197,.16), transparent 70%);
+}
+.bizcard__top { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; position: relative; z-index: 1; }
+.bizcard__top svg { width: 34px; height: 34px; }
+.bizcard__top span { font-family: var(--f-head); font-weight: 800; font-size: 16px; }
+.bizcard__name { font-family: var(--f-head); font-weight: 700; font-size: 22px; position: relative; z-index: 1; margin-bottom: 2px; }
+.bizcard__role { font-size: 12.5px; color: #AAB8D6; position: relative; z-index: 1; margin-bottom: 18px; }
+.bizcard__line { width: 44px; height: 2px; background: linear-gradient(90deg, var(--c-ion), var(--c-signal)); margin-bottom: 18px; position: relative; z-index: 1; }
+.bizcard__contact { font-family: var(--f-mono); font-size: 10.5px; color: #7E8EB0; line-height: 2; position: relative; z-index: 1; }
+
+.browser { border-radius: var(--r); overflow: hidden; border: 1px solid var(--c-mist); background: var(--c-white); }
+.browser__bar {
+  background: var(--c-mist);
+  padding: 9px 14px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid #D5DBEA;
+}
+.browser__dots { display: flex; gap: 5px; }
+.browser__dots i { width: 9px; height: 9px; border-radius: 50%; background: #C4CCDA; display: block; }
+.browser__url {
+  flex: 1; background: var(--c-white);
+  padding: 5px 10px; border-radius: 6px;
+  font-family: var(--f-mono); font-size: 10.5px; color: var(--c-muted);
+}
+.browser__page { padding: 20px 24px; }
+.browser__nav { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid var(--c-mist); }
+.browser__nav svg { width: 100px; }
+.browser__avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--c-signal), var(--c-ion)); }
+.browser__page h3 { font-family: var(--f-head); font-weight: 700; font-size: 17px; margin-top: 16px; }
+.browser__page .sub { font-size: 12px; color: var(--c-muted); margin-bottom: 14px; }
+.kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.kpi__item { padding: 14px; border-radius: 10px; background: var(--c-cloud); }
+.kpi__label { font-family: var(--f-head); font-size: 9.5px; color: var(--c-muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 4px; }
+.kpi__val { font-family: var(--f-head); font-weight: 800; font-size: 20px; color: var(--c-navy); }
+.kpi__delta { font-family: var(--f-mono); font-size: 10px; color: #0D7D72; margin-top: 3px; }
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  background: var(--c-navy);
+  padding: 48px 0;
+  color: #7A8AAE;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.footer__grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; }
+@media (max-width: 800px) { .footer__grid { grid-template-columns: 1fr; } }
+.footer__brand { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.footer__brand svg { width: 32px; height: 32px; }
+.footer__brand span { font-family: var(--f-head); font-weight: 800; font-size: 16px; color: var(--c-white); }
+.footer .tag { color: var(--c-ion); font-style: italic; margin-bottom: 6px; }
+.footer h4 {
+  color: var(--c-white); font-family: var(--f-head);
+  font-weight: 600; font-size: 10.5px;
+  letter-spacing: .15em; text-transform: uppercase;
+  margin-bottom: 8px;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ SVG DEFS ═══ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="M" viewBox="0 0 80 80">
+    <g transform="translate(8,8)" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M32 4 L60 18 L60 46 L32 60 L4 46 L4 18 Z"/>
+      <path d="M32 4 L32 60 M4 18 L60 46 M60 18 L4 46"/>
+    </g>
+    <circle cx="40" cy="12" r="4.2" fill="#2F6BFF"/>
+    <circle cx="68" cy="26" r="4.2" fill="currentColor"/>
+    <circle cx="68" cy="54" r="4.2" fill="#19D3C5"/>
+    <circle cx="40" cy="68" r="4.2" fill="currentColor"/>
+    <circle cx="12" cy="54" r="4.2" fill="#2F6BFF"/>
+    <circle cx="12" cy="26" r="4.2" fill="currentColor"/>
+    <circle cx="40" cy="40" r="5.2" fill="currentColor"/>
+  </symbol>
+  <symbol id="W" viewBox="0 0 520 140">
+    <g transform="translate(0,16) scale(1.6)"><use href="#M"/></g>
+    <text x="155" y="100" font-family="Inter,Arial,sans-serif" font-size="82" font-weight="800" fill="currentColor" letter-spacing="-2.5">PRAXION</text>
+    <rect x="157" y="114" width="70" height="4" fill="#19D3C5"/>
+  </symbol>
+</svg>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+<header class="hero">
+  <div class="container">
+    <div class="hero__logo">
+      <svg viewBox="0 0 80 80" style="color:#fff"><use href="#M"/></svg>
+      <span>PRAXION</span>
+    </div>
+    <p class="hero__badge">Brand Identity · v1.0</p>
+    <h1>The operating system<br>for <em>modern HR</em>.</h1>
+    <p class="hero__desc">Praxion is the HR Operating System built to run outsourced workforce operations at scale. This page defines how the brand looks, sounds and shows up.</p>
+    <dl class="hero__meta">
+      <div><dt>Client</dt><dd>Egybell</dd></div>
+      <div><dt>Audience</dt><dd>Employees · Managers · Clients</dd></div>
+      <div><dt>Owner</dt><dd>Mohamed Sabry</dd></div>
+      <div><dt>Updated</dt><dd>10 April 2026</dd></div>
+    </dl>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     01 — BRAND STORY
+     ═══════════════════════════════════════════ -->
+<main>
+<section class="section">
+  <div class="container">
+    <p class="section__num">01 — Brand Story</p>
+    <h2>Execution. Intelligence. Flow.</h2>
+    <p class="section__lead">The name derives from <em>praxis</em> — the act of doing, not just planning. Our identity is engineered to feel precise, confident, and quietly intelligent.</p>
+    <div class="g g-3">
+      <div class="card pillar"><h4>Execution</h4><p>Every screen, document and workflow moves work forward. We favour verbs over nouns.</p></div>
+      <div class="card pillar pillar--ion"><h4>Intelligence</h4><p>Data is not decoration. Praxion surfaces the signal that lets humans decide faster.</p></div>
+      <div class="card pillar pillar--navy"><h4>Flow</h4><p>Work moves between people and systems without friction — calm, structured, purposeful.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     02 — LOGO SYSTEM
+     ═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <p class="section__num">02 — Logo System</p>
+    <h2>The mark</h2>
+    <p class="section__lead">A hexagonal network — six nodes through a central hub — representing the communities Praxion orchestrates.</p>
+
+    <div class="g g-12">
+      <div class="card col-8">
+        <div class="logo-stage"><svg viewBox="0 0 520 140" style="width:420px;color:var(--c-navy)"><use href="#W"/></svg></div>
+        <div class="logo-label"><strong>Primary — horizontal</strong><code>praxion-logo-primary.svg</code></div>
+      </div>
+      <div class="card col-4">
+        <div class="logo-stage"><svg viewBox="0 0 80 80" style="width:90px;color:var(--c-navy)"><use href="#M"/></svg></div>
+        <div class="logo-label"><strong>Mark only</strong><code>praxion-mark.svg</code></div>
+      </div>
+      <div class="card card--dark col-8">
+        <div class="logo-stage"><svg viewBox="0 0 520 140" style="width:420px;color:#fff"><use href="#W"/></svg></div>
+        <div class="logo-label"><strong>Inverse — on navy</strong><code>praxion-logo-inverse.svg</code></div>
+      </div>
+      <div class="card card--mist col-4">
+        <div class="logo-stage"><svg viewBox="0 0 80 80" style="width:90px;color:var(--c-navy)"><use href="#M"/></svg></div>
+        <div class="logo-label"><strong>Mark on mist</strong><code>Contained use</code></div>
+      </div>
+    </div>
+
+    <div class="clearspace">
+      <div class="clearspace__frame">
+        <svg viewBox="0 0 520 140" style="color:var(--c-navy)"><use href="#W"/></svg>
+      </div>
+      <div>
+        <h4>Clear space &amp; minimum size</h4>
+        <p>Leave a margin equal to the "x" in the wordmark on all sides. Never display below 120 px wide on screen or 30 mm in print.</p>
+      </div>
+    </div>
+
+    <h3 class="misuse-title">Misuse — don't do this</h3>
+    <div class="g g-4">
+      <div class="card">
+        <div class="dont__vis dont__vis--hue"><svg viewBox="0 0 520 140" style="color:var(--c-navy)"><use href="#W"/></svg><div class="dont__x">×</div></div>
+        <div class="dont__cap"><strong>No colour shifts</strong>Use only approved palette values.</div>
+      </div>
+      <div class="card">
+        <div class="dont__vis dont__vis--skew"><svg viewBox="0 0 520 140" style="color:var(--c-navy)"><use href="#W"/></svg><div class="dont__x">×</div></div>
+        <div class="dont__cap"><strong>No distortion</strong>Never skew, stretch or rotate.</div>
+      </div>
+      <div class="card">
+        <div class="dont__vis dont__vis--tiny"><svg viewBox="0 0 520 140" style="color:var(--c-navy)"><use href="#W"/></svg><div class="dont__x">×</div></div>
+        <div class="dont__cap"><strong>No shrinking</strong>Respect minimum size rules.</div>
+      </div>
+      <div class="card">
+        <div class="dont__vis dont__vis--clash"><svg viewBox="0 0 520 140" style="color:var(--c-navy)"><use href="#W"/></svg><div class="dont__x">×</div></div>
+        <div class="dont__cap"><strong>No clashing backgrounds</strong>Use approved surfaces only.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     03 — COLOUR SYSTEM
+     ═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <p class="section__num">03 — Colour System</p>
+    <h2>A palette built for clarity</h2>
+    <p class="section__lead">Navy carries most of the weight. Signal Blue is the interactive accent. Ion Teal is the spark — used sparingly for intelligence and motion.</p>
+
+    <div class="g g-5">
+      <div class="card">
+        <div class="swatch__chip" style="background:#0B1437">Navy</div>
+        <div class="swatch__info">
+          <div class="swatch__name">Praxion Navy</div>
+          <div class="swatch__row"><span>HEX</span><span>#0B1437</span></div>
+          <div class="swatch__row"><span>RGB</span><span>11 · 20 · 55</span></div>
+          <div class="swatch__row"><span>Role</span><span>Primary surface</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="swatch__chip" style="background:#2F6BFF">Signal</div>
+        <div class="swatch__info">
+          <div class="swatch__name">Signal Blue</div>
+          <div class="swatch__row"><span>HEX</span><span>#2F6BFF</span></div>
+          <div class="swatch__row"><span>RGB</span><span>47 · 107 · 255</span></div>
+          <div class="swatch__row"><span>Role</span><span>Interactive accent</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="swatch__chip" style="background:#19D3C5;color:#0B1437">Ion</div>
+        <div class="swatch__info">
+          <div class="swatch__name">Ion Teal</div>
+          <div class="swatch__row"><span>HEX</span><span>#19D3C5</span></div>
+          <div class="swatch__row"><span>RGB</span><span>25 · 211 · 197</span></div>
+          <div class="swatch__row"><span>Role</span><span>Spark / intelligence</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="swatch__chip" style="background:#1E2A5E">Indigo</div>
+        <div class="swatch__info">
+          <div class="swatch__name">Deep Indigo</div>
+          <div class="swatch__row"><span>HEX</span><span>#1E2A5E</span></div>
+          <div class="swatch__row"><span>RGB</span><span>30 · 42 · 94</span></div>
+          <div class="swatch__row"><span>Role</span><span>Secondary text</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="swatch__chip" style="background:#F5F7FA;color:#0B1437;border-bottom:1px solid #E8ECF3">Cloud</div>
+        <div class="swatch__info">
+          <div class="swatch__name">Cloud White</div>
+          <div class="swatch__row"><span>HEX</span><span>#F5F7FA</span></div>
+          <div class="swatch__row"><span>RGB</span><span>245 · 247 · 250</span></div>
+          <div class="swatch__row"><span>Role</span><span>Background</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="support-title">Support palette</p>
+    <div class="g g-5">
+      <div class="card"><div class="mini__block" style="background:#E8ECF3"></div><div class="mini__meta"><strong>Mist</strong><span>#E8ECF3</span></div></div>
+      <div class="card"><div class="mini__block" style="background:#6B7A99"></div><div class="mini__meta"><strong>Muted</strong><span>#6B7A99</span></div></div>
+      <div class="card"><div class="mini__block" style="background:#22C55E"></div><div class="mini__meta"><strong>Success</strong><span>#22C55E</span></div></div>
+      <div class="card"><div class="mini__block" style="background:#F59E0B"></div><div class="mini__meta"><strong>Warning</strong><span>#F59E0B</span></div></div>
+      <div class="card"><div class="mini__block" style="background:#EF4444"></div><div class="mini__meta"><strong>Critical</strong><span>#EF4444</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     04 — TYPOGRAPHY
+     ═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <p class="section__num">04 — Typography</p>
+    <h2>Three families, one voice</h2>
+    <p class="section__lead">Inter for headlines and UI. DM Sans for body. JetBrains Mono for data, IDs, codes and anything the system is measuring.</p>
+
+    <div class="type-grid">
+      <div class="card type-card">
+        <div class="type-card__head"><b>Inter</b><span>HEADLINES · UI</span></div>
+        <div class="type-display">Run HR.</div>
+        <div class="type-subtitle">A confident, geometric sans that carries the brand.</div>
+        <div class="type-body"><span class="m">Weights in use:</span> 400 Regular · 500 Medium · 600 Semibold · 700 Bold · 800 Extra Bold</div>
+      </div>
+      <div class="card scale">
+        <div class="scale__row"><span class="scale__sample" style="font-size:30px">Display</span><span class="scale__spec">INTER 800 · 68px</span></div>
+        <div class="scale__row"><span class="scale__sample" style="font-size:20px">Section H1</span><span class="scale__spec">INTER 800 · 42px</span></div>
+        <div class="scale__row"><span class="scale__sample" style="font-size:15px">Heading H2</span><span class="scale__spec">INTER 700 · 22px</span></div>
+        <div class="scale__row"><span class="scale__sample" style="font-size:12px">Label / UI</span><span class="scale__spec">INTER 600 · 13px</span></div>
+        <div class="scale__row"><span class="scale__sample--body" style="font-size:13px">Body copy</span><span class="scale__spec">DM SANS 400 · 15px</span></div>
+        <div class="scale__row"><span class="scale__sample--mono" style="font-size:11px">US-M1-001 · data</span><span class="scale__spec">JB MONO 500 · 12px</span></div>
+      </div>
+    </div>
+
+    <div class="card body-card">
+      <div class="type-card__head"><b>DM Sans</b><span>BODY</span></div>
+      <div class="type-body">Praxion automates the full HR lifecycle — from requisition to retirement — for both Egybell's own workforce and the clients they serve. The platform ships with 13 modules, 18 user roles across a multi-tenant architecture, and enforces Egyptian compliance by design.</div>
+      <div class="type-data">payroll.run.lock() · 195 stories · SLA 99.9%</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     05 — VOICE & TONE
+     ═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <p class="section__num">05 — Voice &amp; Tone</p>
+    <h2>How Praxion sounds</h2>
+    <p class="section__lead">Direct, never breathless. Technical, never cold. We write the way a senior operator talks to a peer.</p>
+    <div class="g g-3">
+      <div class="card voice">
+        <h4>Precise, not marketing-speak</h4>
+        <p>Say what the feature does, not how revolutionary it is.</p>
+        <div class="voice__pair">
+          <div class="voice__yes"><b>Yes</b>Run payroll in under 12 minutes.</div>
+          <div class="voice__no"><b>No</b>Revolutionary payroll experience.</div>
+        </div>
+      </div>
+      <div class="card voice voice--ion">
+        <h4>Active, not passive</h4>
+        <p>Verbs first. Who does what to what, and when.</p>
+        <div class="voice__pair">
+          <div class="voice__yes"><b>Yes</b>Approve leave from your phone.</div>
+          <div class="voice__no"><b>No</b>Leave can be approved.</div>
+        </div>
+      </div>
+      <div class="card voice voice--navy">
+        <h4>Bilingual, always</h4>
+        <p>Arabic and English are peers. Never an afterthought.</p>
+        <div class="voice__pair">
+          <div class="voice__yes"><b>Yes</b>Write payslips in both.</div>
+          <div class="voice__no"><b>No</b>Translate later.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     06 — APPLICATION
+     ═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <p class="section__num">06 — Application</p>
+    <h2>Brand in the wild</h2>
+    <p class="section__lead">From a business card to a payroll dashboard — here's how it all comes together.</p>
+    <div class="app-grid">
+      <div class="bizcard">
+        <div class="bizcard__top">
+          <svg viewBox="0 0 80 80" style="color:#fff"><use href="#M"/></svg>
+          <span>PRAXION</span>
+        </div>
+        <div class="bizcard__name">Mohamed Sabry</div>
+        <div class="bizcard__role">Project Director · Praxion HROS</div>
+        <div class="bizcard__line"></div>
+        <div class="bizcard__contact">mohamed.sabry@praxionhr.com<br>+20 ### ### ####<br>praxionhr.com</div>
+      </div>
+      <div class="browser">
+        <div class="browser__bar">
+          <div class="browser__dots"><i></i><i></i><i></i></div>
+          <div class="browser__url">app.praxionhr.com/dashboard</div>
+        </div>
+        <div class="browser__page">
+          <div class="browser__nav">
+            <svg viewBox="0 0 520 140" style="color:var(--c-navy)"><use href="#W"/></svg>
+            <div class="browser__avatar"></div>
+          </div>
+          <h3>Good morning, Sabry</h3>
+          <p class="sub">Here's your workforce at a glance.</p>
+          <div class="kpi">
+            <div class="kpi__item"><div class="kpi__label">Headcount</div><div class="kpi__val">2,147</div><div class="kpi__delta">▲ 28 MTD</div></div>
+            <div class="kpi__item"><div class="kpi__label">Attrition</div><div class="kpi__val">8.4%</div><div class="kpi__delta">▼ 0.6 pts</div></div>
+            <div class="kpi__item"><div class="kpi__label">Pay run</div><div class="kpi__val">Ready</div><div class="kpi__delta">12 min ETA</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     07 — ASSETS
+     ═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <p class="section__num">07 — Assets</p>
+    <h2>Download &amp; use</h2>
+    <p class="section__lead">All assets live in <code style="font-family:var(--f-mono);font-size:13px;background:var(--c-white);padding:2px 6px;border-radius:4px">Praxion-HROS/Brand/</code>. Prefer SVG for screen.</p>
+    <div class="g g-12">
+      <div class="card col-3"><div class="logo-stage" style="min-height:130px"><svg viewBox="0 0 80 80" style="width:64px;color:var(--c-navy)"><use href="#M"/></svg></div><div class="logo-label"><strong>Mark</strong><code>.svg</code></div></div>
+      <div class="card col-3"><div class="logo-stage" style="min-height:130px"><svg viewBox="0 0 520 140" style="width:160px;color:var(--c-navy)"><use href="#W"/></svg></div><div class="logo-label"><strong>Primary</strong><code>.svg / .png</code></div></div>
+      <div class="card card--dark col-3"><div class="logo-stage" style="min-height:130px"><svg viewBox="0 0 520 140" style="width:160px;color:#fff"><use href="#W"/></svg></div><div class="logo-label"><strong>Inverse</strong><code>.svg / .png</code></div></div>
+      <div class="card col-3"><div class="logo-stage" style="min-height:130px"><svg viewBox="0 0 520 140" style="width:160px;color:var(--c-navy);filter:grayscale(1)"><use href="#W"/></svg></div><div class="logo-label"><strong>Mono</strong><code>.svg / .png</code></div></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand">
+          <svg viewBox="0 0 80 80" style="color:#fff"><use href="#M"/></svg>
+          <span>PRAXION</span>
+        </div>
+        <p class="tag">Execution. Intelligence. Flow.</p>
+        <p style="max-width:340px">Praxion HROS is a multi-tenant Human Resources Operating System built by Egybell.</p>
+      </div>
+      <div><h4>Document</h4>Brand Identity v1.0<br>Updated 10 April 2026<br>Owner: Mohamed Sabry</div>
+      <div><h4>Contact</h4>praxionhr.com<br>mohamed.sabry@praxionhr.com</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

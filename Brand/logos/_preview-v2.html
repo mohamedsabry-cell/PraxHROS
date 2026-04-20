@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Praxion Logo — v1 vs v2 (3D cube + orange)</title>
+<style>
+  :root {
+    --navy:#0B1437; --ink:#0B1437; --mist:#E6EAF2; --cloud:#F5F7FA;
+    --muted:#6B7A99; --signal:#2F6BFF; --teal:#19D3C5; --orange:#F59E0B;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Arial, sans-serif;
+    color: var(--ink); background: var(--cloud); padding: 48px 32px;
+  }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.5px; }
+  .sub { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 1240px; margin: 0 auto; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .card {
+    background: #fff; border: 1px solid var(--mist); border-radius: 14px;
+    padding: 28px; display: flex; flex-direction: column; align-items: center;
+  }
+  .card.dark { background: var(--navy); color: #fff; }
+  .card h3 { margin: 0 0 16px; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .card.dark h3 { color: rgba(255,255,255,.7); }
+  .stage {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; min-height: 180px;
+  }
+  .stage img { max-width: 90%; height: auto; }
+  .mark-stage img { width: 140px; height: 140px; }
+  .label { margin-top: 14px; font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: 0.5px; }
+  .tag {
+    display: inline-block; font-size: 11px; letter-spacing: 1.5px;
+    padding: 3px 8px; border-radius: 999px; background: var(--mist); color: var(--muted);
+    text-transform: uppercase; font-weight: 700;
+  }
+  .tag.new { background: rgba(245,158,11,.14); color: #B45309; }
+  .dark .tag { background: rgba(255,255,255,.08); color: rgba(255,255,255,.7); }
+  .section-title { font-size: 15px; font-weight: 700; letter-spacing: 0.3px; margin: 40px 0 14px; max-width: 1240px; margin-left: auto; margin-right: auto; }
+  .legend {
+    max-width: 1240px; margin: 0 auto 24px; background: #fff;
+    border: 1px solid var(--mist); border-radius: 14px; padding: 18px 22px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; font-size: 13px;
+  }
+  .legend-row { display: flex; align-items: center; gap: 10px; color: var(--muted); }
+  .dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,.06); }
+  .key { font-weight: 600; color: var(--ink); }
+  footer { max-width: 1240px; margin: 34px auto 0; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div style="max-width:1240px; margin:0 auto;">
+  <h1>Praxion logo &mdash; v2 (3D cube + orange accent)</h1>
+  <p class="sub">
+    Changes vs. v1, per the Apr 16 meeting: hex is now read as a 3D cube (filled faces + ground shadow),
+    right face leans into teal (&quot;use more of it&quot;), and the lower-left blue dot is replaced with warning-amber
+    <b style="color:#B45309">#F59E0B</b> for a third accent color.
+  </p>
+</div>
+
+<div class="legend">
+  <div class="legend-row"><span class="dot" style="background:#2F6BFF"></span> <span class="key">Signal Blue</span> #2F6BFF &mdash; top</div>
+  <div class="legend-row"><span class="dot" style="background:#19D3C5"></span> <span class="key">Ion Teal</span> #19D3C5 &mdash; bottom-right</div>
+  <div class="legend-row"><span class="dot" style="background:#F59E0B"></span> <span class="key">Amber (new)</span> #F59E0B &mdash; bottom-left</div>
+</div>
+
+<div class="section-title">Mark &mdash; light background</div>
+<div class="grid">
+  <div class="card">
+    <h3><span class="tag">v1</span>&nbsp;&nbsp;Original</h3>
+    <div class="stage mark-stage"><img src="praxion-mark.svg" alt="v1 mark"/></div>
+    <div class="label">praxion-mark.svg</div>
+  </div>
+  <div class="card">
+    <h3><span class="tag new">v2 &middot; New</span>&nbsp;&nbsp;3D cube + orange</h3>
+    <div class="stage mark-stage"><img src="praxion-mark-v2.svg" alt="v2 mark"/></div>
+    <div class="label">praxion-mark-v2.svg</div>
+  </div>
+</div>
+
+<div class="section-title">Mark &mdash; dark background</div>
+<div class="grid">
+  <div class="card dark">
+    <h3><span class="tag">v1</span>&nbsp;&nbsp;Original inverse</h3>
+    <div class="stage mark-stage"><img src="praxion-mark-inverse.svg" alt="v1 inverse mark"/></div>
+    <div class="label">praxion-mark-inverse.svg</div>
+  </div>
+  <div class="card dark">
+    <h3><span class="tag new">v2 &middot; New</span>&nbsp;&nbsp;3D cube + orange</h3>
+    <div class="stage mark-stage"><img src="praxion-mark-inverse-v2.svg" alt="v2 inverse mark"/></div>
+    <div class="label">praxion-mark-inverse-v2.svg</div>
+  </div>
+</div>
+
+<div class="section-title">Horizontal lockup &mdash; primary</div>
+<div class="grid">
+  <div class="card">
+    <h3><span class="tag">v1</span>&nbsp;&nbsp;Primary</h3>
+    <div class="stage"><img src="praxion-logo-primary.svg" alt="v1 primary logo"/></div>
+  </div>
+  <div class="card">
+    <h3><span class="tag new">v2 &middot; New</span>&nbsp;&nbsp;Primary (3D)</h3>
+    <div class="stage"><img src="praxion-logo-primary-v2.svg" alt="v2 primary logo"/></div>
+  </div>
+</div>
+
+<div class="section-title">Horizontal lockup &mdash; inverse (on navy)</div>
+<div class="grid">
+  <div class="card dark">
+    <h3><span class="tag">v1</span>&nbsp;&nbsp;Inverse</h3>
+    <div class="stage"><img src="praxion-logo-inverse.svg" alt="v1 inverse logo"/></div>
+  </div>
+  <div class="card dark">
+    <h3><span class="tag new">v2 &middot; New</span>&nbsp;&nbsp;Inverse (3D)</h3>
+    <div class="stage"><img src="praxion-logo-inverse-v2.svg" alt="v2 inverse logo"/></div>
+  </div>
+</div>
+
+<div class="section-title">Horizontal lockup &mdash; monochrome</div>
+<div class="grid">
+  <div class="card">
+    <h3><span class="tag">v1</span>&nbsp;&nbsp;Mono</h3>
+    <div class="stage"><img src="praxion-logo-mono.svg" alt="v1 mono logo"/></div>
+  </div>
+  <div class="card">
+    <h3><span class="tag new">v2 &middot; New</span>&nbsp;&nbsp;Mono (3D)</h3>
+    <div class="stage"><img src="praxion-logo-mono-v2.svg" alt="v2 mono logo"/></div>
+  </div>
+</div>
+
+<div class="section-title">Mark at small sizes (favicon stress test)</div>
+<div class="grid grid-3">
+  <div class="card">
+    <h3>128 px</h3>
+    <div class="stage"><img src="praxion-mark-v2.svg" alt="128" style="width:128px;height:128px;"/></div>
+  </div>
+  <div class="card">
+    <h3>48 px</h3>
+    <div class="stage"><img src="praxion-mark-v2.svg" alt="48" style="width:48px;height:48px;"/></div>
+  </div>
+  <div class="card">
+    <h3>24 px</h3>
+    <div class="stage"><img src="praxion-mark-v2.svg" alt="24" style="width:24px;height:24px;"/></div>
+  </div>
+</div>
+
+<footer>
+  v1 files kept intact &middot; v2 files saved alongside with <code>-v2</code> suffix &middot;
+  PNG raster exports generated at 1024&times;1024 (mark) and 1440&times;352 (horizontal).
+</footer>
+
+</body>
+</html>

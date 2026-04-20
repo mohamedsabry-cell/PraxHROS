@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praxion HROS - User Journey Maps</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0A1628;
+            --signal-blue: #2563EB;
+            --success: #16A34A;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --light-bg: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            background: var(--light-bg);
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background: var(--navy);
+            color: var(--white);
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            background: var(--navy);
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .logo-subtitle {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .sidebar-content {
+            padding: 16px 0;
+        }
+
+        .persona-group {
+            margin-bottom: 8px;
+        }
+
+        .group-header {
+            padding: 12px 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.6;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .group-header:hover {
+            opacity: 1;
+        }
+
+        .group-toggle {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            transition: transform 0.2s;
+        }
+
+        .group-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .persona-list {
+            display: flex;
+            flex-direction: column;
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .persona-list.hidden {
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .persona-item {
+            padding: 10px 20px 10px 32px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            user-select: none;
+        }
+
+        .persona-item:hover {
+            background: rgba(37, 99, 235, 0.15);
+            border-left-color: var(--signal-blue);
+        }
+
+        .persona-item.active {
+            background: rgba(37, 99, 235, 0.25);
+            border-left-color: var(--signal-blue);
+            font-weight: 600;
+        }
+
+        .persona-number {
+            font-size: 11px;
+            opacity: 0.6;
+            margin-right: 6px;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+        }
+
+        /* HEADER */
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--navy);
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 24px;
+        }
+
+        /* STATS SECTION */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .stat-detail {
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+
+        .pain-points-list, .opportunities-list {
+            font-size: 12px;
+            margin-top: 12px;
+        }
+
+        .pain-points-list li, .opportunities-list li {
+            margin-bottom: 4px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .pain-points-list li:before {
+            content: '⚠';
+            position: absolute;
+            left: 0;
+            color: var(--danger);
+        }
+
+        .opportunities-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+        }
+
+        /* PERSONA SECTION */
+        .persona-section {
+            display: none;
+        }
+
+        .persona-section.active {
+            display: block;
+        }
+
+        .persona-header {
+            background: var(--white);
+            padding: 28px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+            border: 1px solid var(--gray-200);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .persona-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .persona-role {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        .lifecycle {
+            background: var(--gray-100);
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.8;
+            border-left: 4px solid var(--signal-blue);
+        }
+
+        /* JOURNEY CARD */
+        .journey-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+        }
+
+        .journey-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .journey-header {
+            background: linear-gradient(135deg, var(--signal-blue) 0%, #1d4ed8 100%);
+            color: var(--white);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .journey-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .journey-type {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .journey-toggle {
+            font-size: 18px;
+            transition: transform 0.2s;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .journey-toggle.collapsed {
+            transform: rotate(90deg);
+        }
+
+        .journey-content {
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .journey-content.collapsed {
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .journey-map {
+            padding: 24px;
+            overflow-x: auto;
+        }
+
+        .swimlane-container {
+            min-width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+
+        .swimlane-row {
+            display: flex;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .swimlane-row:last-child {
+            border-bottom: none;
+        }
+
+        .lane-label {
+            background: var(--navy);
+            color: var(--white);
+            padding: 14px 16px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-width: 130px;
+            max-width: 130px;
+            flex-shrink: 0;
+        }
+
+        .stage-label {
+            background: var(--signal-blue);
+            color: var(--white);
+            padding: 14px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            flex: 1;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stage-label:last-child {
+            border-right: none;
+        }
+
+        .lane-cell {
+            background: var(--white);
+            padding: 16px 14px;
+            font-size: 12px;
+            line-height: 1.5;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex: 1;
+            border-right: 1px solid var(--gray-100);
+        }
+
+        .lane-cell:last-child {
+            border-right: none;
+        }
+
+        .lane-cell.touchpoints {
+            color: var(--navy);
+            font-weight: 500;
+            background: #F0F4FF;
+        }
+
+        .lane-cell.actions {
+            color: var(--gray-700);
+        }
+
+        .lane-cell.emotion {
+            position: relative;
+            min-height: 80px;
+            flex-direction: column;
+        }
+
+        .emotion-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .emotion-score {
+            font-size: 24px;
+        }
+
+        .emotion-label {
+            font-size: 11px;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .lane-cell-full {
+            flex: 1;
+            padding: 14px 20px;
+            font-size: 13px;
+            line-height: 1.6;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .lane-cell-full.pain {
+            background: #FEF2F2;
+            color: #991B1B;
+            border-left: 4px solid var(--danger);
+        }
+
+        .lane-cell-full.opportunity {
+            background: #F0FDF4;
+            color: #166534;
+            border-left: 4px solid var(--success);
+        }
+
+        .satisfaction-curve-row {
+            display: flex;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .satisfaction-curve-label {
+            background: var(--navy);
+            color: var(--white);
+            padding: 10px 16px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-width: 130px;
+            max-width: 130px;
+            flex-shrink: 0;
+        }
+
+        .satisfaction-curve-container {
+            flex: 1;
+            background: var(--white);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .satisfaction-curve-container svg {
+            width: 100%;
+            height: 50px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .main-content {
+                padding: 28px;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                max-height: 50vh;
+                overflow-y: auto;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .swimlane-container {
+                min-width: 600px;
+            }
+
+            .lane-label, .satisfaction-curve-label {
+                min-width: 90px;
+                max-width: 90px;
+                font-size: 9px;
+                padding: 10px 8px;
+            }
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .persona-section:not(.active) {
+                display: none;
+            }
+
+            .journey-content {
+                max-height: none !important;
+            }
+
+            .journey-card {
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+
+            body {
+                background: var(--white);
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-600);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">Praxion HROS</div>
+                <div class="logo-subtitle">Journey Maps</div>
+            </div>
+            <div class="sidebar-content">
+                <!-- GROUP 1: EGYBELL HR OPERATIONS -->
+                <div class="persona-group">
+                    <div class="group-header" onclick="toggleGroup(this)">
+                        <div class="group-toggle">▶</div>
+                        <span>Egybell HR Operations</span>
+                    </div>
+                    <div class="persona-list">
+                        <div class="persona-item" onclick="selectPersona(1)"><span class="persona-number">1</span>HR Director</div>
+                        <div class="persona-item" onclick="selectPersona(2)"><span class="persona-number">2</span>HR Manager</div>
+                        <div class="persona-item" onclick="selectPersona(3)"><span class="persona-number">3</span>HR Specialist</div>
+                        <div class="persona-item" onclick="selectPersona(4)"><span class="persona-number">4</span>Recruiter</div>
+                        <div class="persona-item" onclick="selectPersona(5)"><span class="persona-number">5</span>Payroll Officer</div>
+                        <div class="persona-item" onclick="selectPersona(6)"><span class="persona-number">6</span>Finance Manager</div>
+                        <div class="persona-item" onclick="selectPersona(7)"><span class="persona-number">7</span>Finance Officer</div>
+                        <div class="persona-item" onclick="selectPersona(8)"><span class="persona-number">8</span>Training Lead</div>
+                        <div class="persona-item" onclick="selectPersona(9)"><span class="persona-number">9</span>Platform Admin</div>
+                        <div class="persona-item" onclick="selectPersona(10)"><span class="persona-number">10</span>System Admin</div>
+                    </div>
+                </div>
+
+                <!-- GROUP 2: CLIENT TENANT -->
+                <div class="persona-group">
+                    <div class="group-header" onclick="toggleGroup(this)">
+                        <div class="group-toggle">▶</div>
+                        <span>Client Tenant</span>
+                    </div>
+                    <div class="persona-list">
+                        <div class="persona-item" onclick="selectPersona(11)"><span class="persona-number">11</span>Client Admin</div>
+                        <div class="persona-item" onclick="selectPersona(12)"><span class="persona-number">12</span>Client SPOC</div>
+                        <div class="persona-item" onclick="selectPersona(13)"><span class="persona-number">13</span>Client Finance</div>
+                    </div>
+                </div>
+
+                <!-- GROUP 3: END USERS -->
+                <div class="persona-group">
+                    <div class="group-header" onclick="toggleGroup(this)">
+                        <div class="group-toggle">▶</div>
+                        <span>End Users</span>
+                    </div>
+                    <div class="persona-list">
+                        <div class="persona-item" onclick="selectPersona(14)"><span class="persona-number">14</span>Outsourced Employee</div>
+                        <div class="persona-item" onclick="selectPersona(15)"><span class="persona-number">15</span>Line Manager</div>
+                        <div class="persona-item" onclick="selectPersona(16)"><span class="persona-number">16</span>Contractor</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+                <h1 class="page-title">User Journey Maps</h1>
+                <p class="page-subtitle">Comprehensive experience flows across Praxion HROS personas</p>
+            </div>
+
+            <!-- STATS SECTION -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-label">Total Personas</div>
+                    <div class="stat-value">16</div>
+                    <div class="stat-detail">Roles across HR, Finance, Client, and End User</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Journeys</div>
+                    <div class="stat-value">55+</div>
+                    <div class="stat-detail">Lifecycle + Task-based journeys</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Key Pain Points</div>
+                    <ul class="pain-points-list">
+                        <li>Manual coordination</li>
+                        <li>Data silos</li>
+                        <li>Chasing completions</li>
+                        <li>Complex calculations</li>
+                    </ul>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Top Opportunities</div>
+                    <ul class="opportunities-list">
+                        <li>Automation & reminders</li>
+                        <li>Unified dashboards</li>
+                        <li>Smart templates</li>
+                        <li>Real-time visibility</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PERSONAS -->
+            <div id="personas-container"></div>
+        </main>
+    </div>
+
+    <script>
+        const personas = [
+            {
+                id: 1,
+                name: "HR Director",
+                role: "Strategic oversight",
+                group: "Egybell HR Operations",
+                lifecycle: "Onboard to platform → Configure org strategy → Monitor HR metrics → Review compliance → Drive initiatives → Quarterly reporting",
+                journeys: [
+                    {
+                        title: "Review HR Dashboard",
+                        type: "Task-Based Journey",
+                        stages: ["Login", "Navigate Analytics", "Review Widgets", "Drill into Data", "Export Report"],
+                        touchpoints: ["Single Sign-On", "Dashboard UI", "Widget Cards", "Department View", "Export Menu"],
+                        actions: ["Enter credentials", "Click analytics", "View KPI cards", "Expand department", "Download PDF"],
+                        emotions: [6, 8, 7, 8, 5],
+                        emotionLabels: ["Eager", "Engaged", "Satisfied", "Informed", "Frustrated"],
+                        painPoints: "Data across modules not unified",
+                        opportunity: "Unified analytics hub with cross-module insights"
+                    },
+                    {
+                        title: "Manage Org Structure",
+                        type: "Task-Based Journey",
+                        stages: ["Open Org Chart", "Create Department", "Assign Positions", "Set Reporting", "Publish"],
+                        touchpoints: ["Org Chart UI", "Department Form", "Position Manager", "Hierarchy Editor", "Publish Dialog"],
+                        actions: ["View chart", "Add new dept", "Create roles", "Draw connections", "Save changes"],
+                        emotions: [5, 6, 6, 7, 7],
+                        emotionLabels: ["Neutral", "Engaged", "Focused", "Confident", "Satisfied"],
+                        painPoints: "Bulk changes tedious, limited drag-and-drop",
+                        opportunity: "Visual drag-and-drop org editor with bulk operations"
+                    },
+                    {
+                        title: "Approve Policy Changes",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Notification", "Review Draft", "Compare Versions", "Decide", "Publish"],
+                        touchpoints: ["Email/Push", "Policy Editor", "Diff Viewer", "Approval Dialog", "Success Message"],
+                        actions: ["Open notification", "Read policy", "Review changes", "Approve/request revisions", "Confirm"],
+                        emotions: [5, 7, 6, 8, 8],
+                        emotionLabels: ["Focused", "Engaged", "Careful", "Confident", "Accomplished"],
+                        painPoints: "No version diff view, hard to spot changes",
+                        opportunity: "Side-by-side diff viewer with change highlighting"
+                    }
+                ]
+            },
+            {
+                id: 2,
+                name: "HR Manager",
+                role: "Operational owner",
+                group: "Egybell HR Operations",
+                lifecycle: "System access → Configure modules → Manage daily operations → Run cycles (reviews, merit) → Handle escalations → Report upward",
+                journeys: [
+                    {
+                        title: "Process Employee Termination",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Request", "Verify Compliance", "Set Date", "Trigger Offboarding", "Monitor & Sign-off"],
+                        touchpoints: ["Request Form", "Compliance Checker", "Date Picker", "Offboarding Template", "Task Monitor"],
+                        actions: ["Review request", "Check policies", "Select date", "Start workflow", "Track completion"],
+                        emotions: [4, 5, 5, 6, 8],
+                        emotionLabels: ["Stressed", "Cautious", "Deliberate", "Organized", "Relieved"],
+                        painPoints: "Manual coordination across teams, many dependencies",
+                        opportunity: "Automated offboarding workflow with cross-team visibility"
+                    },
+                    {
+                        title: "Run Merit Cycle",
+                        type: "Task-Based Journey",
+                        stages: ["Configure", "Set Budget", "Open Self-Assessment", "Monitor Completion", "Calibrate & Approve"],
+                        touchpoints: ["Cycle Settings", "Budget Form", "Assessment Portal", "Dashboard", "Calibration Session"],
+                        actions: ["Define parameters", "Input budget", "Launch portal", "Send reminders", "Review & approve"],
+                        emotions: [6, 7, 6, 4, 7],
+                        emotionLabels: ["Focused", "Confident", "Engaged", "Frustrated", "Satisfied"],
+                        painPoints: "Chasing incomplete assessments, manual reminders",
+                        opportunity: "Auto-reminders, analytics on completion, escalation rules"
+                    },
+                    {
+                        title: "Handle Leave Escalation",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Alert", "Review Request", "Check Policy", "Decide", "Notify Parties"],
+                        touchpoints: ["Alert Notification", "Request Details", "Policy Viewer", "Approval Form", "Email Confirmation"],
+                        actions: ["Open alert", "Read details", "Verify policy", "Override/approve", "Send response"],
+                        emotions: [6, 5, 6, 7, 7],
+                        emotionLabels: ["Attentive", "Evaluating", "Careful", "Decisive", "Complete"],
+                        painPoints: "Insufficient context in escalation, need policy lookup",
+                        opportunity: "Rich escalation context with embedded policy guidance"
+                    },
+                    {
+                        title: "Trigger Onboarding",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Hire", "Select Template", "Assign Tasks", "Monitor Progress", "Close Workflow"],
+                        touchpoints: ["Hire Notification", "Template Selector", "Task Assignment", "Progress Dashboard", "Completion Form"],
+                        actions: ["Get notification", "Choose template", "Assign owners", "Review tasks", "Mark complete"],
+                        emotions: [7, 6, 6, 5, 8],
+                        emotionLabels: ["Excited", "Focused", "Organized", "Waiting", "Accomplished"],
+                        painPoints: "Cross-lane dependencies slow progress, blocked tasks",
+                        opportunity: "Smart task dependencies, auto-reminders, bottleneck visibility"
+                    }
+                ]
+            },
+            {
+                id: 3,
+                name: "HR Specialist",
+                role: "Day-to-day operations",
+                group: "Egybell HR Operations",
+                lifecycle: "Get trained → Handle daily requests → Manage documents → Process bulk operations → Support audits → Maintain data quality",
+                journeys: [
+                    {
+                        title: "Bulk Import Employees",
+                        type: "Task-Based Journey",
+                        stages: ["Prepare CSV", "Upload", "Review Errors", "Fix & Re-upload", "Confirm Import"],
+                        touchpoints: ["CSV Template", "Upload UI", "Error Report", "Editor", "Import Confirmation"],
+                        actions: ["Create file", "Drag & drop", "Read errors", "Edit CSV", "Resubmit & confirm"],
+                        emotions: [5, 6, 3, 4, 7],
+                        emotionLabels: ["Prepared", "Hopeful", "Frustrated", "Determined", "Satisfied"],
+                        painPoints: "Cryptic error messages, multiple validation loops",
+                        opportunity: "Clear error messages, inline editing, batch error fixing"
+                    },
+                    {
+                        title: "Manage Document Expiry",
+                        type: "Task-Based Journey",
+                        stages: ["Check Alerts", "Contact Employee", "Collect Document", "Upload & Verify", "Close Alert"],
+                        touchpoints: ["Alert Dashboard", "Contact Form", "File Upload", "Document Viewer", "Closure Confirmation"],
+                        actions: ["Review alerts", "Send request", "Receive file", "Verify format", "Archive & close"],
+                        emotions: [5, 6, 5, 7, 8],
+                        emotionLabels: ["Organized", "Proactive", "Waiting", "Verified", "Complete"],
+                        painPoints: "Chasing employees for documents, slow responses",
+                        opportunity: "Auto-reminders, document collection forms, deadline tracking"
+                    },
+                    {
+                        title: "Process Attendance Correction",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Request", "Verify System", "Apply Correction", "Get Manager Sign-off", "Record Change"],
+                        touchpoints: ["Request Form", "Attendance System", "Correction Form", "Sign-off Workflow", "Audit Log"],
+                        actions: ["Review request", "Check records", "Make change", "Route for approval", "Confirm & log"],
+                        emotions: [6, 5, 6, 6, 7],
+                        emotionLabels: ["Attentive", "Verifying", "Careful", "Collaborative", "Assured"],
+                        painPoints: "Manual verification against system, papertrail unclear",
+                        opportunity: "Auto-verification, streamlined sign-off, clear audit trail"
+                    }
+                ]
+            },
+            {
+                id: 4,
+                name: "Recruiter",
+                role: "Talent acquisition",
+                group: "Egybell HR Operations",
+                lifecycle: "Receive requisition → Source candidates → Screen & shortlist → Coordinate interviews → Extend offers → Hand off to onboarding",
+                journeys: [
+                    {
+                        title: "Manage Hiring Pipeline",
+                        type: "Task-Based Journey",
+                        stages: ["Open Requisition", "Post to Boards", "Screen CVs", "Move Through Kanban", "Submit Shortlist"],
+                        touchpoints: ["Requisition Card", "Job Board Integration", "AI Screening UI", "Kanban Board", "Shortlist Form"],
+                        actions: ["View details", "Publish posting", "Review AI scores", "Drag candidates", "Select & submit"],
+                        emotions: [7, 7, 8, 7, 8],
+                        emotionLabels: ["Excited", "Engaged", "Impressed", "Organized", "Proud"],
+                        painPoints: "Switching between tools, AI accuracy variable",
+                        opportunity: "Unified pipeline in Praxion, improved AI model training"
+                    },
+                    {
+                        title: "Generate & Send Offer",
+                        type: "Task-Based Journey",
+                        stages: ["Select Candidate", "Configure Offer", "Preview", "Send for E-signature", "Track & Convert"],
+                        touchpoints: ["Candidate Profile", "Offer Builder", "Preview Modal", "E-signature Link", "Acceptance Tracker"],
+                        actions: ["Choose candidate", "Fill offer terms", "Review output", "Email link", "Monitor signature"],
+                        emotions: [7, 6, 7, 8, 8],
+                        emotionLabels: ["Satisfied", "Focused", "Confident", "Excited", "Accomplished"],
+                        painPoints: "Limited offer templates, manual follow-up",
+                        opportunity: "Smart templates by role/level, auto-follow-up reminders"
+                    },
+                    {
+                        title: "Source Candidates",
+                        type: "Task-Based Journey",
+                        stages: ["Define Criteria", "Search Internal", "Post Externally", "Track Applications", "Deduplicate"],
+                        touchpoints: ["Criteria Form", "Internal DB Search", "Job Board Upload", "Application Dashboard", "Dedup Tool"],
+                        actions: ["Set filters", "Query database", "Publish posting", "Review applications", "Merge profiles"],
+                        emotions: [6, 6, 7, 6, 5],
+                        emotionLabels: ["Focused", "Hopeful", "Active", "Engaged", "Cautious"],
+                        painPoints: "No LinkedIn integration (Phase 2), manual deduplication",
+                        opportunity: "LinkedIn connector, smart deduplication engine"
+                    }
+                ]
+            },
+            {
+                id: 5,
+                name: "Payroll Officer",
+                role: "Compensation execution",
+                group: "Egybell HR Operations",
+                lifecycle: "Configure payroll rules → Collect monthly inputs → Run payroll cycle → Handle exceptions → Generate reports → File statutory",
+                journeys: [
+                    {
+                        title: "Run Monthly Payroll",
+                        type: "Task-Based Journey",
+                        stages: ["Lock Inputs", "Run Preview", "Review Variances", "Correct Exceptions", "Submit & Lock"],
+                        touchpoints: ["Input Lock Dialog", "Preview Report", "Variance Dashboard", "Exception Form", "Final Approval"],
+                        actions: ["Confirm lock", "Generate preview", "Analyze differences", "Make corrections", "Release payroll"],
+                        emotions: [6, 5, 4, 5, 9],
+                        emotionLabels: ["Careful", "Anxious", "Stressed", "Focused", "Relieved"],
+                        painPoints: "Variance investigation manual, time-consuming",
+                        opportunity: "Auto-variance detection with suggested corrections"
+                    },
+                    {
+                        title: "Process EOSB Settlement",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Termination", "Calculate Entitlements", "Verify Against Policy", "Generate Settlement", "Approve & Disburse"],
+                        touchpoints: ["Termination Notification", "Calculation Engine", "Policy Checker", "Settlement Letter", "Approval Dialog"],
+                        actions: ["Review details", "Run calculations", "Verify policy", "Review output", "Authorize payment"],
+                        emotions: [6, 4, 5, 6, 8],
+                        emotionLabels: ["Careful", "Focused", "Cautious", "Confident", "Satisfied"],
+                        painPoints: "Complex calculations across multiple components",
+                        opportunity: "Automated calculation with policy-driven rules"
+                    },
+                    {
+                        title: "File NOSI Forms",
+                        type: "Task-Based Journey",
+                        stages: ["Generate Forms", "Review", "Submit to NOSI", "Capture Receipt", "Archive"],
+                        touchpoints: ["Form Generator", "Review UI", "NOSI Upload", "Receipt Portal", "Archive System"],
+                        actions: ["Run form generation", "Verify details", "Upload forms", "Save receipt", "Store file"],
+                        emotions: [5, 6, 6, 7, 8],
+                        emotionLabels: ["Organized", "Careful", "Engaged", "Relieved", "Assured"],
+                        painPoints: "NOSI system downtime, manual submission",
+                        opportunity: "NOSI integration, status tracking, automatic filing"
+                    }
+                ]
+            },
+            {
+                id: 6,
+                name: "Finance Manager",
+                role: "Financial oversight",
+                group: "Egybell HR Operations",
+                lifecycle: "Set up billing → Configure budgets → Approve payroll/expenses → Review revenue → Forecast → Audit support",
+                journeys: [
+                    {
+                        title: "Approve Payroll Cycle",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Request", "Review Summary", "Check Variances", "Verify SoD", "Approve & Lock"],
+                        touchpoints: ["Approval Email", "Payroll Summary", "Variance Report", "SoD Checker", "Approval Dialog"],
+                        actions: ["Open request", "Review totals", "Investigate changes", "Verify permissions", "Authorize"],
+                        emotions: [5, 5, 4, 6, 8],
+                        emotionLabels: ["Attentive", "Cautious", "Stressed", "Assured", "Satisfied"],
+                        painPoints: "Insufficient drill-down detail in summary view",
+                        opportunity: "Rich variance details, drill-down capability, custom alerts"
+                    },
+                    {
+                        title: "Review Monthly Billing",
+                        type: "Task-Based Journey",
+                        stages: ["Open Dashboard", "Review Invoices", "Check Line Items", "Approve", "Submit to ETA"],
+                        touchpoints: ["Billing Dashboard", "Invoice List", "Item Details", "Approval Form", "ETA Integration"],
+                        actions: ["Access billing", "View draft invoices", "Analyze items", "Approve", "Send"],
+                        emotions: [5, 6, 5, 7, 8],
+                        emotionLabels: ["Focused", "Engaged", "Careful", "Confident", "Complete"],
+                        painPoints: "Reconciliation across modules difficult",
+                        opportunity: "Unified billing with cross-module reconciliation"
+                    },
+                    {
+                        title: "Manage Expense Policies",
+                        type: "Task-Based Journey",
+                        stages: ["Define Limits", "Set Approval Chains", "Configure Categories", "Test Policy", "Deploy"],
+                        touchpoints: ["Policy Editor", "Approval Chain Builder", "Category Manager", "Test Submission", "Deployment Dialog"],
+                        actions: ["Set thresholds", "Define approvers", "Create categories", "Submit test claim", "Go live"],
+                        emotions: [6, 6, 6, 5, 7],
+                        emotionLabels: ["Focused", "Deliberate", "Organized", "Cautious", "Confident"],
+                        painPoints: "Policy testing unclear, validation complex",
+                        opportunity: "Guided policy builder, clear testing process, dry-run simulation"
+                    }
+                ]
+            },
+            {
+                id: 7,
+                name: "Finance Officer",
+                role: "Financial operations",
+                group: "Egybell HR Operations",
+                lifecycle: "Learn system → Process daily transactions → Reconcile accounts → Handle exceptions → Support month-end → Assist audits",
+                journeys: [
+                    {
+                        title: "Process Contractor Payout",
+                        type: "Task-Based Journey",
+                        stages: ["Review Invoice", "Validate Engagement", "Check AML if Threshold", "Approve", "Disburse & Record"],
+                        touchpoints: ["Invoice Form", "Engagement Checker", "AML Validator", "Approval Dialog", "Payment Confirmation"],
+                        actions: ["Review document", "Verify contract", "Run AML check", "Authorize", "Execute & log"],
+                        emotions: [6, 5, 6, 7, 8],
+                        emotionLabels: ["Focused", "Careful", "Cautious", "Confident", "Assured"],
+                        painPoints: "FX rate lookup manual, AML threshold stress",
+                        opportunity: "Auto FX rates, AML automation, real-time thresholds"
+                    },
+                    {
+                        title: "Reconcile Payroll",
+                        type: "Task-Based Journey",
+                        stages: ["Export Bank File", "Match Transactions", "Identify Discrepancies", "Resolve Issues", "Close Reconciliation"],
+                        touchpoints: ["Export Tool", "Matching UI", "Discrepancy Report", "Issue Tracker", "Closure Form"],
+                        actions: ["Download file", "Match items", "Flag differences", "Investigate", "Sign-off"],
+                        emotions: [5, 4, 4, 6, 8],
+                        emotionLabels: ["Organized", "Focused", "Concerned", "Determined", "Relieved"],
+                        painPoints: "Manual matching tedious and error-prone",
+                        opportunity: "Auto-matching, AI anomaly detection, exception handling"
+                    },
+                    {
+                        title: "Manage FX Rates",
+                        type: "Task-Based Journey",
+                        stages: ["Check Currency", "Fetch Rate", "Record Conversion", "Apply to Payout", "Document"],
+                        touchpoints: ["Currency Selector", "Rate Service", "Rate Input", "Payout Calculator", "Audit Log"],
+                        actions: ["Select currency", "Lookup rate", "Input manually", "Calculate", "Record change"],
+                        emotions: [6, 5, 5, 6, 7],
+                        emotionLabels: ["Organized", "Dependent", "Careful", "Focused", "Complete"],
+                        painPoints: "Rate volatility, manual lookup, no audit trail",
+                        opportunity: "Live rate feeds, auto-conversion, full audit trail"
+                    }
+                ]
+            },
+            {
+                id: 8,
+                name: "Training Lead",
+                role: "Learning management",
+                group: "Egybell HR Operations",
+                lifecycle: "Set up course catalogue → Design learning paths → Assign courses → Monitor completion → Issue certificates → Report",
+                journeys: [
+                    {
+                        title: "Create Learning Path",
+                        type: "Task-Based Journey",
+                        stages: ["Define Role", "Select Courses", "Set Sequence", "Configure Rules", "Assign to Role"],
+                        touchpoints: ["Role Selector", "Course Library", "Sequencing Editor", "Completion Rules", "Assignment Form"],
+                        actions: ["Choose role", "Pick courses", "Order sequence", "Set conditions", "Deploy path"],
+                        emotions: [6, 7, 5, 6, 7],
+                        emotionLabels: ["Focused", "Engaged", "Challenged", "Thoughtful", "Accomplished"],
+                        painPoints: "No drag-and-drop course sequencing",
+                        opportunity: "Visual path builder with drag-and-drop interface"
+                    },
+                    {
+                        title: "Monitor Compliance Training",
+                        type: "Task-Based Journey",
+                        stages: ["Check Dashboard", "Identify Overdue", "Send Reminders", "Escalate", "Report Compliance"],
+                        touchpoints: ["Compliance Dashboard", "Learner List", "Reminder Tool", "Escalation Dialog", "Reporting UI"],
+                        actions: ["View status", "Identify gaps", "Send notices", "Escalate to managers", "Generate report"],
+                        emotions: [5, 6, 6, 7, 8],
+                        emotionLabels: ["Organized", "Engaged", "Proactive", "Confident", "Satisfied"],
+                        painPoints: "Reminders not automated enough, manual tracking",
+                        opportunity: "Scheduled auto-reminders, escalation rules, dashboard alerts"
+                    },
+                    {
+                        title: "Integrate External Content",
+                        type: "Task-Based Journey",
+                        stages: ["Import SCORM", "Configure Metadata", "Test in Sandbox", "Verify Compatibility", "Publish"],
+                        touchpoints: ["SCORM Uploader", "Metadata Editor", "Sandbox Learner", "Compatibility Checker", "Publish Dialog"],
+                        actions: ["Upload package", "Fill metadata", "Take course", "Verify playback", "Go live"],
+                        emotions: [6, 6, 6, 5, 7],
+                        emotionLabels: ["Focused", "Organized", "Testing", "Cautious", "Accomplished"],
+                        painPoints: "SCORM compatibility issues, limited vendor support",
+                        opportunity: "SCORM validator, vendor compatibility database, support tools"
+                    }
+                ]
+            },
+            {
+                id: 9,
+                name: "Platform Admin",
+                role: "Infrastructure",
+                group: "Egybell HR Operations",
+                lifecycle: "Set up platform → Configure tenants → Monitor health → Manage backups → Handle incidents → Plan capacity",
+                journeys: [
+                    {
+                        title: "Provision New Tenant",
+                        type: "Task-Based Journey",
+                        stages: ["Select Template", "Create Tenant", "Initialize Schema", "Create DEK", "Seed Roles & Create Admin"],
+                        touchpoints: ["Template Library", "Tenant Form", "Schema Init", "DEK Generator", "Admin Setup"],
+                        actions: ["Choose template", "Enter details", "Run init", "Generate keys", "Configure admin"],
+                        emotions: [6, 6, 5, 4, 7],
+                        emotionLabels: ["Focused", "Deliberate", "Methodical", "Stressed", "Relieved"],
+                        painPoints: "DEK failure rollback complex, high stress",
+                        opportunity: "Automated rollback, better error handling, monitoring"
+                    },
+                    {
+                        title: "Monitor System Health",
+                        type: "Task-Based Journey",
+                        stages: ["Check Dashboards", "Review Alerts", "Investigate Anomalies", "Scale Resources", "Document Incident"],
+                        touchpoints: ["Health Dashboard", "Alert Panel", "Logs Viewer", "Scaling Controls", "Incident Form"],
+                        actions: ["Monitor metrics", "Read alerts", "Dig into logs", "Increase capacity", "Record details"],
+                        emotions: [5, 6, 5, 6, 8],
+                        emotionLabels: ["Vigilant", "Responsive", "Analytical", "Decisive", "Assured"],
+                        painPoints: "Alert fatigue, too many notifications",
+                        opportunity: "Smart alert prioritization, auto-scaling, trend detection"
+                    }
+                ]
+            },
+            {
+                id: 10,
+                name: "System Admin",
+                role: "Access & security",
+                group: "Egybell HR Operations",
+                lifecycle: "Configure RBAC → Manage users → Set up SSO → Configure workflows → Monitor audit logs → Support compliance",
+                journeys: [
+                    {
+                        title: "Configure RBAC",
+                        type: "Task-Based Journey",
+                        stages: ["Define Role", "Assign Permissions", "Set Scope", "Test Access", "Deploy"],
+                        touchpoints: ["Role Manager", "Permission Matrix", "Scope Editor", "Test User", "Deployment Form"],
+                        actions: ["Create role", "Select permissions", "Define scope", "Verify access", "Go live"],
+                        emotions: [6, 5, 6, 6, 7],
+                        emotionLabels: ["Focused", "Careful", "Methodical", "Thorough", "Confident"],
+                        painPoints: "Complex permission matrix, scope definition confusing",
+                        opportunity: "Visual permission builder, role templates, scope presets"
+                    },
+                    {
+                        title: "Set Up SSO Integration",
+                        type: "Task-Based Journey",
+                        stages: ["Configure IdP", "Map Attributes", "Test Federation", "Enable for Tenant", "Monitor"],
+                        touchpoints: ["IdP Config Form", "Attribute Mapper", "Test Console", "Enable Toggle", "Monitoring Dashboard"],
+                        actions: ["Input IdP details", "Map attributes", "Run test", "Enable", "Watch metrics"],
+                        emotions: [5, 5, 6, 7, 7],
+                        emotionLabels: ["Careful", "Focused", "Testing", "Confident", "Assured"],
+                        painPoints: "IdP configuration debugging complex",
+                        opportunity: "IdP templates, better error messages, configuration wizard"
+                    },
+                    {
+                        title: "Review Audit Logs",
+                        type: "Task-Based Journey",
+                        stages: ["Set Filters", "Search Events", "Identify Anomalies", "Export Report", "Flag Issues"],
+                        touchpoints: ["Filter Panel", "Search UI", "Log Viewer", "Export Tool", "Issue Tracker"],
+                        actions: ["Define filters", "Query logs", "Analyze results", "Download", "Create tickets"],
+                        emotions: [5, 6, 5, 6, 7],
+                        emotionLabels: ["Organized", "Engaged", "Analytical", "Methodical", "Complete"],
+                        painPoints: "Log volume overwhelming, hard to spot issues",
+                        opportunity: "Smart anomaly detection, automated flagging, retention management"
+                    }
+                ]
+            },
+            {
+                id: 11,
+                name: "Client Admin",
+                role: "Client portal management",
+                group: "Client Tenant",
+                lifecycle: "Receive welcome → Configure portal → Set up users → Manage org → Handle requests → Review reports",
+                journeys: [
+                    {
+                        title: "Configure Client Portal",
+                        type: "Task-Based Journey",
+                        stages: ["Login First Time", "Set Branding", "Create Org Chart", "Add Users", "Go Live"],
+                        touchpoints: ["Welcome Email", "Branding Editor", "Org Builder", "User Invite", "Launch Page"],
+                        actions: ["Access system", "Upload logo", "Build structure", "Invite team", "Activate"],
+                        emotions: [6, 6, 6, 7, 8],
+                        emotionLabels: ["Excited", "Engaged", "Organized", "Confident", "Accomplished"],
+                        painPoints: "Initial setup overwhelming, too many steps",
+                        opportunity: "Guided setup wizard, pre-configured templates"
+                    },
+                    {
+                        title: "Manage Service Requests",
+                        type: "Task-Based Journey",
+                        stages: ["Create Ticket", "Track Progress", "Communicate", "Receive Resolution", "Rate Service"],
+                        touchpoints: ["Request Form", "Ticket Dashboard", "Chat Interface", "Resolution Email", "Rating Form"],
+                        actions: ["Submit request", "Monitor status", "Add comments", "Receive response", "Give feedback"],
+                        emotions: [6, 5, 6, 8, 7],
+                        emotionLabels: ["Clear", "Waiting", "Engaged", "Satisfied", "Happy"],
+                        painPoints: "Response time visibility lacking",
+                        opportunity: "SLA tracking, real-time status, proactive updates"
+                    },
+                    {
+                        title: "Run Client Reports",
+                        type: "Task-Based Journey",
+                        stages: ["Navigate Reporting", "Select Template", "Filter Data", "Generate", "Export"],
+                        touchpoints: ["Reports Menu", "Template Library", "Filter Panel", "Preview", "Download"],
+                        actions: ["Open reports", "Choose template", "Set filters", "Generate", "Save file"],
+                        emotions: [5, 6, 6, 7, 8],
+                        emotionLabels: ["Focused", "Engaged", "Careful", "Satisfied", "Accomplished"],
+                        painPoints: "Limited report customization, export formats restricted",
+                        opportunity: "Custom report builder, additional export formats"
+                    }
+                ]
+            },
+            {
+                id: 12,
+                name: "Client SPOC",
+                role: "Client operational contact",
+                group: "Client Tenant",
+                lifecycle: "Get briefed → Review candidates → Approve hires → Monitor onboarding → Set KPIs → Review performance",
+                journeys: [
+                    {
+                        title: "Approve Candidate Shortlist",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Notification", "Review Profiles", "Score Candidates", "Approve/Request More", "Schedule Interviews"],
+                        touchpoints: ["Email Notification", "Profile Cards", "Scoring UI", "Approval Dialog", "Interview Scheduler"],
+                        actions: ["Open email", "View candidates", "Rate candidates", "Approve", "Schedule"],
+                        emotions: [7, 6, 7, 8, 8],
+                        emotionLabels: ["Excited", "Engaged", "Evaluating", "Satisfied", "Productive"],
+                        painPoints: "Profile comparison limited, time pressure",
+                        opportunity: "Side-by-side comparison, more profile details"
+                    },
+                    {
+                        title: "Monitor Employee Onboarding",
+                        type: "Task-Based Journey",
+                        stages: ["View Dashboard", "Check Task Progress", "Raise Blockers", "Confirm Readiness", "Sign-off"],
+                        touchpoints: ["Onboarding Dashboard", "Task List", "Blocker Form", "Readiness Checklist", "Sign-off Button"],
+                        actions: ["Check status", "Review tasks", "Report issues", "Verify complete", "Approve"],
+                        emotions: [6, 6, 6, 7, 8],
+                        emotionLabels: ["Organized", "Attentive", "Proactive", "Confident", "Assured"],
+                        painPoints: "No real-time status, delays in task updates",
+                        opportunity: "Live progress tracking, instant notifications"
+                    },
+                    {
+                        title: "Set Employee KPIs",
+                        type: "Task-Based Journey",
+                        stages: ["Navigate Performance", "Select Employee", "Define Goals", "Set Weights", "Submit"],
+                        touchpoints: ["Performance Module", "Employee Selector", "Goal Editor", "Weight Slider", "Submission Form"],
+                        actions: ["Access module", "Choose employee", "Enter goals", "Adjust weights", "Save"],
+                        emotions: [6, 6, 6, 7, 8],
+                        emotionLabels: ["Focused", "Engaged", "Thoughtful", "Confident", "Complete"],
+                        painPoints: "KPI template limitations, no best practices guidance",
+                        opportunity: "Smart templates, peer benchmarking, guided wizard"
+                    }
+                ]
+            },
+            {
+                id: 13,
+                name: "Client Finance",
+                role: "Client billing",
+                group: "Client Tenant",
+                lifecycle: "Set up billing preferences → Receive invoices → Review & approve → Process payment → Reconcile → Dispute if needed",
+                journeys: [
+                    {
+                        title: "Review Monthly Invoice",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Notification", "Open Invoice", "Review Line Items", "Compare to Contract", "Approve/Dispute"],
+                        touchpoints: ["Email Alert", "Invoice PDF", "Item Details", "Contract Reference", "Approval Dialog"],
+                        actions: ["Get notification", "View invoice", "Analyze charges", "Verify against contract", "Approve/dispute"],
+                        emotions: [5, 6, 5, 6, 7],
+                        emotionLabels: ["Attentive", "Careful", "Evaluating", "Thoughtful", "Satisfied"],
+                        painPoints: "Line item granularity insufficient, hard to reconcile",
+                        opportunity: "Detailed line items, contract mapping, visual comparisons"
+                    },
+                    {
+                        title: "Manage Payment",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Payment Link", "Verify Amount", "Process Payment", "Confirm Receipt", "Download Receipt"],
+                        touchpoints: ["Payment Email", "Payment Portal", "Payment Gateway", "Receipt Email", "Receipt Portal"],
+                        actions: ["Get link", "Confirm amount", "Enter payment details", "Receive confirmation", "Save receipt"],
+                        emotions: [6, 6, 6, 7, 8],
+                        emotionLabels: ["Ready", "Careful", "Executing", "Relieved", "Complete"],
+                        painPoints: "Limited payment methods, no auto-payment option",
+                        opportunity: "Multiple payment methods, recurring payment setup"
+                    }
+                ]
+            },
+            {
+                id: 14,
+                name: "Outsourced Employee",
+                role: "Self-service user",
+                group: "End Users",
+                lifecycle: "Receive welcome → Complete onboarding → Daily self-service → Request leave → Track performance → Grow skills → Exit",
+                journeys: [
+                    {
+                        title: "Request Leave",
+                        type: "Task-Based Journey",
+                        stages: ["Open App", "Select Leave Type", "Pick Dates", "Check Balance", "Submit & Track"],
+                        touchpoints: ["Mobile App", "Leave Type Menu", "Calendar Picker", "Balance Display", "Approval Tracker"],
+                        actions: ["Launch app", "Choose type", "Select dates", "Verify balance", "Submit & wait"],
+                        emotions: [6, 7, 7, 6, 7],
+                        emotionLabels: ["Prepared", "Clear", "Confident", "Waiting", "Relieved"],
+                        painPoints: "Balance not real-time, approval delays",
+                        opportunity: "Live balance sync, faster approval, auto-approvals"
+                    },
+                    {
+                        title: "Submit Expense Claim",
+                        type: "Task-Based Journey",
+                        stages: ["Take Photo", "OCR Extracts Fields", "Review/Correct", "Submit", "Track Reimbursement"],
+                        touchpoints: ["Mobile Camera", "OCR UI", "Claim Form", "Submission Confirmation", "Tracking Dashboard"],
+                        actions: ["Photograph receipt", "Review OCR", "Edit details", "Submit", "Monitor"],
+                        emotions: [7, 6, 6, 7, 8],
+                        emotionLabels: ["Easy", "Engaged", "Careful", "Satisfied", "Pleased"],
+                        painPoints: "OCR accuracy poor on Arabic receipts",
+                        opportunity: "Better OCR training, manual entry option, template support"
+                    },
+                    {
+                        title: "View Payslip",
+                        type: "Task-Based Journey",
+                        stages: ["Open Mobile", "Navigate to Payroll", "View Payslip", "Download PDF", "Compare Previous"],
+                        touchpoints: ["Mobile App", "Payroll Section", "Payslip Details", "Download Button", "Archive"],
+                        actions: ["Launch app", "Find payroll", "View details", "Download", "Review history"],
+                        emotions: [6, 7, 7, 8, 7],
+                        emotionLabels: ["Ready", "Engaged", "Satisfied", "Accomplished", "Informed"],
+                        painPoints: "Deduction breakdown unclear, no annotations",
+                        opportunity: "Annotated deductions, year-to-date tracking"
+                    },
+                    {
+                        title: "Complete Training Course",
+                        type: "Task-Based Journey",
+                        stages: ["View Assigned Courses", "Start Course", "Progress Through Content", "Take Quiz", "Receive Certificate"],
+                        touchpoints: ["Course Dashboard", "Course Player", "Content Pages", "Quiz Form", "Certificate Email"],
+                        actions: ["View list", "Launch course", "Watch/read", "Answer quiz", "Download cert"],
+                        emotions: [5, 6, 6, 7, 8],
+                        emotionLabels: ["Organized", "Engaged", "Focused", "Accomplished", "Proud"],
+                        painPoints: "Mobile content rendering issues, app crashes",
+                        opportunity: "Better mobile optimization, responsive design, offline mode"
+                    }
+                ]
+            },
+            {
+                id: 15,
+                name: "Line Manager",
+                role: "Approval & oversight",
+                group: "End Users",
+                lifecycle: "Get assigned team → Approve requests → Set goals → Conduct reviews → Coach team → Handle escalations",
+                journeys: [
+                    {
+                        title: "Approve Leave Request",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Notification", "View Request Details", "Check Team Calendar", "Approve/Reject", "Confirm"],
+                        touchpoints: ["Push Notification", "Request Card", "Team Calendar", "Approval Button", "Confirmation"],
+                        actions: ["Get alert", "Review details", "Check availability", "Decide", "Confirm action"],
+                        emotions: [6, 7, 7, 8, 8],
+                        emotionLabels: ["Responsive", "Engaged", "Informed", "Decisive", "Satisfied"],
+                        painPoints: "No team availability view, scheduling conflicts",
+                        opportunity: "Team calendar integration, conflict detection"
+                    },
+                    {
+                        title: "Conduct Performance Review",
+                        type: "Task-Based Journey",
+                        stages: ["Receive Cycle Notification", "Review Self-Assessment", "Add Manager Rating", "Write Feedback", "Submit"],
+                        touchpoints: ["Cycle Email", "Assessment Portal", "Rating Form", "Feedback Editor", "Submission Dialog"],
+                        actions: ["Get notification", "Read assessment", "Rate employee", "Write feedback", "Submit"],
+                        emotions: [5, 6, 6, 7, 8],
+                        emotionLabels: ["Attentive", "Engaged", "Thoughtful", "Confident", "Complete"],
+                        painPoints: "Form too long, no guidance for feedback",
+                        opportunity: "Guided templates, best practices, shorter form"
+                    },
+                    {
+                        title: "Run Probation Check-in",
+                        type: "Task-Based Journey",
+                        stages: ["Get Reminder", "Schedule 1:1", "Complete Form", "Document Outcome", "Confirm Decision"],
+                        touchpoints: ["Reminder Alert", "Calendar Integration", "Check-in Form", "Outcome Form", "Decision Dialog"],
+                        actions: ["Receive alert", "Schedule meeting", "Complete form", "Record result", "Confirm"],
+                        emotions: [5, 6, 6, 7, 8],
+                        emotionLabels: ["Attentive", "Organized", "Thoughtful", "Confident", "Complete"],
+                        painPoints: "Reminder timing often off, follow-up unclear",
+                        opportunity: "Smart reminders, auto-scheduling suggestions, checklists"
+                    }
+                ]
+            },
+            {
+                id: 16,
+                name: "Contractor",
+                role: "External worker",
+                group: "End Users",
+                lifecycle: "Sign engagement → Set up profile → Log time → Submit invoices → Track payment → Renew/terminate",
+                journeys: [
+                    {
+                        title: "Submit Invoice",
+                        type: "Task-Based Journey",
+                        stages: ["Log Time", "Generate Invoice", "Attach Docs", "Submit", "Track Status"],
+                        touchpoints: ["Time Tracker", "Invoice Generator", "File Uploader", "Submission Confirmation", "Status Dashboard"],
+                        actions: ["Record hours", "Create invoice", "Upload receipts", "Submit", "Monitor"],
+                        emotions: [6, 7, 7, 7, 6],
+                        emotionLabels: ["Organized", "Clear", "Confident", "Satisfied", "Waiting"],
+                        painPoints: "Payment visibility poor after submission, slow processing",
+                        opportunity: "Real-time payment tracking, faster processing, status updates"
+                    },
+                    {
+                        title: "Track SoW Progress",
+                        type: "Task-Based Journey",
+                        stages: ["View Dashboard", "Check Milestones", "Log Deliverables", "Request Amendment", "Close"],
+                        touchpoints: ["SoW Dashboard", "Milestone Tracker", "Deliverable Log", "Amendment Form", "Completion Form"],
+                        actions: ["Access dashboard", "Review milestones", "Upload outputs", "Request changes", "Sign-off"],
+                        emotions: [6, 6, 6, 6, 7],
+                        emotionLabels: ["Organized", "Engaged", "Productive", "Thoughtful", "Accomplished"],
+                        painPoints: "Milestone tracking limited, amendment process unclear",
+                        opportunity: "Better milestone management, clear amendment workflow"
+                    }
+                ]
+            }
+        ];
+
+        function renderPersonas() {
+            const container = document.getElementById('personas-container');
+            container.innerHTML = personas.map(persona => `
+                <div class="persona-section" data-persona-id="${persona.id}">
+                    <div class="persona-header">
+                        <div class="persona-title">${persona.name}</div>
+                        <div class="persona-role">${persona.role}</div>
+                        <div class="lifecycle"><strong>Lifecycle:</strong> ${persona.lifecycle}</div>
+                    </div>
+                    ${persona.journeys.map((journey, idx) => renderJourneyCard(journey, idx)).join('')}
+                </div>
+            `).join('');
+        }
+
+        function renderJourneyCard(journey, idx) {
+            const curvePoints = generateSatisfactionCurve(journey.emotions);
+            const n = journey.stages.length;
+            return `
+                <div class="journey-card">
+                    <div class="journey-header" onclick="toggleJourney(this)">
+                        <div>
+                            <div class="journey-title">${journey.title}</div>
+                            <div class="journey-type">${journey.type}</div>
+                        </div>
+                        <div class="journey-toggle">▶</div>
+                    </div>
+                    <div class="journey-content">
+                        <div class="journey-map">
+                            <div class="swimlane-container">
+                                <!-- STAGE HEADERS -->
+                                <div class="swimlane-row">
+                                    <div class="lane-label" style="background:#0f1d32"></div>
+                                    ${journey.stages.map(stage => `<div class="stage-label">${stage}</div>`).join('')}
+                                </div>
+
+                                <!-- TOUCHPOINTS -->
+                                <div class="swimlane-row">
+                                    <div class="lane-label">Touchpoints</div>
+                                    ${journey.touchpoints.map(tp => `<div class="lane-cell touchpoints">${tp}</div>`).join('')}
+                                </div>
+
+                                <!-- ACTIONS -->
+                                <div class="swimlane-row">
+                                    <div class="lane-label">Actions</div>
+                                    ${journey.actions.map(action => `<div class="lane-cell actions">${action}</div>`).join('')}
+                                </div>
+
+                                <!-- EMOTION -->
+                                <div class="swimlane-row">
+                                    <div class="lane-label">Emotion</div>
+                                    ${journey.emotions.map((emotion, i) => `
+                                        <div class="lane-cell emotion">
+                                            <div class="emotion-content">
+                                                <div class="emotion-score">${['😞','😞','😟','😟','😐','😐','🙂','🙂','😊','😊','😊'][emotion] || '😐'}</div>
+                                                <div class="emotion-label">${journey.emotionLabels[i]}</div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+
+                                <!-- SATISFACTION CURVE -->
+                                <div class="satisfaction-curve-row">
+                                    <div class="satisfaction-curve-label">Satisfaction</div>
+                                    <div class="satisfaction-curve-container">
+                                        <svg viewBox="0 0 ${(n - 1) * 100} 60" preserveAspectRatio="none">
+                                            <defs>
+                                                <linearGradient id="curveGrad${idx}" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" stop-color="#2563EB" stop-opacity="0.15"/>
+                                                    <stop offset="100%" stop-color="#2563EB" stop-opacity="0"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <polyline points="${curvePoints}" stroke="#2563EB" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <polygon points="0,60 ${curvePoints} ${(n-1)*100},60" fill="url(#curveGrad${idx})"/>
+                                            ${journey.emotions.map((e, i) => {
+                                                const x = n === 1 ? 0 : i * 100;
+                                                const y = 55 - (e / 10) * 50;
+                                                return `<circle cx="${x}" cy="${y}" r="4" fill="#2563EB" stroke="#fff" stroke-width="2"/>`;
+                                            }).join('')}
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <!-- PAIN POINTS (spans full width) -->
+                                <div class="swimlane-row">
+                                    <div class="lane-label" style="background:#7F1D1D">Pain Points</div>
+                                    <div class="lane-cell-full pain">${journey.painPoints}</div>
+                                </div>
+
+                                <!-- OPPORTUNITIES (spans full width) -->
+                                <div class="swimlane-row">
+                                    <div class="lane-label" style="background:#14532D">Opportunities</div>
+                                    <div class="lane-cell-full opportunity">${journey.opportunity}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateSatisfactionCurve(emotions) {
+            const n = emotions.length;
+            const points = emotions.map((e, i) => {
+                const x = n === 1 ? 0 : i * 100;
+                const y = 55 - (e / 10) * 50;
+                return `${x},${y}`;
+            }).join(' ');
+            return points;
+        }
+
+        function selectPersona(id) {
+            document.querySelectorAll('.persona-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.persona-item').forEach(el => el.classList.remove('active'));
+            document.querySelector(`[data-persona-id="${id}"]`).classList.add('active');
+            document.querySelector(`.persona-item[onclick="selectPersona(${id})"]`).classList.add('active');
+        }
+
+        function toggleJourney(header) {
+            const content = header.nextElementSibling;
+            const toggle = header.querySelector('.journey-toggle');
+            content.classList.toggle('collapsed');
+            toggle.classList.toggle('collapsed');
+        }
+
+        function toggleGroup(header) {
+            const list = header.nextElementSibling;
+            const toggle = header.querySelector('.group-toggle');
+            list.classList.toggle('hidden');
+            toggle.classList.toggle('collapsed');
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPersonas();
+            selectPersona(1);
+        });
+    </script>
+</body>
+</html>

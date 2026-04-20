@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Praxion Cover Page Template</title>
+<style>
+  :root {
+    --navy: #0B1437;
+    --navy-deep: #060A1F;
+    --signal: #2F6BFF;
+    --ion: #19D3C5;
+    --amber: #F59E0B;
+    --success: #10B981;
+    --danger: #EF4444;
+    --white: #FFFFFF;
+    --cloud: #F7F8FB;
+    --mist: #E5E8EF;
+    --slate: #6B7280;
+    --ink: #0F172A;
+    --ice: #CADCFC;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", "DM Sans", "Helvetica Neue", Arial, sans-serif;
+    background: #EDEEF3;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ------- Editor toolbar (hidden in print) ------- */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--mist);
+    padding: 12px 24px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .toolbar h1 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 24px 0 0;
+    color: var(--navy);
+    letter-spacing: 0.02em;
+  }
+  .toolbar button {
+    background: var(--signal);
+    color: var(--white);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 120ms ease;
+  }
+  .toolbar button:hover { background: #1F55E0; }
+  .toolbar .muted { color: var(--slate); font-size: 12px; }
+
+  /* ------- Cover Page (A4 portrait, 210mm × 297mm) ------- */
+  .cover-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .cover {
+    width: 210mm;
+    height: 297mm;
+    background: var(--navy);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(11, 20, 55, 0.28);
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  /* Subtle radial highlight for premium depth */
+  .cover::before {
+    content: "";
+    position: absolute;
+    top: -120mm; right: -120mm;
+    width: 280mm; height: 280mm;
+    background: radial-gradient(circle, rgba(25, 211, 197, 0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* Amber top rule */
+  .top-rule {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 4px;
+    background: var(--amber);
+    z-index: 5;
+  }
+
+  /* Signal-blue left edge */
+  .left-edge {
+    position: absolute;
+    top: 0; left: 0;
+    width: 8px; height: 100%;
+    background: var(--signal);
+    z-index: 5;
+  }
+
+  /* Logo */
+  .logo {
+    position: absolute;
+    top: 22mm;
+    left: 20mm;
+    height: 12mm;
+    width: auto;
+    opacity: 0.95;
+  }
+
+  /* Classification (top right) */
+  .classification {
+    position: absolute;
+    top: 25mm;
+    right: 20mm;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: var(--ice);
+    text-transform: uppercase;
+  }
+  .classification::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  /* Main title block */
+  .title-block {
+    position: absolute;
+    top: 105mm;
+    left: 20mm;
+    right: 20mm;
+  }
+  .eyebrow {
+    font-size: 11pt;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin: 0 0 8mm 0;
+  }
+  .title {
+    font-size: 48pt;
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--white);
+    margin: 0 0 6mm 0;
+    letter-spacing: -0.01em;
+  }
+  .subtitle {
+    font-size: 16pt;
+    font-weight: 400;
+    color: var(--ion);
+    margin: 0 0 10mm 0;
+    line-height: 1.35;
+    max-width: 150mm;
+    font-family: "DM Sans", "Inter", sans-serif;
+  }
+  .rule {
+    width: 60px;
+    height: 3px;
+    background: var(--amber);
+    margin: 0;
+  }
+
+  /* Metadata grid */
+  .meta {
+    position: absolute;
+    top: 200mm;
+    left: 20mm;
+    right: 20mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10mm 16mm;
+  }
+  .meta-item .label {
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--ice);
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 3mm;
+  }
+  .meta-item .value {
+    font-size: 14pt;
+    font-weight: 600;
+    color: var(--white);
+    font-family: "DM Sans", "Inter", sans-serif;
+  }
+  .meta-item .value.mono {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    letter-spacing: 0.02em;
+  }
+
+  /* Status pill */
+  .pill {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 10pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: "Inter", sans-serif;
+  }
+  .pill.draft { background: var(--amber); color: var(--navy); }
+  .pill.review { background: var(--signal); color: var(--white); }
+  .pill.approved { background: var(--success); color: var(--white); }
+  .pill.final { background: var(--ion); color: var(--navy); }
+
+  /* Version history */
+  .history {
+    position: absolute;
+    top: 240mm;
+    left: 20mm;
+    right: 20mm;
+  }
+  .history .label {
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--ice);
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 3mm;
+  }
+  .history table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "DM Sans", "Inter", sans-serif;
+  }
+  .history th {
+    text-align: left;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--ion);
+    text-transform: uppercase;
+    padding: 6px 10px;
+    border-bottom: 1px solid rgba(202, 220, 252, 0.2);
+  }
+  .history td {
+    font-size: 10pt;
+    color: var(--white);
+    padding: 7px 10px;
+    border-bottom: 1px solid rgba(202, 220, 252, 0.08);
+    vertical-align: top;
+  }
+  .history td.version {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    color: var(--amber);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .history td.date { color: var(--ice); white-space: nowrap; }
+  .history td.author { color: var(--ice); white-space: nowrap; }
+
+  /* Footer strip */
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8mm 20mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8.5pt;
+    color: rgba(202, 220, 252, 0.7);
+    letter-spacing: 0.04em;
+    font-family: "DM Sans", "Inter", sans-serif;
+  }
+  .footer .corner-mark {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .footer .corner-mark .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .footer .corner-mark .d1 { background: var(--signal); }
+  .footer .corner-mark .d2 { background: var(--ion); }
+  .footer .corner-mark .d3 { background: var(--amber); }
+
+  /* ------- Print rules ------- */
+  @media print {
+    html, body { background: var(--navy); margin: 0; }
+    .toolbar, .cover-wrap { padding: 0; }
+    .toolbar { display: none; }
+    .cover {
+      box-shadow: none;
+      width: 100%;
+      height: 100vh;
+    }
+    @page { size: A4 portrait; margin: 0; }
+  }
+
+  /* ------- Responsive preview (very small screens) ------- */
+  @media (max-width: 900px) {
+    .cover {
+      transform: scale(0.8);
+      transform-origin: top center;
+      margin-bottom: -20%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>Praxion Cover Page Template</h1>
+  <button onclick="window.print()">Print / Save as PDF</button>
+  <span class="muted">Edit placeholder values directly in the HTML, or use it as a design spec for DOCX/PPTX.</span>
+</div>
+
+<div class="cover-wrap">
+  <div class="cover" id="cover">
+    <div class="top-rule"></div>
+    <div class="left-edge"></div>
+
+    <img class="logo"
+         src="../logos/v2-production/png/2048/transparent/praxion-inverse.png"
+         alt="Praxion"
+         onerror="this.style.display='none'" />
+
+    <div class="classification">{{ CLASSIFICATION }}</div>
+
+    <div class="title-block">
+      <div class="eyebrow">{{ DOC_TYPE }}</div>
+      <h1 class="title">{{ TITLE }}</h1>
+      <p class="subtitle">{{ SUBTITLE }}</p>
+      <div class="rule"></div>
+    </div>
+
+    <div class="meta">
+      <div class="meta-item">
+        <div class="label">Version</div>
+        <div class="value mono">{{ VERSION }}</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Status</div>
+        <div class="value"><span class="pill draft">{{ STATUS }}</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Date</div>
+        <div class="value">{{ DATE }}</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Author</div>
+        <div class="value">{{ AUTHOR }}</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Owner / Approver</div>
+        <div class="value">{{ OWNER }}</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Document ID</div>
+        <div class="value mono">{{ DOC_ID }}</div>
+      </div>
+    </div>
+
+    <div class="history">
+      <div class="label">Version history</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 22%;">Version</th>
+            <th style="width: 22%;">Date</th>
+            <th style="width: 22%;">Author</th>
+            <th>Summary</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="version">v0.3</td>
+            <td class="date">19 Apr 2026</td>
+            <td class="author">Sabry Mohamed</td>
+            <td>Current draft — added module scope refinements.</td>
+          </tr>
+          <tr>
+            <td class="version">v0.2</td>
+            <td class="date">12 Apr 2026</td>
+            <td class="author">Sabry Mohamed</td>
+            <td>Incorporated discovery findings.</td>
+          </tr>
+          <tr>
+            <td class="version">v0.1</td>
+            <td class="date">05 Apr 2026</td>
+            <td class="author">Sabry Mohamed</td>
+            <td>Initial draft.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer">
+      <div>© 2026 PraxionHR · All rights reserved · praxionhr.com</div>
+      <div class="corner-mark">
+        <span class="dot d1"></span>
+        <span class="dot d2"></span>
+        <span class="dot d3"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praxion HROS - Feature Matrix (195 Features)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0A1628;
+            --signal-blue: #2563EB;
+            --success: #16A34A;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --light-bg: #F9FAFB;
+            --white: #FFFFFF;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --phase1: #2563EB;
+            --phase2: #A855F7;
+            --phase3: #06B6D4;
+            --phase4: #F97316;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--gray-800);
+            overflow-x: hidden;
+        }
+
+        .container-fluid {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background-color: var(--navy);
+            color: var(--white);
+            overflow-y: auto;
+            padding: 24px 0;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 0 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-section {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 12px 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-item:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar-item.active {
+            background-color: var(--signal-blue);
+            border-left-color: var(--signal-blue);
+            font-weight: 600;
+        }
+
+        .sidebar-item-count {
+            font-size: 12px;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .sidebar-item.active .sidebar-item-count {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header-bar {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-search {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--signal-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .header-filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 13px;
+            background-color: var(--white);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-select:hover {
+            border-color: var(--signal-blue);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--signal-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .clear-filters-btn {
+            padding: 8px 12px;
+            background-color: var(--gray-200);
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .clear-filters-btn:hover {
+            background-color: var(--gray-300);
+        }
+
+        .header-stats {
+            font-size: 13px;
+            color: var(--gray-600);
+            white-space: nowrap;
+        }
+
+        /* CONTENT AREA */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        /* DASHBOARD */
+        .dashboard {
+            margin-bottom: 30px;
+        }
+
+        .dashboard-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--navy);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--gray-200);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .summary-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .priority-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .priority-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .priority-badge.p0 {
+            background-color: rgba(220, 38, 38, 0.1);
+            color: #991B1B;
+        }
+
+        .priority-badge.p1 {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #92400E;
+        }
+
+        .priority-badge.p2 {
+            background-color: rgba(22, 163, 74, 0.1);
+            color: #15803D;
+        }
+
+        .phase-breakdown {
+            margin-top: 20px;
+        }
+
+        .phase-bar {
+            margin-bottom: 12px;
+        }
+
+        .phase-bar-label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .phase-bar-container {
+            width: 100%;
+            height: 6px;
+            background-color: var(--gray-200);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .phase-bar-fill {
+            height: 100%;
+            background-color: var(--signal-blue);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* MODULE CARDS GRID */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .module-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--gray-200);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .module-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--signal-blue);
+        }
+
+        .module-card.active {
+            border-color: var(--signal-blue);
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .module-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .module-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            flex: 1;
+        }
+
+        .module-code {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--signal-blue);
+            background-color: rgba(37, 99, 235, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .module-phase-tag {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: var(--white);
+            white-space: nowrap;
+        }
+
+        .module-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        .module-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .module-stat-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--gray-600);
+            margin-bottom: 2px;
+        }
+
+        .module-stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        /* FEATURES TABLE */
+        .features-table-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .features-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .features-table thead {
+            background-color: var(--gray-100);
+            border-bottom: 2px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .features-table th {
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 700;
+            color: var(--gray-700);
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .features-table th:hover {
+            background-color: var(--gray-200);
+        }
+
+        .features-table th.sortable:after {
+            content: ' ↕';
+            opacity: 0.4;
+            font-size: 11px;
+        }
+
+        .features-table th.sorted:after {
+            opacity: 1;
+        }
+
+        .features-table tbody tr {
+            border-bottom: 1px solid var(--gray-100);
+            transition: background-color 0.2s ease;
+        }
+
+        .features-table tbody tr:nth-child(odd) {
+            background-color: #FAFBFC;
+        }
+
+        .features-table tbody tr:hover {
+            background-color: var(--gray-100);
+        }
+
+        .features-table tbody tr.expanded {
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .features-table td {
+            padding: 14px 12px;
+            vertical-align: top;
+        }
+
+        .feature-id {
+            font-weight: 600;
+            color: var(--signal-blue);
+            font-size: 12px;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        .feature-name {
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge.priority-p0 {
+            background-color: rgba(220, 38, 38, 0.1);
+            color: #991B1B;
+        }
+
+        .badge.priority-p1 {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #92400E;
+        }
+
+        .badge.priority-p2 {
+            background-color: rgba(22, 163, 74, 0.1);
+            color: #15803D;
+        }
+
+        .badge.phase-1 {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: #1E40AF;
+        }
+
+        .badge.phase-2 {
+            background-color: rgba(168, 85, 247, 0.1);
+            color: #6D28D9;
+        }
+
+        .badge.phase-3 {
+            background-color: rgba(6, 182, 212, 0.1);
+            color: #0E7490;
+        }
+
+        .badge.phase-4 {
+            background-color: rgba(249, 115, 22, 0.1);
+            color: #9A3412;
+        }
+
+        .story-points {
+            font-weight: 700;
+            color: var(--navy);
+            min-width: 40px;
+        }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px 8px;
+            color: var(--signal-blue);
+            transition: transform 0.2s ease;
+        }
+
+        .expand-btn.expanded {
+            transform: rotate(180deg);
+        }
+
+        .expanded-row {
+            display: none;
+        }
+
+        .expanded-row.visible {
+            display: table-row;
+        }
+
+        .expanded-content {
+            padding: 20px;
+            background-color: rgba(37, 99, 235, 0.02);
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .expanded-section {
+            margin-bottom: 16px;
+        }
+
+        .expanded-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .expanded-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--gray-600);
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .expanded-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--gray-700);
+            margin-bottom: 12px;
+        }
+
+        .expanded-text.bullet-list {
+            margin-left: 16px;
+        }
+
+        .expanded-text.bullet-list li {
+            margin-bottom: 6px;
+        }
+
+        /* MODULE SECTIONS */
+        .module-section {
+            display: none;
+            margin-bottom: 40px;
+        }
+
+        .module-section.active {
+            display: block;
+        }
+
+        .module-section-header {
+            background-color: var(--white);
+            border: 1px solid var(--gray-200);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .module-section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .module-section-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        /* LOADING & EMPTY STATES */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-600);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .empty-state-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--gray-700);
+        }
+
+        /* SCROLLBAR */
+        .sidebar::-webkit-scrollbar,
+        .content-area::-webkit-scrollbar,
+        .table-wrapper::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track,
+        .content-area::-webkit-scrollbar-track,
+        .table-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .content-area::-webkit-scrollbar-thumb,
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        .content-area::-webkit-scrollbar-thumb:hover,
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main-content {
+                margin-left: 200px;
+            }
+
+            .modules-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                max-height: 300px;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header-filters {
+                flex-direction: column;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .module-section-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- SIDEBAR NAVIGATION -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Praxion HROS</div>
+                <div class="sidebar-subtitle">Feature Matrix v1.0</div>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li class="sidebar-section">
+                    <div class="sidebar-item active" data-section="overview" onclick="switchSection('overview')">
+                        <span>Overview</span>
+                        <span class="sidebar-item-count">All</span>
+                    </div>
+                </li>
+
+                <li class="sidebar-section">
+                    <div class="sidebar-section-title">Phase 1 - Foundation</div>
+
+                    <div class="sidebar-item" data-module="M1" onclick="switchSection('module', 'M1')">
+                        <span>M1 Core HRIS</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                    <div class="sidebar-item" data-module="M6" onclick="switchSection('module', 'M6')">
+                        <span>M6 Payroll</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                    <div class="sidebar-item" data-module="M10" onclick="switchSection('module', 'M10')">
+                        <span>M10 Admin</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                </li>
+
+                <li class="sidebar-section">
+                    <div class="sidebar-section-title">Phase 2 - Talent</div>
+
+                    <div class="sidebar-item" data-module="M2" onclick="switchSection('module', 'M2')">
+                        <span>M2 Recruitment</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                    <div class="sidebar-item" data-module="M3" onclick="switchSection('module', 'M3')">
+                        <span>M3 Onboarding</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                    <div class="sidebar-item" data-module="M7" onclick="switchSection('module', 'M7')">
+                        <span>M7 Benefits</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                    <div class="sidebar-item" data-module="M8" onclick="switchSection('module', 'M8')">
+                        <span>M8 Contractors</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                </li>
+
+                <li class="sidebar-section">
+                    <div class="sidebar-section-title">Phase 3 - Performance</div>
+
+                    <div class="sidebar-item" data-module="M4" onclick="switchSection('module', 'M4')">
+                        <span>M4 Performance</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                    <div class="sidebar-item" data-module="M5" onclick="switchSection('module', 'M5')">
+                        <span>M5 Training</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                    <div class="sidebar-item" data-module="M11" onclick="switchSection('module', 'M11')">
+                        <span>M11 Mobile</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                    <div class="sidebar-item" data-module="M12" onclick="switchSection('module', 'M12')">
+                        <span>M12 Client Portal</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                </li>
+
+                <li class="sidebar-section">
+                    <div class="sidebar-section-title">Phase 4 - Intelligence</div>
+
+                    <div class="sidebar-item" data-module="M9" onclick="switchSection('module', 'M9')">
+                        <span>M9 Analytics</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                    <div class="sidebar-item" data-module="M13" onclick="switchSection('module', 'M13')">
+                        <span>M13 Billing</span>
+                        <span class="sidebar-item-count">15</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- HEADER BAR -->
+            <div class="header-bar">
+                <div class="header-search">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search features by name, ID, or criteria..." onkeyup="applyFilters()">
+                </div>
+                <div class="header-filters">
+                    <select class="filter-select" id="moduleFilter" onchange="applyFilters()">
+                        <option value="">All Modules</option>
+                        <option value="M1">M1 Core HRIS</option>
+                        <option value="M2">M2 Recruitment</option>
+                        <option value="M3">M3 Onboarding</option>
+                        <option value="M4">M4 Performance</option>
+                        <option value="M5">M5 Training</option>
+                        <option value="M6">M6 Payroll</option>
+                        <option value="M7">M7 Benefits</option>
+                        <option value="M8">M8 Contractors</option>
+                        <option value="M9">M9 Analytics</option>
+                        <option value="M10">M10 Admin</option>
+                        <option value="M11">M11 Mobile</option>
+                        <option value="M12">M12 Client Portal</option>
+                        <option value="M13">M13 Billing</option>
+                    </select>
+                    <select class="filter-select" id="priorityFilter" onchange="applyFilters()">
+                        <option value="">All Priorities</option>
+                        <option value="P0">P0 Critical</option>
+                        <option value="P1">P1 High</option>
+                        <option value="P2">P2 Medium</option>
+                    </select>
+                    <select class="filter-select" id="phaseFilter" onchange="applyFilters()">
+                        <option value="">All Phases</option>
+                        <option value="1">Phase 1</option>
+                        <option value="2">Phase 2</option>
+                        <option value="3">Phase 3</option>
+                        <option value="4">Phase 4</option>
+                    </select>
+                    <button class="clear-filters-btn" onclick="clearFilters()">Clear All</button>
+                </div>
+                <div class="header-stats">
+                    <span id="featureCount">195</span> of 195 features
+                </div>
+            </div>
+
+            <!-- CONTENT AREA -->
+            <div class="content-area">
+                <!-- OVERVIEW SECTION -->
+                <div id="overview" class="overview-section">
+                    <div class="dashboard">
+                        <h1 class="dashboard-title">Praxion HROS Feature Matrix</h1>
+
+                        <div class="summary-grid">
+                            <div class="summary-card">
+                                <div class="summary-label">Total Features</div>
+                                <div class="summary-value">195</div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-label">Total Story Points</div>
+                                <div class="summary-value">1,216</div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-label">Priority Distribution</div>
+                                <div class="priority-badges">
+                                    <div class="priority-badge p0">P0: 79</div>
+                                    <div class="priority-badge p1">P1: 71</div>
+                                    <div class="priority-badge p2">P2: 45</div>
+                                </div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-label">Phase Distribution</div>
+                                <div class="phase-breakdown">
+                                    <div class="phase-bar">
+                                        <div class="phase-bar-label">
+                                            <span>Phase 1</span>
+                                            <span>45 features</span>
+                                        </div>
+                                        <div class="phase-bar-container">
+                                            <div class="phase-bar-fill" style="width: 23%; background-color: var(--phase1);"></div>
+                                        </div>
+                                    </div>
+                                    <div class="phase-bar">
+                                        <div class="phase-bar-label">
+                                            <span>Phase 2</span>
+                                            <span>60 features</span>
+                                        </div>
+                                        <div class="phase-bar-container">
+                                            <div class="phase-bar-fill" style="width: 31%; background-color: var(--phase2);"></div>
+                                        </div>
+                                    </div>
+                                    <div class="phase-bar">
+                                        <div class="phase-bar-label">
+                                            <span>Phase 3</span>
+                                            <span>60 features</span>
+                                        </div>
+                                        <div class="phase-bar-container">
+                                            <div class="phase-bar-fill" style="width: 31%; background-color: var(--phase3);"></div>
+                                        </div>
+                                    </div>
+                                    <div class="phase-bar">
+                                        <div class="phase-bar-label">
+                                            <span>Phase 4</span>
+                                            <span>30 features</span>
+                                        </div>
+                                        <div class="phase-bar-container">
+                                            <div class="phase-bar-fill" style="width: 15%; background-color: var(--phase4);"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2 style="font-size: 18px; font-weight: 700; margin: 30px 0 20px; color: var(--navy);">Module Overview</h2>
+                        <div class="modules-grid" id="modulesGrid"></div>
+                    </div>
+
+                    <div style="margin-top: 40px;">
+                        <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--navy);">All Features</h2>
+                        <div class="features-table-container">
+                            <div class="table-wrapper">
+                                <table class="features-table" id="featuresTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 40px;"></th>
+                                            <th style="width: 100px;" class="sortable" onclick="sortTable('id')">Feature ID</th>
+                                            <th style="width: 100px;" class="sortable" onclick="sortTable('module')">Module</th>
+                                            <th style="width: 250px;" class="sortable" onclick="sortTable('name')">Feature Name</th>
+                                            <th style="width: 80px;" class="sortable" onclick="sortTable('priority')">Priority</th>
+                                            <th style="width: 80px;" class="sortable" onclick="sortTable('phase')">Phase</th>
+                                            <th style="width: 80px;" class="sortable" onclick="sortTable('points')">Points</th>
+                                            <th style="width: 150px;">Persona</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // COMPREHENSIVE FEATURE DATA
+        const allFeatures = [
+            // M1 - Core HRIS (15 features)
+            { id: "US-M1-001", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Employee Records", name: "Employee 360 Profile", persona: "HR Manager", story: "View all employee data in single view", criteria: "Multi-step form, validation, role-based display, audit logging", priority: "P0", points: 8 },
+            { id: "US-M1-002", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Employee Records", name: "Org Chart Navigator", persona: "HR Director", story: "Visual org chart with drill-down", criteria: "Interactive hierarchy, department management, reporting lines", priority: "P0", points: 8 },
+            { id: "US-M1-003", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Employee Records", name: "Bulk Employee Import", persona: "HR Specialist", story: "CSV upload with validation", criteria: "Excel import, error handling, staging, atomic activation", priority: "P0", points: 8 },
+            { id: "US-M1-004", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Self-Service", name: "Self-Service Profile", persona: "Outsourced Employee", story: "View and edit own profile", criteria: "Profile viewing, edit capability, approval workflow, confirmation", priority: "P0", points: 5 },
+            { id: "US-M1-005", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Document Vault", name: "Document Vault", persona: "HR Specialist", story: "Upload, categorize, track expiry", criteria: "Document tagging, expiry alerts, confidentiality levels, archival", priority: "P0", points: 5 },
+            { id: "US-M1-006", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Time Off", name: "Leave Workflow Engine", persona: "Line Manager", story: "Multi-level leave approval", criteria: "Balance tracking, approval workflows, escalation rules, calendar sync", priority: "P0", points: 5 },
+            { id: "US-M1-007", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Time Off", name: "Mobile Leave Request", persona: "Outsourced Employee", story: "Request leave from mobile", criteria: "Balance display, date selection, manager notification, calendar sync", priority: "P0", points: 3 },
+            { id: "US-M1-008", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Attendance", name: "Attendance Tracking", persona: "HR Specialist", story: "Clock-in/out with geofencing", criteria: "Geofence validation, timestamp recording, offline sync, hour calculation", priority: "P0", points: 8 },
+            { id: "US-M1-009", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Attendance", name: "Schedule Configuration", persona: "HR Specialist", story: "Configure work schedules and shift patterns", criteria: "Weekly patterns, break rules, overtime thresholds, conflict detection", priority: "P1", points: 8 },
+            { id: "US-M1-010", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Data Quality", name: "Data Quality Dashboard", persona: "HR Director", story: "Employee data quality monitoring", criteria: "Completeness KPIs, expiring documents, duplicate detection, drill-down", priority: "P1", points: 5 },
+            { id: "US-M1-011", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Employee Lifecycle", name: "Position Management", persona: "HR Manager", story: "Track employee lifecycle events", criteria: "Promotion tracking, grade/salary changes, timeline view, export", priority: "P0", points: 5 },
+            { id: "US-M1-012", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Security", name: "Delegation of Authority", persona: "Line Manager", story: "Delegate approvals during absence", criteria: "Role-based masking, access logging, dual approval, export masking", priority: "P0", points: 8 },
+            { id: "US-M1-013", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Directory", name: "Company Directory Search", persona: "All Employees", story: "Search company directory", criteria: "Live search, profile viewing, client assignment privacy, pagination", priority: "P0", points: 3 },
+            { id: "US-M1-014", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Notifications", name: "In-App Notifications", persona: "All Employees", story: "Receive notifications for HR actions", criteria: "Real-time alerts, deep linking, notification management, badge counts", priority: "P1", points: 3 },
+            { id: "US-M1-015", module: "M1", moduleName: "Core HRIS", phase: "1", epic: "Custom Fields", name: "Custom Fields Engine", persona: "HR Specialist", story: "Tenant-configurable employee fields", criteria: "Field customization, validation rules, data integrity", priority: "P1", points: 8 },
+
+            // M2 - Recruitment & ATS (15 features)
+            { id: "US-M2-001", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Job Posting", name: "Job Requisition Builder", persona: "Recruiter", story: "Create structured job postings", criteria: "Multi-section form, template support, skill mapping", priority: "P0", points: 8 },
+            { id: "US-M2-002", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Job Posting", name: "Multi-Channel Posting", persona: "Recruiter", story: "Post to multiple job boards", criteria: "Board integration, simultaneous posting, tracking", priority: "P0", points: 8 },
+            { id: "US-M2-003", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "CV Screening", name: "AI CV Screening", persona: "Recruiter", story: "Parse and rank CVs automatically", criteria: "CV parsing, skill extraction, auto-ranking, scoring", priority: "P0", points: 13 },
+            { id: "US-M2-004", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Pipeline Management", name: "Candidate Pipeline Kanban", persona: "Recruiter", story: "Visual pipeline with drag-drop", criteria: "Kanban board, stage management, candidate profiles, history", priority: "P0", points: 8 },
+            { id: "US-M2-005", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Client Review", name: "Candidate Review Portal", persona: "Client SPOC", story: "Review and score shortlisted candidates", criteria: "Portal access, scoring interface, feedback capture, comparison", priority: "P0", points: 5 },
+            { id: "US-M2-006", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Scheduling", name: "Interview Scheduler", persona: "Recruiter", story: "Calendar integration, availability", criteria: "Calendar sync, time slot management, notifications, reminders", priority: "P0", points: 8 },
+            { id: "US-M2-007", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Offers", name: "Offer Generation Engine", persona: "Recruiter", story: "Template-based offers with merge fields", criteria: "Template management, dynamic fields, version control, approval", priority: "P0", points: 8 },
+            { id: "US-M2-008", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Offers", name: "E-Signature Integration", persona: "Recruiter", story: "Digital offer acceptance", criteria: "E-signature provider integration, audit trail, status tracking", priority: "P0", points: 5 },
+            { id: "US-M2-009", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Client Intake", name: "Hiring Request Intake", persona: "Client SPOC", story: "Submit structured hiring requests", criteria: "Intake form, requirement capture, approval workflow, tracking", priority: "P0", points: 5 },
+            { id: "US-M2-010", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "SLA Management", name: "SLA Tracking Dashboard", persona: "Recruiter", story: "Monitor recruitment SLAs per client", criteria: "SLA metrics, dashboard display, alert triggers, reporting", priority: "P0", points: 5 },
+            { id: "US-M2-011", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Communication", name: "Candidate Communication Hub", persona: "Recruiter", story: "Email/SMS templates, tracking", criteria: "Template library, bulk messaging, delivery tracking, opt-out", priority: "P1", points: 5 },
+            { id: "US-M2-012", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Analytics", name: "Recruitment Analytics", persona: "HR Manager", story: "Pipeline metrics, time-to-hire", criteria: "Dashboard metrics, funnel analysis, bottleneck identification", priority: "P1", points: 8 },
+            { id: "US-M2-013", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Talent Pool", name: "Talent Pool Database", persona: "Recruiter", story: "Searchable candidate registry", criteria: "Candidate database, search filters, tagging, segment management", priority: "P1", points: 5 },
+            { id: "US-M2-014", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Feedback", name: "Interview Feedback Forms", persona: "Client SPOC", story: "Structured evaluation forms", criteria: "Custom forms, rating scales, open feedback, comparison view", priority: "P1", points: 5 },
+            { id: "US-M2-015", module: "M2", moduleName: "Recruitment & ATS", phase: "2", epic: "Integration", name: "LinkedIn Integration", persona: "Recruiter", story: "Source directly from LinkedIn", criteria: "LinkedIn API, candidate import, profile sync, data mapping", priority: "P1", points: 8 },
+
+            // M3 - Onboarding & Offboarding (15 features)
+            { id: "US-M3-001", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Onboarding", name: "Onboarding Template Builder", persona: "HR Manager", story: "Create reusable onboarding templates", criteria: "Template creation, section management, task library, cloning", priority: "P0", points: 8 },
+            { id: "US-M3-002", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Onboarding", name: "Dual-Lane Workflow Engine", persona: "HR Manager", story: "Parallel Egybell + Client task lanes", criteria: "Parallel workflows, lane management, task synchronization, status", priority: "P0", points: 13 },
+            { id: "US-M3-003", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Pre-Boarding", name: "Pre-boarding Portal", persona: "New Hire", story: "Upload docs before day 1", criteria: "Document collection, verification, checklist, reminders", priority: "P0", points: 5 },
+            { id: "US-M3-004", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Task Management", name: "Task Assignment Engine", persona: "HR Specialist", story: "Auto-assign tasks by role/department", criteria: "Rule engine, auto-assignment, task routing, escalation", priority: "P0", points: 8 },
+            { id: "US-M3-005", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Access Provisioning", name: "Access Provisioning Trigger", persona: "IT Admin", story: "Automated system access requests", criteria: "Trigger rules, IT notification, status tracking, access validation", priority: "P0", points: 5 },
+            { id: "US-M3-006", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Offboarding", name: "Offboarding Workflow Engine", persona: "HR Manager", story: "Termination-triggered offboarding", criteria: "Exit workflow, task automation, access revocation, knowledge transfer", priority: "P0", points: 8 },
+            { id: "US-M3-007", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Offboarding", name: "Exit Interview Module", persona: "HR Manager", story: "Structured exit surveys", criteria: "Exit interview form, feedback capture, sentiment analysis", priority: "P0", points: 5 },
+            { id: "US-M3-008", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Progress Tracking", name: "Onboarding Progress Tracker", persona: "Line Manager", story: "Monitor new hire task completion", criteria: "Progress dashboard, task tracking, milestone markers, completion %", priority: "P0", points: 5 },
+            { id: "US-M3-009", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Document Collection", name: "Document Collection Checklist", persona: "HR Specialist", story: "Track required document submission", criteria: "Document checklist, upload tracking, verification, expiry reminders", priority: "P1", points: 5 },
+            { id: "US-M3-010", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Orientation", name: "Welcome Kit & Orientation", persona: "New Hire", story: "Digital welcome package", criteria: "Welcome content, company info, policy docs, video library", priority: "P1", points: 3 },
+            { id: "US-M3-011", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Dependencies", name: "Cross-Lane Dependencies", persona: "HR Manager", story: "Task dependencies across lanes", criteria: "Dependency management, blocking logic, sequencing, notifications", priority: "P1", points: 8 },
+            { id: "US-M3-012", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Client View", name: "Client Onboarding Dashboard", persona: "Client SPOC", story: "Client view of onboarding progress", criteria: "Portal access, progress visibility, approval interface, feedback", priority: "P1", points: 5 },
+            { id: "US-M3-013", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Equipment", name: "Equipment Tracking", persona: "HR Specialist", story: "Track asset assignment and return", criteria: "Asset database, assignment tracking, return workflows, inventory", priority: "P1", points: 5 },
+            { id: "US-M3-014", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Rehire", name: "Rehire Workflow", persona: "HR Manager", story: "Streamlined re-onboarding", criteria: "Historical data import, fast-track workflow, role reassignment", priority: "P1", points: 5 },
+            { id: "US-M3-015", module: "M3", moduleName: "Onboarding & Offboarding", phase: "2", epic: "Buddy Program", name: "Buddy/Mentor Assignment", persona: "HR Specialist", story: "Assign onboarding buddy", criteria: "Buddy matching, notification, task tracking, feedback collection", priority: "P2", points: 3 },
+
+            // M4 - Performance & KPIs (15 features)
+            { id: "US-M4-001", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Review Cycles", name: "Review Cycle Configuration", persona: "HR Manager", story: "Define review periods, templates, weights", criteria: "Cycle management, timeline setup, template assignment, weight configuration", priority: "P0", points: 8 },
+            { id: "US-M4-002", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Goal Setting", name: "Goal Setting Module", persona: "Outsourced Employee", story: "Set and track individual goals", criteria: "Goal creation, alignment tracking, progress updates, completion", priority: "P0", points: 5 },
+            { id: "US-M4-003", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Review Forms", name: "Performance Review Form", persona: "Line Manager", story: "Multi-section evaluation form", criteria: "Form builder, rating scales, competency assessment, comments", priority: "P0", points: 8 },
+            { id: "US-M4-004", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Feedback", name: "360° Feedback Engine", persona: "HR Manager", story: "Collect peer, manager, client ratings", criteria: "Feedback request, anonymous responses, rating aggregation, comparison", priority: "P0", points: 8 },
+            { id: "US-M4-005", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Calibration", name: "Calibration Workspace", persona: "HR Manager", story: "Side-by-side score calibration", criteria: "Comparison view, discussion notes, normalization, consensus building", priority: "P0", points: 13 },
+            { id: "US-M4-006", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "1:1 Meetings", name: "1:1 Meeting Tracker", persona: "Line Manager", story: "Schedule, notes, action items", criteria: "Meeting scheduling, note taking, action tracking, follow-up", priority: "P1", points: 5 },
+            { id: "US-M4-007", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Client Feedback", name: "Client Rating Portal", persona: "Client SPOC", story: "Rate outsourced employee performance", criteria: "Rating interface, feedback form, submission tracking, report generation", priority: "P1", points: 5 },
+            { id: "US-M4-008", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Continuous Feedback", name: "Continuous Feedback", persona: "Line Manager", story: "Real-time recognition and feedback", criteria: "Feedback submission, peer recognition, notification system, analytics", priority: "P1", points: 5 },
+            { id: "US-M4-009", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Analytics", name: "Performance Analytics", persona: "HR Director", story: "Distribution curves, department comparison", criteria: "Distribution analysis, benchmarking, trend analysis, export", priority: "P1", points: 8 },
+            { id: "US-M4-010", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "PIP", name: "PIP Management", persona: "HR Manager", story: "Performance improvement plans", criteria: "PIP creation, milestone tracking, progress monitoring, documentation", priority: "P1", points: 8 },
+            { id: "US-M4-011", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Probation", name: "Probation Management", persona: "Line Manager", story: "Probation check-ins and confirmation", criteria: "Check-in scheduling, assessment form, confirmation decision, archival", priority: "P1", points: 5 },
+            { id: "US-M4-012", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Self-Assessment", name: "Self-Assessment Portal", persona: "Outsourced Employee", story: "Submit self-evaluation", criteria: "Self-review form, submission, comparison with manager view", priority: "P1", points: 5 },
+            { id: "US-M4-013", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Merit", name: "Merit Recommendation Engine", persona: "HR Manager", story: "Generate merit/bonus recommendations", criteria: "Recommendation algorithm, override capability, approval workflow", priority: "P2", points: 8 },
+            { id: "US-M4-014", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Competencies", name: "Competency Framework", persona: "HR Director", story: "Define and assess competencies", criteria: "Competency modeling, assessment mapping, gap analysis, development plans", priority: "P2", points: 8 },
+            { id: "US-M4-015", module: "M4", moduleName: "Performance & KPIs", phase: "3", epic: "Succession", name: "Succession Planning", persona: "HR Manager", story: "Identify and track successors", criteria: "Successor identification, readiness assessment, development tracking", priority: "P2", points: 8 },
+
+            // M5 - Training & LMS (15 features)
+            { id: "US-M5-001", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Course Catalog", name: "Course Catalogue Manager", persona: "Training Lead", story: "Create and manage course library", criteria: "Course creation, metadata management, version control, publishing", priority: "P0", points: 8 },
+            { id: "US-M5-002", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Learning Paths", name: "Learning Path Builder", persona: "Training Lead", story: "Role-based course sequences", criteria: "Path creation, course sequencing, prerequisite rules, role mapping", priority: "P1", points: 8 },
+            { id: "US-M5-003", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Enrollment", name: "Course Enrollment Portal", persona: "Outsourced Employee", story: "Browse and enrol in courses", criteria: "Course catalog browsing, self-enrollment, enrollment approval, confirmation", priority: "P1", points: 5 },
+            { id: "US-M5-004", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Content", name: "SCORM Package Importer", persona: "Training Lead", story: "Import external SCORM content", criteria: "SCORM upload, validation, content rendering, tracking", priority: "P1", points: 8 },
+            { id: "US-M5-005", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Certification", name: "Certification Engine", persona: "Training Lead", story: "Issue certificates with QR codes", criteria: "Certificate generation, QR code embedding, digital delivery, storage", priority: "P1", points: 5 },
+            { id: "US-M5-006", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Auto-Enrollment", name: "Auto-Enrollment Rules", persona: "HR Manager", story: "Trigger enrollment on events", criteria: "Rule builder, event triggers, auto-assignment, notification", priority: "P1", points: 8 },
+            { id: "US-M5-007", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Team Dashboard", name: "Team Training Dashboard", persona: "Line Manager", story: "Monitor team completion rates", criteria: "Dashboard display, progress tracking, completion metrics, drill-down", priority: "P2", points: 5 },
+            { id: "US-M5-008", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Mobile Learning", name: "Mobile Learning Player", persona: "Outsourced Employee", story: "Complete courses on mobile", criteria: "Mobile UI, offline capability, progress sync, responsive design", priority: "P2", points: 5 },
+            { id: "US-M5-009", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Assessment", name: "Quiz & Assessment Builder", persona: "Training Lead", story: "Create quizzes with auto-grading", criteria: "Question types, scoring rules, auto-grading, feedback engine", priority: "P2", points: 8 },
+            { id: "US-M5-010", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Compliance", name: "Training Compliance Report", persona: "HR Director", story: "Mandatory training completion rates", criteria: "Compliance tracking, override capability, audit reporting", priority: "P2", points: 5 },
+            { id: "US-M5-011", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Authoring", name: "Content Authoring Tool", persona: "Training Lead", story: "Build courses in-platform", criteria: "WYSIWYG editor, media embedding, interaction elements, preview", priority: "P2", points: 13 },
+            { id: "US-M5-012", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Progress", name: "Learning Progress Tracker", persona: "Outsourced Employee", story: "Track course progress and history", criteria: "Progress display, history viewing, time spent, certificates earned", priority: "P2", points: 3 },
+            { id: "US-M5-013", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "Budget", name: "Training Budget Tracker", persona: "HR Manager", story: "Track spend against budget", criteria: "Budget allocation, spend tracking, forecasting, variance analysis", priority: "P2", points: 5 },
+            { id: "US-M5-014", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "ILT", name: "Instructor-Led Training", persona: "Training Lead", story: "Schedule and manage classroom training", criteria: "Class scheduling, attendee management, resource booking, reporting", priority: "P2", points: 5 },
+            { id: "US-M5-015", module: "M5", moduleName: "Training & LMS", phase: "3", epic: "External Training", name: "External Training Requests", persona: "Training Lead", story: "Request and track external training", criteria: "Request submission, approval workflow, provider integration, tracking", priority: "P2", points: 5 },
+
+            // M6 - Payroll & Compensation (15 features)
+            { id: "US-M6-001", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Payroll Processing", name: "Payroll Run Engine", persona: "Payroll Officer", story: "End-to-end monthly payroll with preview", criteria: "Payroll calculation, preview mode, approval workflow, finalization", priority: "P0", points: 13 },
+            { id: "US-M6-002", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Tax Compliance", name: "NOSI Form Generator", persona: "Payroll Officer", story: "Auto-generate SI filing forms", criteria: "Form generation, data population, validation, export", priority: "P0", points: 8 },
+            { id: "US-M6-003", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Tax Compliance", name: "Tax Calculation Engine", persona: "Payroll Officer", story: "Egyptian PIT (Law 91/2005) compliance", criteria: "Tax calculation, law compliance, bracket application, deduction handling", priority: "P0", points: 13 },
+            { id: "US-M6-004", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Tax Compliance", name: "Social Insurance Calculator", persona: "Payroll Officer", story: "Law 148/2019 SI deductions", criteria: "SI deduction calculation, contribution tracking, compliance validation", priority: "P0", points: 8 },
+            { id: "US-M6-005", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Approval", name: "Payroll Approval Workflow", persona: "Finance Manager", story: "Dual-approval with SoD enforcement", criteria: "Multi-level approval, segregation of duties, audit logging", priority: "P0", points: 5 },
+            { id: "US-M6-006", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Disbursement", name: "Bank File Generator", persona: "Payroll Officer", story: "Generate standard bank transfer files", criteria: "File format generation, validation, secure transmission, tracking", priority: "P0", points: 5 },
+            { id: "US-M6-007", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Payslips", name: "Payslip Generator", persona: "Payroll Officer", story: "Generate and distribute payslips", criteria: "Payslip generation, distribution, self-service access, archival", priority: "P0", points: 5 },
+            { id: "US-M6-008", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Pay Structure", name: "Earnings & Deductions Engine", persona: "Payroll Officer", story: "Configurable pay components", criteria: "Component configuration, rules engine, override capability, calculations", priority: "P0", points: 8 },
+            { id: "US-M6-009", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Reporting", name: "Payroll Variance Report", persona: "Finance Manager", story: "Compare current vs previous cycle", criteria: "Variance analysis, drill-down capability, trend analysis, export", priority: "P0", points: 5 },
+            { id: "US-M6-010", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Entitlements", name: "EOSB Calculator", persona: "Payroll Officer", story: "End-of-service benefit calculation", criteria: "EOSB calculation, law compliance, verification, documentation", priority: "P0", points: 8 },
+            { id: "US-M6-011", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Adjustments", name: "Retroactive Pay Engine", persona: "Payroll Officer", story: "Process backdated adjustments", criteria: "Retroactive processing, recalculation, reconciliation, audit trail", priority: "P0", points: 8 },
+            { id: "US-M6-012", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Self-Service", name: "Payslip Self-Service", persona: "Outsourced Employee", story: "View and download own payslips", criteria: "Payslip access, download capability, tax documents, history", priority: "P1", points: 3 },
+            { id: "US-M6-013", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Planning", name: "Compensation Planning Tool", persona: "Finance Manager", story: "Budget allocation for raises/bonuses", criteria: "Allocation tools, scenario planning, approval workflow, implementation", priority: "P1", points: 8 },
+            { id: "US-M6-014", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Pay Structure", name: "Salary Structure Manager", persona: "Payroll Officer", story: "Grade/band-based salary structures", criteria: "Structure definition, grade mapping, range management, benchmark", priority: "P1", points: 5 },
+            { id: "US-M6-015", module: "M6", moduleName: "Payroll & Compensation", phase: "1", epic: "Reporting", name: "Total Compensation Statement", persona: "HR Director", story: "Generate total comp reports", criteria: "Report generation, component breakdown, benefit valuation, delivery", priority: "P1", points: 5 },
+
+            // M7 - Benefits & Expenses (15 features)
+            { id: "US-M7-001", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Expense Claims", name: "Expense Claim with OCR", persona: "Outsourced Employee", story: "Photo receipt with auto-extraction", criteria: "Receipt capture, OCR extraction, amount validation, categorization", priority: "P0", points: 8 },
+            { id: "US-M7-002", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Benefits Admin", name: "Benefits Plan Configuration", persona: "HR Manager", story: "Define medical, insurance, allowance plans", criteria: "Plan creation, benefit definition, eligibility rules, tier management", priority: "P1", points: 8 },
+            { id: "US-M7-003", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Enrollment", name: "Benefits Enrollment Portal", persona: "Outsourced Employee", story: "Select and enrol in available plans", criteria: "Plan selection, dependent management, submission, confirmation", priority: "P1", points: 5 },
+            { id: "US-M7-004", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Approval", name: "Expense Approval Queue", persona: "Line Manager", story: "Review and approve/reject claims", criteria: "Claim review interface, approval workflow, comment capability, routing", priority: "P1", points: 5 },
+            { id: "US-M7-005", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Reconciliation", name: "Expense Reconciliation", persona: "Finance Officer", story: "Match claims to disbursements", criteria: "Matching logic, variance detection, reconciliation workflow, reporting", priority: "P1", points: 5 },
+            { id: "US-M7-006", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Benefits Admin", name: "Eligibility Rules Engine", persona: "HR Manager", story: "Auto-determine benefit eligibility", criteria: "Rule definition, auto-calculation, override capability, transparency", priority: "P1", points: 8 },
+            { id: "US-M7-007", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Policies", name: "Expense Policy Builder", persona: "Finance Manager", story: "Define limits, categories, rules", criteria: "Policy creation, rule engine, approval routing, audit", priority: "P1", points: 5 },
+            { id: "US-M7-008", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Self-Service", name: "Benefits Summary View", persona: "Outsourced Employee", story: "View active benefits and coverage", criteria: "Summary display, benefit details, coverage information, documents", priority: "P2", points: 3 },
+            { id: "US-M7-009", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Enrollment", name: "Open Enrollment Period", persona: "HR Manager", story: "Time-boxed enrollment windows", criteria: "Enrollment period setup, blackout rules, deadline enforcement, reporting", priority: "P2", points: 5 },
+            { id: "US-M7-010", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Analytics", name: "Expense Analytics Dashboard", persona: "Finance Officer", story: "Spend patterns by category, dept", criteria: "Dashboard display, trend analysis, budget comparison, export", priority: "P2", points: 5 },
+            { id: "US-M7-011", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Enrollment", name: "Life Event Triggers", persona: "HR Manager", story: "Benefit changes on marriage, birth, etc.", criteria: "Event definition, eligibility changes, automatic updates, notification", priority: "P2", points: 5 },
+            { id: "US-M7-012", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Self-Service", name: "Expense Receipt History", persona: "Outsourced Employee", story: "Search past claims and receipts", criteria: "Search functionality, filtering, receipt retrieval, download", priority: "P2", points: 3 },
+            { id: "US-M7-013", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Vendor Mgmt", name: "Vendor Management", persona: "HR Manager", story: "Track benefit providers and contracts", criteria: "Vendor database, contract management, renewal tracking, ratings", priority: "P2", points: 5 },
+            { id: "US-M7-014", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Analytics", name: "Benefits Cost Reporting", persona: "Finance Manager", story: "Plan cost analysis and projections", criteria: "Cost analysis, projection models, trend analysis, optimization", priority: "P2", points: 5 },
+            { id: "US-M7-015", module: "M7", moduleName: "Benefits & Expenses", phase: "2", epic: "Family Info", name: "Dependent Management", persona: "Outsourced Employee", story: "Add/remove benefit dependents", criteria: "Dependent tracking, eligibility verification, document collection", priority: "P2", points: 3 },
+
+            // M8 - Contractor Management (15 features)
+            { id: "US-M8-001", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Payments", name: "Multi-Currency Payout Engine", persona: "Finance Officer", story: "Disburse in engagement currency with FX", criteria: "Currency support, FX conversion, payout processing, verification", priority: "P0", points: 13 },
+            { id: "US-M8-002", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Compliance", name: "AML Screening Integration", persona: "Finance Officer", story: "Auto-screen payouts above threshold", criteria: "AML database integration, screening logic, compliance tracking, audit", priority: "P0", points: 8 },
+            { id: "US-M8-003", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Invoicing", name: "Contractor Invoice Portal", persona: "Finance Officer", story: "Receive and validate invoices", criteria: "Invoice submission, validation rules, approval workflow, archival", priority: "P0", points: 5 },
+            { id: "US-M8-004", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Engagement", name: "Engagement Lifecycle Manager", persona: "HR Manager", story: "Create, activate, pause, terminate", criteria: "Engagement creation, status management, document tracking, history", priority: "P1", points: 8 },
+            { id: "US-M8-005", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Tracking", name: "Time & Milestone Tracker", persona: "Contractor", story: "Log time and deliverables", criteria: "Time entry, milestone tracking, approval workflow, reconciliation", priority: "P1", points: 5 },
+            { id: "US-M8-006", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Contracts", name: "Contract & NDA E-Signature", persona: "HR Manager", story: "Digital signing for engagements", criteria: "E-signature integration, document management, audit trail, archival", priority: "P1", points: 5 },
+            { id: "US-M8-007", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Budget", name: "Contractor Budget Tracker", persona: "Finance Manager", story: "Track spend vs engagement budget", criteria: "Budget tracking, spend monitoring, forecast, variance alerts", priority: "P1", points: 5 },
+            { id: "US-M8-008", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Self-Service", name: "SoW Visibility Portal", persona: "Contractor", story: "View scope, milestones, payments", criteria: "SoW display, milestone tracking, payment visibility, notifications", priority: "P2", points: 3 },
+            { id: "US-M8-009", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Billing", name: "Pass-Through Billing Engine", persona: "Finance Officer", story: "Auto-bill clients for contractor costs", criteria: "Billing rules, auto-generation, invoice creation, cost allocation", priority: "P1", points: 8 },
+            { id: "US-M8-010", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Registry", name: "Contractor Registry", persona: "HR Manager", story: "Centralized contractor database", criteria: "Contractor database, searchable, status tracking, document storage", priority: "P1", points: 5 },
+            { id: "US-M8-011", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Self-Service", name: "Payment Status Tracker", persona: "Contractor", story: "Real-time payment visibility", criteria: "Payment status display, history viewing, notification, support", priority: "P2", points: 3 },
+            { id: "US-M8-012", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Pricing", name: "Rate Card Manager", persona: "Finance Manager", story: "Standard rates by role/market", criteria: "Rate definition, role mapping, market variations, versioning", priority: "P2", points: 5 },
+            { id: "US-M8-013", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Compliance", name: "Contractor Compliance Checker", persona: "HR Manager", story: "Track insurance, tax docs, certifications", criteria: "Compliance tracking, document collection, expiry alerts, reporting", priority: "P2", points: 5 },
+            { id: "US-M8-014", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Payments", name: "FX Rate Capture", persona: "Finance Officer", story: "Lock and audit FX rates at payout", criteria: "Rate locking, audit trail, historical tracking, reconciliation", priority: "P2", points: 5 },
+            { id: "US-M8-015", module: "M8", moduleName: "Contractor Management", phase: "2", epic: "Performance", name: "Contractor Performance Reviews", persona: "HR Manager", story: "Periodic contractor evaluations", criteria: "Review form, rating scales, feedback, performance tracking", priority: "P2", points: 5 },
+
+            // M9 - Analytics & Reporting (15 features)
+            { id: "US-M9-001", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Executive Dashboards", name: "Executive HR Dashboard", persona: "HR Director", story: "Cross-module KPI summary", criteria: "Dashboard layout, KPI display, refresh capability, export", priority: "P0", points: 8 },
+            { id: "US-M9-002", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Report Builder", name: "Custom Report Builder", persona: "HR Director", story: "Drag-and-drop report designer", criteria: "Report design interface, field selection, filtering, visualization", priority: "P0", points: 13 },
+            { id: "US-M9-003", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Financial Analytics", name: "Financial Analytics Suite", persona: "Finance Manager", story: "Revenue, cost, billing dashboards", criteria: "Dashboard creation, metric display, trend analysis, export", priority: "P1", points: 8 },
+            { id: "US-M9-004", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "HR Analytics", name: "Headcount & Turnover Analytics", persona: "HR Manager", story: "Trends, forecasts, exit reasons", criteria: "Analytics display, trend analysis, forecast modeling, drill-down", priority: "P1", points: 8 },
+            { id: "US-M9-005", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Diversity", name: "Diversity & Inclusion Metrics", persona: "HR Director", story: "Demographic distributions", criteria: "Demographic tracking, segmentation, visualization, reporting", priority: "P1", points: 5 },
+            { id: "US-M9-006", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Report Delivery", name: "Scheduled Report Delivery", persona: "HR Manager", story: "Auto-email reports on schedule", criteria: "Schedule definition, email distribution, format options, tracking", priority: "P1", points: 5 },
+            { id: "US-M9-007", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Data Warehouse", name: "Data Warehouse (CDC Pipeline)", persona: "Platform Admin", story: "Real-time change data capture", criteria: "CDC implementation, pipeline setup, data sync, monitoring", priority: "P1", points: 13 },
+            { id: "US-M9-008", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Benchmarking", name: "Benchmarking Tools", persona: "HR Director", story: "Compare metrics across tenants", criteria: "Benchmarking framework, comparison views, peer analysis", priority: "P2", points: 8 },
+            { id: "US-M9-009", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Cost Analysis", name: "Cost-Per-Hire Report", persona: "Finance Manager", story: "Recruitment cost analysis", criteria: "Cost calculation, source analysis, trend tracking, optimization", priority: "P2", points: 5 },
+            { id: "US-M9-010", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Absence Analytics", name: "Absence Analytics", persona: "HR Manager", story: "Leave patterns and forecasts", criteria: "Pattern analysis, forecast modeling, trend identification, reporting", priority: "P2", points: 5 },
+            { id: "US-M9-011", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Predictive Analytics", name: "Predictive Attrition Model", persona: "HR Director", story: "ML-based turnover prediction", criteria: "ML model implementation, prediction accuracy, risk scoring, action items", priority: "P2", points: 13 },
+            { id: "US-M9-012", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Client Reports", name: "Client-Facing Reports", persona: "Client Admin", story: "Tenant-scoped report templates", criteria: "Report templates, data filtering, branding, distribution", priority: "P2", points: 5 },
+            { id: "US-M9-013", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Training ROI", name: "Training ROI Dashboard", persona: "HR Manager", story: "Learning impact on performance", criteria: "Impact analysis, correlation modeling, ROI calculation, reporting", priority: "P2", points: 5 },
+            { id: "US-M9-014", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Compliance Reports", name: "Compliance Reporting Suite", persona: "HR Director", story: "Labor law, PDPL audit reports", criteria: "Compliance tracking, audit ready, export, certification", priority: "P2", points: 8 },
+            { id: "US-M9-015", module: "M9", moduleName: "Analytics & Reporting", phase: "4", epic: "Data Export", name: "Data Export Engine", persona: "Platform Admin", story: "CSV, Parquet, API bulk exports", criteria: "Export formats, bulk capability, scheduling, security", priority: "P2", points: 5 },
+
+            // M10 - System Administration (15 features)
+            { id: "US-M10-001", module: "M10", moduleName: "System Administration", phase: "1", epic: "Tenancy", name: "Tenant Provisioning Engine", persona: "Platform Admin", story: "Self-service tenant creation", criteria: "Tenant creation, resource allocation, configuration, onboarding", priority: "P0", points: 13 },
+            { id: "US-M10-002", module: "M10", moduleName: "System Administration", phase: "1", epic: "Authorization", name: "RBAC Configuration", persona: "System Admin", story: "Role and permission management", criteria: "Role creation, permission assignment, inheritance, audit", priority: "P0", points: 8 },
+            { id: "US-M10-003", module: "M10", moduleName: "System Administration", phase: "1", epic: "Audit", name: "Audit Log Viewer", persona: "System Admin", story: "Searchable, filterable audit trail", criteria: "Log viewing, search, filtering, export, retention", priority: "P0", points: 8 },
+            { id: "US-M10-004", module: "M10", moduleName: "System Administration", phase: "1", epic: "Authentication", name: "SSO/OIDC Configuration", persona: "System Admin", story: "Federated identity setup", criteria: "Provider integration, user sync, mapping, troubleshooting", priority: "P0", points: 8 },
+            { id: "US-M10-005", module: "M10", moduleName: "System Administration", phase: "1", epic: "Monitoring", name: "System Health Dashboard", persona: "Platform Admin", story: "Infrastructure monitoring", criteria: "Health metrics, alerting, status display, historical view", priority: "P0", points: 5 },
+            { id: "US-M10-006", module: "M10", moduleName: "System Administration", phase: "1", epic: "Security", name: "Field-Level Masking", persona: "System Admin", story: "PII masking for sensitive fields", criteria: "Masking rules, role-based application, audit logging", priority: "P0", points: 5 },
+            { id: "US-M10-007", module: "M10", moduleName: "System Administration", phase: "1", epic: "Workflows", name: "Workflow Configuration Engine", persona: "System Admin", story: "Visual workflow builder", criteria: "Workflow designer, step creation, condition logic, testing", priority: "P0", points: 13 },
+            { id: "US-M10-008", module: "M10", moduleName: "System Administration", phase: "1", epic: "API", name: "API Key Management", persona: "System Admin", story: "Create, rotate, revoke API keys", criteria: "Key generation, rotation schedule, revocation, audit", priority: "P0", points: 5 },
+            { id: "US-M10-009", module: "M10", moduleName: "System Administration", phase: "1", epic: "Integration", name: "Webhook Configuration", persona: "System Admin", story: "Event-driven external notifications", criteria: "Webhook setup, event selection, payload mapping, retry", priority: "P0", points: 5 },
+            { id: "US-M10-010", module: "M10", moduleName: "System Administration", phase: "1", epic: "DR", name: "Backup & DR Management", persona: "Platform Admin", story: "Backup schedules, DR failover", criteria: "Backup scheduling, restore testing, DR procedures, monitoring", priority: "P1", points: 8 },
+            { id: "US-M10-011", module: "M10", moduleName: "System Administration", phase: "1", epic: "Notifications", name: "Custom Notification Templates", persona: "System Admin", story: "Email/SMS/push template editor", criteria: "Template creation, variable support, preview, audit", priority: "P1", points: 5 },
+            { id: "US-M10-012", module: "M10", moduleName: "System Administration", phase: "1", epic: "Security", name: "IP Whitelisting", persona: "System Admin", story: "Restrict tenant access by IP", criteria: "IP rules, range support, bypass mechanism, logging", priority: "P1", points: 5 },
+            { id: "US-M10-013", module: "M10", moduleName: "System Administration", phase: "1", epic: "Features", name: "Feature Flag Manager", persona: "Platform Admin", story: "Per-tenant feature toggles", criteria: "Flag definition, per-tenant settings, gradual rollout, monitoring", priority: "P1", points: 5 },
+            { id: "US-M10-014", module: "M10", moduleName: "System Administration", phase: "1", epic: "Data Management", name: "Data Retention Policies", persona: "System Admin", story: "Automated data purge by policy", criteria: "Policy definition, scheduling, compliance, audit trail", priority: "P1", points: 5 },
+            { id: "US-M10-015", module: "M10", moduleName: "System Administration", phase: "1", epic: "Infrastructure", name: "Multi-Region Configuration", persona: "Platform Admin", story: "Region-specific settings", criteria: "Region setup, data residency, failover, monitoring", priority: "P1", points: 5 },
+
+            // M11 - Mobile App (15 features)
+            { id: "US-M11-001", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Dashboard", name: "Mobile Dashboard", persona: "Outsourced Employee", story: "Key info at a glance", criteria: "Dashboard layout, widget support, customization, refresh", priority: "P0", points: 5 },
+            { id: "US-M11-002", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Leave", name: "Mobile Leave Management", persona: "Outsourced Employee", story: "Request and track leave", criteria: "Request interface, balance display, status tracking, notifications", priority: "P0", points: 5 },
+            { id: "US-M11-003", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Approvals", name: "Mobile Approval Hub", persona: "Line Manager", story: "Approve requests on the go", criteria: "Approval interface, detail viewing, action capability, offline sync", priority: "P0", points: 5 },
+            { id: "US-M11-004", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Notifications", name: "Push Notification Engine", persona: "Outsourced Employee", story: "Real-time alerts and reminders", criteria: "Push delivery, preference management, notification center", priority: "P1", points: 5 },
+            { id: "US-M11-005", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Attendance", name: "Mobile Attendance (Geofencing)", persona: "Outsourced Employee", story: "Clock in/out with location", criteria: "Geofence validation, clock action, location recording, history", priority: "P1", points: 8 },
+            { id: "US-M11-006", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Expenses", name: "Mobile Expense Capture", persona: "Outsourced Employee", story: "Photo receipt upload", criteria: "Camera integration, receipt capture, OCR, submission", priority: "P1", points: 5 },
+            { id: "US-M11-007", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Payslips", name: "Mobile Payslip Viewer", persona: "Outsourced Employee", story: "View payslips on phone", criteria: "Payslip display, download, push notification, archive", priority: "P1", points: 3 },
+            { id: "US-M11-008", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Team", name: "Mobile Team Overview", persona: "Line Manager", story: "Team status and schedules", criteria: "Team view, member details, schedule display, quick actions", priority: "P1", points: 5 },
+            { id: "US-M11-009", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Learning", name: "Mobile Course Player", persona: "Outsourced Employee", story: "Complete training on mobile", criteria: "Course playback, progress tracking, offline mode, completion", priority: "P1", points: 5 },
+            { id: "US-M11-010", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Offline", name: "Offline Mode with Sync", persona: "Outsourced Employee", story: "Work without connectivity", criteria: "Offline capability, data sync, conflict resolution, status display", priority: "P2", points: 8 },
+            { id: "US-M11-011", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Security", name: "Biometric Authentication", persona: "Outsourced Employee", story: "Face/fingerprint login", criteria: "Biometric integration, fallback auth, security setup", priority: "P2", points: 5 },
+            { id: "US-M11-012", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Documents", name: "Mobile Document Upload", persona: "Outsourced Employee", story: "Upload docs from camera", criteria: "Document capture, upload, verification, status tracking", priority: "P2", points: 3 },
+            { id: "US-M11-013", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Reviews", name: "Mobile Performance Reviews", persona: "Line Manager", story: "Complete reviews on tablet", criteria: "Review interface, form completion, submission, tracking", priority: "P2", points: 5 },
+            { id: "US-M11-014", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Directory", name: "Mobile Directory", persona: "Outsourced Employee", story: "Employee directory search", criteria: "Search interface, profile display, contact actions, bookmarking", priority: "P2", points: 3 },
+            { id: "US-M11-015", module: "M11", moduleName: "Mobile App", phase: "3", epic: "Engagement", name: "Mobile Feedback & Kudos", persona: "Outsourced Employee", story: "Quick peer recognition", criteria: "Feedback submission, kudos interface, notification, analytics", priority: "P2", points: 3 },
+
+            // M12 - Client Portal (15 features)
+            { id: "US-M12-001", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Dashboard", name: "Client Dashboard", persona: "Client Admin", story: "KPIs, requests, notifications", criteria: "Dashboard layout, KPI display, widgets, customization", priority: "P0", points: 8 },
+            { id: "US-M12-002", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Users", name: "User & Role Management", persona: "Client Admin", story: "Add/edit portal users and roles", criteria: "User management, role assignment, permission control, audit", priority: "P0", points: 5 },
+            { id: "US-M12-003", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Org Structure", name: "Org Structure Manager", persona: "Client Admin", story: "Configure client org chart", criteria: "Org chart configuration, department management, reporting lines", priority: "P0", points: 5 },
+            { id: "US-M12-004", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Requests", name: "Service Request System", persona: "Client SPOC", story: "Raise and track service tickets", criteria: "Request submission, status tracking, SLA display, escalation", priority: "P0", points: 5 },
+            { id: "US-M12-005", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Branding", name: "White-Label Branding", persona: "Client Admin", story: "Custom logo, colors for portal", criteria: "Logo upload, color customization, domain branding, preview", priority: "P0", points: 5 },
+            { id: "US-M12-006", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Billing", name: "Invoice & Payment Portal", persona: "Client Finance", story: "View/pay invoices, download receipts", criteria: "Invoice viewing, payment processing, receipt download, history", priority: "P0", points: 5 },
+            { id: "US-M12-007", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Roster", name: "Employee Roster Manager", persona: "Client SPOC", story: "View and manage outsourced staff", criteria: "Staff listing, detail viewing, assignment tracking, bulk actions", priority: "P0", points: 5 },
+            { id: "US-M12-008", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Reporting", name: "Client Reporting Module", persona: "Client Admin", story: "Tenant-scoped dashboards and exports", criteria: "Report access, data filtering, export capability, scheduling", priority: "P0", points: 8 },
+            { id: "US-M12-009", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Approvals", name: "Approval Workflows", persona: "Client SPOC", story: "Approve hiring, onboarding, changes", criteria: "Approval interface, workflow routing, comment capability, tracking", priority: "P1", points: 5 },
+            { id: "US-M12-010", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Policies", name: "Policy Configuration", persona: "Client Admin", story: "Set client-specific policies", criteria: "Policy creation, template support, approval routing, versioning", priority: "P1", points: 5 },
+            { id: "US-M12-011", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Budget", name: "Budget Tracking", persona: "Client Finance", story: "Monitor service costs against budget", criteria: "Budget display, spend tracking, forecast, variance alerts", priority: "P1", points: 5 },
+            { id: "US-M12-012", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Performance", name: "KPI & Performance View", persona: "Client SPOC", story: "View outsourced employee KPIs", criteria: "KPI dashboard, performance metrics, comparison, drill-down", priority: "P1", points: 5 },
+            { id: "US-M12-013", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Communication", name: "Communication Center", persona: "Client Admin", story: "Messages and announcements", criteria: "Message interface, notification delivery, archive, search", priority: "P2", points: 3 },
+            { id: "US-M12-014", module: "M12", moduleName: "Client Portal", phase: "3", epic: "Onboarding", name: "Onboarding Progress View", persona: "Client SPOC", story: "Track new hire onboarding status", criteria: "Progress display, task tracking, milestone view, notifications", priority: "P1", points: 3 },
+            { id: "US-M12-015", module: "M12", moduleName: "Client Portal", phase: "3", epic: "SLA", name: "SLA Dashboard", persona: "Client Admin", story: "Monitor SLA compliance", criteria: "SLA metrics, compliance display, alert triggers, reporting", priority: "P2", points: 5 },
+
+            // M13 - Billing & Invoicing (15 features)
+            { id: "US-M13-001", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Invoice Generation", name: "Invoice Generation Engine", persona: "Finance Manager", story: "Auto-generate from metering data", criteria: "Invoice creation, data aggregation, approval workflow, distribution", priority: "P0", points: 13 },
+            { id: "US-M13-002", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Tax Compliance", name: "ETA E-Invoice Integration", persona: "Finance Manager", story: "Egyptian Tax Authority submission", criteria: "ETA API integration, invoice submission, compliance verification, audit", priority: "P0", points: 13 },
+            { id: "US-M13-003", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Revenue", name: "Revenue Recognition (IFRS 15)", persona: "Finance Manager", story: "Multi-element arrangement tracking", criteria: "Revenue tracking, IFRS compliance, multi-element logic, reporting", priority: "P0", points: 8 },
+            { id: "US-M13-004", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Payment", name: "Payment Gateway Integration", persona: "Finance Officer", story: "Client payment collection", criteria: "Gateway integration, payment processing, reconciliation, security", priority: "P0", points: 8 },
+            { id: "US-M13-005", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Pricing", name: "Contract-Based Pricing Engine", persona: "Finance Manager", story: "Tier/volume/custom pricing", criteria: "Pricing rule engine, contract mapping, calculation, override", priority: "P0", points: 8 },
+            { id: "US-M13-006", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Approval", name: "Invoice Approval Workflow", persona: "Finance Manager", story: "Dual-approval before issuance", criteria: "Multi-level approval, SoD enforcement, audit logging", priority: "P0", points: 5 },
+            { id: "US-M13-007", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Reconciliation", name: "Payment Reconciliation", persona: "Finance Officer", story: "Match payments to invoices", criteria: "Matching logic, discrepancy detection, adjustment handling", priority: "P0", points: 5 },
+            { id: "US-M13-008", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Metering", name: "Usage Metering Dashboard", persona: "Finance Manager", story: "Track tenant usage metrics", criteria: "Usage tracking, metric display, threshold alerting, reporting", priority: "P1", points: 8 },
+            { id: "US-M13-009", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Credit Notes", name: "Credit Note Management", persona: "Finance Officer", story: "Issue and track credit notes", criteria: "Credit note creation, reason tracking, reconciliation, reporting", priority: "P1", points: 5 },
+            { id: "US-M13-010", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Collections", name: "Dunning Workflow", persona: "Finance Manager", story: "Automated payment reminders", criteria: "Dunning rules, reminder escalation, payment tracking, analytics", priority: "P1", points: 5 },
+            { id: "US-M13-011", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Self-Service", name: "Client Billing Portal", persona: "Client Finance", story: "View invoices, statements, receipts", criteria: "Invoice access, statement viewing, download, payment history", priority: "P1", points: 5 },
+            { id: "US-M13-012", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Forecasting", name: "Revenue Forecasting", persona: "Finance Manager", story: "Projected revenue dashboards", criteria: "Forecast modeling, scenario analysis, trend analysis, reporting", priority: "P1", points: 5 },
+            { id: "US-M13-013", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Withholding", name: "Tax Withholding Manager", persona: "Finance Officer", story: "WHT calculation and certificates", criteria: "WHT calculation, certificate generation, reporting, compliance", priority: "P1", points: 5 },
+            { id: "US-M13-014", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Multi-Currency", name: "Multi-Currency Billing", persona: "Finance Manager", story: "Invoice in client's currency", criteria: "Currency support, FX conversion, invoice generation, reconciliation", priority: "P2", points: 5 },
+            { id: "US-M13-015", module: "M13", moduleName: "Billing & Invoicing", phase: "4", epic: "Commission", name: "Commission Calculator", persona: "Finance Manager", story: "Sales commission computation", criteria: "Commission rules, calculation engine, verification, reporting", priority: "P2", points: 5 }
+        ];
+
+        // MODULE METADATA
+        const moduleMetadata = {
+            'M1': { name: 'Core HRIS', phase: 'Phase 1 - Foundation', description: 'Employee management, org structure, self-service, time-off, attendance', color: 'var(--phase1)' },
+            'M2': { name: 'Recruitment & ATS', phase: 'Phase 2 - Talent', description: 'Job posting, candidate screening, pipeline, scheduling, offers', color: 'var(--phase2)' },
+            'M3': { name: 'Onboarding & Offboarding', phase: 'Phase 2 - Talent', description: 'Onboarding workflows, pre-boarding, offboarding, exit interviews', color: 'var(--phase2)' },
+            'M4': { name: 'Performance & KPIs', phase: 'Phase 3 - Performance', description: 'Review cycles, goal setting, 360 feedback, calibration, PIP', color: 'var(--phase3)' },
+            'M5': { name: 'Training & LMS', phase: 'Phase 3 - Performance', description: 'Course catalog, learning paths, assessments, certification', color: 'var(--phase3)' },
+            'M6': { name: 'Payroll & Compensation', phase: 'Phase 1 - Foundation', description: 'Payroll processing, tax compliance, compensation planning', color: 'var(--phase1)' },
+            'M7': { name: 'Benefits & Expenses', phase: 'Phase 2 - Talent', description: 'Benefit enrollment, expense claims, policy management', color: 'var(--phase2)' },
+            'M8': { name: 'Contractor Management', phase: 'Phase 2 - Talent', description: 'Engagement lifecycle, invoicing, payments, compliance', color: 'var(--phase2)' },
+            'M9': { name: 'Analytics & Reporting', phase: 'Phase 4 - Intelligence', description: 'Executive dashboards, custom reports, predictive analytics', color: 'var(--phase4)' },
+            'M10': { name: 'System Administration', phase: 'Phase 1 - Foundation', description: 'Tenancy, RBAC, authentication, audit, workflows', color: 'var(--phase1)' },
+            'M11': { name: 'Mobile App', phase: 'Phase 3 - Performance', description: 'Mobile dashboard, approvals, attendance, learning, expenses', color: 'var(--phase3)' },
+            'M12': { name: 'Client Portal', phase: 'Phase 3 - Performance', description: 'Client dashboard, billing, roster, approvals, reporting', color: 'var(--phase3)' },
+            'M13': { name: 'Billing & Invoicing', phase: 'Phase 4 - Intelligence', description: 'Invoice generation, payment processing, revenue recognition', color: 'var(--phase4)' }
+        };
+
+        let currentSort = { column: null, direction: 'asc' };
+        let filteredFeatures = [...allFeatures];
+
+        // Initialize
+        function init() {
+            renderModuleCards();
+            renderFeaturesTable();
+        }
+
+        // Render module cards
+        function renderModuleCards() {
+            const grid = document.getElementById('modulesGrid');
+            grid.innerHTML = '';
+
+            const modules = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12', 'M13'];
+
+            modules.forEach(moduleCode => {
+                const moduleFeatures = allFeatures.filter(f => f.module === moduleCode);
+                const totalPoints = moduleFeatures.reduce((sum, f) => sum + f.points, 0);
+                const p0Count = moduleFeatures.filter(f => f.priority === 'P0').length;
+                const p1Count = moduleFeatures.filter(f => f.priority === 'P1').length;
+                const p2Count = moduleFeatures.filter(f => f.priority === 'P2').length;
+                const meta = moduleMetadata[moduleCode];
+
+                const phaseNum = meta.phase.includes('1') ? '1' : meta.phase.includes('2') ? '2' : meta.phase.includes('3') ? '3' : '4';
+                const phaseColors = {
+                    '1': 'var(--phase1)',
+                    '2': 'var(--phase2)',
+                    '3': 'var(--phase3)',
+                    '4': 'var(--phase4)'
+                };
+
+                const card = document.createElement('div');
+                card.className = 'module-card';
+                card.onclick = () => switchSection('module', moduleCode);
+                card.innerHTML = `
+                    <div class="module-card-header">
+                        <div>
+                            <div class="module-card-title">${meta.name}</div>
+                            <div style="font-size: 12px; color: var(--gray-600); margin-top: 4px;">${moduleCode}</div>
+                        </div>
+                        <div class="module-phase-tag" style="background-color: ${phaseColors[phaseNum]};">${meta.phase}</div>
+                    </div>
+                    <div class="module-stats">
+                        <div class="module-stat">
+                            <div class="module-stat-label">Features</div>
+                            <div class="module-stat-value">${moduleFeatures.length}</div>
+                        </div>
+                        <div class="module-stat">
+                            <div class="module-stat-label">Story Points</div>
+                            <div class="module-stat-value">${totalPoints}</div>
+                        </div>
+                        <div class="module-stat">
+                            <div class="module-stat-label">P0/P1/P2</div>
+                            <div class="module-stat-value" style="font-size: 12px;">${p0Count}/${p1Count}/${p2Count}</div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Render features table
+        function renderFeaturesTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            filteredFeatures.forEach((feature, index) => {
+                const row = document.createElement('tr');
+                row.dataset.featureId = feature.id;
+
+                const phaseNum = feature.phase;
+                const phaseClass = `phase-${phaseNum}`;
+                const priorityClass = `priority-${feature.priority}`;
+
+                row.innerHTML = `
+                    <td>
+                        <button class="expand-btn" onclick="toggleExpanded(this)">▼</button>
+                    </td>
+                    <td><span class="feature-id">${feature.id}</span></td>
+                    <td><span class="badge" style="background-color: rgba(37, 99, 235, 0.1); color: #1E40AF;">${feature.module}</span></td>
+                    <td><span class="feature-name">${feature.name}</span></td>
+                    <td><span class="badge ${priorityClass}">${feature.priority}</span></td>
+                    <td><span class="badge ${phaseClass}">Phase ${phaseNum}</span></td>
+                    <td><span class="story-points">${feature.points}pts</span></td>
+                    <td style="font-size: 12px; color: var(--gray-600);">${feature.persona}</td>
+                `;
+
+                tbody.appendChild(row);
+
+                // Add expanded row
+                const expandRow = document.createElement('tr');
+                expandRow.className = 'expanded-row';
+                expandRow.dataset.expandFor = feature.id;
+                expandRow.innerHTML = `
+                    <td colspan="8">
+                        <div class="expanded-content">
+                            <div class="expanded-section">
+                                <div class="expanded-label">User Story</div>
+                                <div class="expanded-text">${feature.story}</div>
+                            </div>
+                            <div class="expanded-section">
+                                <div class="expanded-label">Acceptance Criteria</div>
+                                <div class="expanded-text">${feature.criteria}</div>
+                            </div>
+                            <div class="expanded-section">
+                                <div class="expanded-label">Epic</div>
+                                <div class="expanded-text">${feature.epic}</div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+
+                tbody.appendChild(expandRow);
+            });
+
+            document.getElementById('featureCount').textContent = filteredFeatures.length;
+        }
+
+        // Toggle row expansion
+        function toggleExpanded(btn) {
+            const row = btn.closest('tr');
+            const featureId = row.dataset.featureId;
+            const expandRow = document.querySelector(`tr[data-expand-for="${featureId}"]`);
+
+            btn.classList.toggle('expanded');
+            expandRow.classList.toggle('visible');
+            row.classList.toggle('expanded');
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const moduleFilter = document.getElementById('moduleFilter').value;
+            const priorityFilter = document.getElementById('priorityFilter').value;
+            const phaseFilter = document.getElementById('phaseFilter').value;
+
+            filteredFeatures = allFeatures.filter(feature => {
+                const matchesSearch = !search ||
+                    feature.id.toLowerCase().includes(search) ||
+                    feature.name.toLowerCase().includes(search) ||
+                    feature.criteria.toLowerCase().includes(search) ||
+                    feature.story.toLowerCase().includes(search);
+
+                const matchesModule = !moduleFilter || feature.module === moduleFilter;
+                const matchesPriority = !priorityFilter || feature.priority === priorityFilter;
+                const matchesPhase = !phaseFilter || feature.phase === phaseFilter;
+
+                return matchesSearch && matchesModule && matchesPriority && matchesPhase;
+            });
+
+            renderFeaturesTable();
+        }
+
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('moduleFilter').value = '';
+            document.getElementById('priorityFilter').value = '';
+            document.getElementById('phaseFilter').value = '';
+            applyFilters();
+        }
+
+        // Sort table
+        function sortTable(column) {
+            if (currentSort.column === column) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.direction = 'asc';
+            }
+
+            const sortMap = {
+                'id': 'id',
+                'module': 'module',
+                'name': 'name',
+                'priority': (a, b) => {
+                    const order = { 'P0': 0, 'P1': 1, 'P2': 2 };
+                    return order[a.priority] - order[b.priority];
+                },
+                'phase': 'phase',
+                'points': 'points'
+            };
+
+            filteredFeatures.sort((a, b) => {
+                let aVal = a[currentSort.column];
+                let bVal = b[currentSort.column];
+
+                if (typeof aVal === 'string') aVal = aVal.toLowerCase();
+                if (typeof bVal === 'string') bVal = bVal.toLowerCase();
+
+                if (currentSort.direction === 'asc') {
+                    return aVal > bVal ? 1 : -1;
+                } else {
+                    return aVal < bVal ? 1 : -1;
+                }
+            });
+
+            renderFeaturesTable();
+        }
+
+        // Switch sections
+        let currentView = 'overview';
+        let overviewCache = null;
+
+        function switchSection(type, section) {
+            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.module-card').forEach(c => c.classList.remove('active'));
+
+            const overviewEl = document.getElementById('overview');
+
+            if (type === 'overview') {
+                if (overviewCache && currentView !== 'overview') {
+                    overviewEl.innerHTML = overviewCache;
+                }
+                overviewEl.style.display = 'block';
+                document.querySelector('[data-section="overview"]').classList.add('active');
+                currentView = 'overview';
+            } else if (type === 'module') {
+                // Cache overview HTML on first switch away
+                if (currentView === 'overview') {
+                    overviewCache = overviewEl.innerHTML;
+                }
+                overviewEl.style.display = 'block';
+                document.querySelector(`[data-module="${section}"]`).classList.add('active');
+                renderModuleCardsByPhase(section);
+                currentView = section;
+            }
+        }
+
+        // Render module cards by phase
+        function renderModuleCardsByPhase(moduleCode) {
+            const meta = moduleMetadata[moduleCode];
+            const moduleFeatures = allFeatures.filter(f => f.module === moduleCode);
+            const totalPoints = moduleFeatures.reduce((sum, f) => sum + f.points, 0);
+
+            const phaseNum = meta.phase.includes('1') ? '1' : meta.phase.includes('2') ? '2' : meta.phase.includes('3') ? '3' : '4';
+            const phaseColors = {
+                '1': 'var(--phase1)',
+                '2': 'var(--phase2)',
+                '3': 'var(--phase3)',
+                '4': 'var(--phase4)'
+            };
+
+            document.getElementById('overview').innerHTML = `
+                <div class="module-section-header">
+                    <div>
+                        <div class="module-section-title">${meta.name}</div>
+                        <div style="font-size: 13px; color: var(--gray-600); margin-top: 4px;">${meta.description}</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px;">
+                    <div class="summary-card">
+                        <div class="summary-label">Features</div>
+                        <div class="summary-value">${moduleFeatures.length}</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Story Points</div>
+                        <div class="summary-value">${totalPoints}</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Phase</div>
+                        <div style="font-size: 16px; font-weight: 700; color: var(--white); background-color: ${phaseColors[phaseNum]}; padding: 8px 12px; border-radius: 4px; display: inline-block;">${meta.phase}</div>
+                    </div>
+                </div>
+
+                <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--navy);">Features (${moduleFeatures.length})</h2>
+                <div class="features-table-container">
+                    <div class="table-wrapper">
+                        <table class="features-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;"></th>
+                                    <th style="width: 100px;">ID</th>
+                                    <th style="width: 250px;">Feature Name</th>
+                                    <th style="width: 80px;">Priority</th>
+                                    <th style="width: 80px;">Points</th>
+                                    <th style="width: 150px;">Persona</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${moduleFeatures.map(f => `
+                                    <tr>
+                                        <td><button class="expand-btn" onclick="toggleExpanded(this)">▼</button></td>
+                                        <td><span class="feature-id">${f.id}</span></td>
+                                        <td><span class="feature-name">${f.name}</span></td>
+                                        <td><span class="badge priority-${f.priority}">${f.priority}</span></td>
+                                        <td><span class="story-points">${f.points}pts</span></td>
+                                        <td style="font-size: 12px; color: var(--gray-600);">${f.persona}</td>
+                                    </tr>
+                                    <tr class="expanded-row">
+                                        <td colspan="6">
+                                            <div class="expanded-content">
+                                                <div class="expanded-section">
+                                                    <div class="expanded-label">User Story</div>
+                                                    <div class="expanded-text">${f.story}</div>
+                                                </div>
+                                                <div class="expanded-section">
+                                                    <div class="expanded-label">Acceptance Criteria</div>
+                                                    <div class="expanded-text">${f.criteria}</div>
+                                                </div>
+                                                <div class="expanded-section">
+                                                    <div class="expanded-label">Epic</div>
+                                                    <div class="expanded-text">${f.epic}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Praxion — Brand Guidelines & Identity v2.0</title>
+<meta name="description" content="Praxion's official brand guidelines: logo system, color, typography, voice, applications, and downloads.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root{
+  --navy:#0B1437; --navy-2:#1E2A5E; --signal:#2F6BFF; --signal-2:#5A8FFF;
+  --ion:#19D3C5; --ion-2:#80F2E6; --amber:#F59E0B; --amber-2:#FBBF24;
+  --white:#FFFFFF; --cloud:#F5F7FA; --mist:#E8ECF3; --border:#D5DBEA;
+  --muted:#6B7A99; --slate:#475569; --charcoal:#1E293B;
+  --success:#22C55E; --warn:#F59E0B; --danger:#EF4444; --info:#3B82F6;
+  --font-head:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-body:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-mono:'JetBrains Mono','SF Mono','Fira Code',monospace;
+  --shadow-sm:0 1px 3px rgba(11,20,55,.08),0 1px 2px rgba(11,20,55,.04);
+  --shadow-md:0 4px 6px -1px rgba(11,20,55,.07),0 2px 4px rgba(11,20,55,.04);
+  --shadow-lg:0 10px 15px -3px rgba(11,20,55,.08),0 4px 6px rgba(11,20,55,.03);
+  --shadow-xl:0 20px 25px -5px rgba(11,20,55,.10),0 8px 10px rgba(11,20,55,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{font-family:var(--font-body);font-size:15px;line-height:1.65;color:var(--charcoal);background:var(--cloud)}
+img,svg{display:block;max-width:100%}
+a{color:var(--signal);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--font-mono);font-size:.88em;background:var(--mist);padding:2px 6px;border-radius:4px}
+
+/* ── Shell ── */
+.bg-hero{background:linear-gradient(135deg,#0B1437 0%,#1E2A5E 70%,#2F6BFF 130%);color:#fff;padding:88px 32px 120px;position:relative;overflow:hidden}
+.bg-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 20%,rgba(25,211,197,.15),transparent 50%),radial-gradient(circle at 15% 80%,rgba(245,158,11,.12),transparent 50%);pointer-events:none}
+.hero{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.hero-kicker{font-family:var(--font-head);font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ion-2);margin-bottom:20px}
+.hero-title{font-family:var(--font-head);font-weight:900;font-size:88px;line-height:.95;letter-spacing:-.04em;margin-bottom:20px;background:linear-gradient(90deg,#fff 0%,#CFEDE9 60%,#80F2E6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-family:var(--font-body);font-size:22px;font-weight:400;line-height:1.4;max-width:700px;color:rgba(255,255,255,.82);margin-bottom:48px}
+.hero-meta{display:flex;gap:40px;flex-wrap:wrap;padding-top:32px;border-top:1px solid rgba(255,255,255,.12)}
+.hero-meta__item{display:flex;flex-direction:column;gap:4px}
+.hero-meta__label{font-family:var(--font-head);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.hero-meta__value{font-family:var(--font-head);font-size:17px;font-weight:600;color:#fff}
+
+/* ── Layout ── */
+.shell{max-width:1200px;margin:0 auto;padding:0 32px}
+.section{padding:96px 0;border-bottom:1px solid var(--mist)}
+.section:last-of-type{border-bottom:none}
+.section__num{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;color:var(--signal);margin-bottom:12px;font-weight:500}
+.section__title{font-family:var(--font-head);font-weight:800;font-size:48px;letter-spacing:-.035em;line-height:1;color:var(--navy);margin-bottom:20px}
+.section__lead{font-size:20px;line-height:1.55;color:var(--muted);max-width:720px;margin-bottom:56px;font-weight:400}
+
+/* ── TOC ── */
+.toc{background:#fff;border:1px solid var(--mist);border-radius:16px;padding:40px;margin:-64px auto 0;max-width:1136px;box-shadow:var(--shadow-xl);position:relative;z-index:2}
+.toc h3{font-family:var(--font-head);font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:24px}
+.toc__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px 32px;list-style:none}
+.toc__grid li a{display:flex;align-items:baseline;gap:12px;padding:10px 0;color:var(--navy);font-weight:500;font-size:15px;border-bottom:1px solid transparent;transition:color .15s}
+.toc__grid li a:hover{color:var(--signal);text-decoration:none}
+.toc__num{font-family:var(--font-mono);font-size:11px;color:var(--signal);font-weight:500;min-width:22px}
+
+/* ── Cards & grids ── */
+.card{background:#fff;border:1px solid var(--mist);border-radius:12px;padding:28px;box-shadow:var(--shadow-sm)}
+.card--dark{background:var(--navy);color:#fff;border-color:var(--navy-2)}
+.card--nav{background:linear-gradient(135deg,#0B1437,#1E2A5E);color:#fff}
+.grid{display:grid;gap:20px}
+.grid--2{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+.grid--3{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.grid--4{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.grid--5{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+
+/* ── Utility ── */
+.eyebrow{font-family:var(--font-head);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--signal)}
+.h3{font-family:var(--font-head);font-size:22px;font-weight:700;letter-spacing:-.015em;color:var(--navy);margin:0 0 12px}
+.h4{font-family:var(--font-head);font-size:17px;font-weight:600;color:var(--navy);margin:0 0 8px}
+.text-muted{color:var(--muted)}
+.mono{font-family:var(--font-mono);font-size:13px}
+.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}.mb-8{margin-bottom:32px}.mb-12{margin-bottom:48px}
+.mt-8{margin-top:32px}.mt-12{margin-top:48px}
+
+/* ── LOGO section ── */
+.logo-primary-stage{background:var(--white);border:1px solid var(--mist);border-radius:16px;padding:80px 40px;text-align:center;display:flex;align-items:center;justify-content:center;min-height:320px}
+.logo-primary-stage img{max-width:520px;width:100%;height:auto}
+.logo-dark-stage{background:var(--navy);border-radius:16px;padding:80px 40px;text-align:center;display:flex;align-items:center;justify-content:center;min-height:320px}
+.logo-dark-stage img{max-width:520px;width:100%;height:auto}
+.logo-mono-stage{background:#F5F7FA;border:1px solid var(--mist);border-radius:16px;padding:48px 32px;text-align:center;display:flex;align-items:center;justify-content:center;min-height:220px}
+.logo-mono-stage img{max-width:360px;width:100%;height:auto}
+.logo-mono-stage--inv{background:#1E293B}
+.logo-variant-card{background:#fff;border:1px solid var(--mist);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.logo-variant-card__stage{padding:48px 24px;display:flex;align-items:center;justify-content:center;min-height:180px}
+.logo-variant-card__stage--light{background:#fff}
+.logo-variant-card__stage--dark{background:var(--navy)}
+.logo-variant-card__stage--mono-light{background:#F5F7FA}
+.logo-variant-card__stage--mono-dark{background:#1E293B}
+.logo-variant-card__stage img{max-width:240px;max-height:120px;height:auto}
+.logo-variant-card__body{padding:16px 20px;border-top:1px solid var(--mist);background:#fff}
+.logo-variant-card__body .name{font-family:var(--font-head);font-weight:600;font-size:14px;color:var(--navy);margin-bottom:2px}
+.logo-variant-card__body .note{font-size:12px;color:var(--muted)}
+
+.clearspace-diagram{background:#fff;border:1px solid var(--mist);border-radius:12px;padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.clearspace-figure{position:relative;padding:40px}
+.clearspace-figure::before{content:"";position:absolute;inset:0;border:2px dashed rgba(47,107,255,.35);border-radius:8px;pointer-events:none}
+.clearspace-figure img{max-width:220px}
+
+.minsize-row{display:grid;grid-template-columns:1fr 120px;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--mist)}
+.minsize-row:last-child{border-bottom:none}
+.minsize-row__label{font-size:14px}
+.minsize-row__label .spec{display:block;color:var(--muted);font-family:var(--font-mono);font-size:12px;margin-top:2px}
+.minsize-row__img{text-align:right}
+
+.misuse-card{background:#fff;border:1px solid var(--mist);border-radius:12px;overflow:hidden}
+.misuse-card__stage{background:#F5F7FA;padding:32px 24px;display:flex;align-items:center;justify-content:center;min-height:150px;position:relative}
+.misuse-card__body{padding:14px 18px;border-top:1px solid var(--mist);font-size:13px}
+.misuse-card__body .marker{display:inline-block;font-weight:700;color:var(--danger);margin-right:6px}
+.misuse-card__body .marker--ok{color:var(--success)}
+.strike{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none}
+.strike::after{content:"";position:absolute;top:50%;left:12%;right:12%;height:3px;background:var(--danger);transform:rotate(-12deg);opacity:.6}
+
+/* ── Colors ── */
+.swatch{background:#fff;border:1px solid var(--mist);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.swatch__chip{height:120px;padding:16px;color:#fff;font-family:var(--font-head);font-weight:700;font-size:14px;letter-spacing:.02em;display:flex;align-items:flex-end}
+.swatch__body{padding:14px 16px;background:#fff}
+.swatch__name{font-family:var(--font-head);font-weight:600;font-size:14px;color:var(--navy);margin-bottom:6px}
+.swatch__row{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--muted);padding:2px 0}
+.swatch__row span:first-child{color:var(--slate);font-weight:500}
+.palette-strip{height:48px;border-radius:8px;display:flex;overflow:hidden}
+.palette-strip > div{flex:1}
+
+.contrast-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.contrast-table th,.contrast-table td{padding:14px 18px;text-align:left;font-size:14px;border-bottom:1px solid var(--mist)}
+.contrast-table thead th{background:var(--cloud);font-family:var(--font-head);font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.contrast-table .sample{font-family:var(--font-head);font-weight:600;padding:6px 12px;border-radius:6px;display:inline-block;min-width:120px;text-align:center}
+.pass{color:var(--success);font-weight:600}
+.fail{color:var(--danger);font-weight:600}
+
+/* ── Typography specimens ── */
+.typespec{background:#fff;border:1px solid var(--mist);border-radius:12px;padding:32px}
+.typespec__kicker{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-bottom:14px}
+.typespec__big{font-size:72px;line-height:1;letter-spacing:-.03em;color:var(--navy);margin-bottom:12px}
+.typespec__alpha{font-size:15px;color:var(--muted);margin-bottom:16px;line-height:1.5}
+.typespec__weights{display:flex;gap:18px;flex-wrap:wrap;font-size:14px}
+.type-row{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--mist)}
+.type-row:last-child{border-bottom:none}
+.type-row__spec{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+
+/* ── Voice cards ── */
+.voice-pair{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:12px;overflow:hidden;border:1px solid var(--mist);box-shadow:var(--shadow-sm)}
+.voice-pair__cell{padding:24px;background:#fff}
+.voice-pair__cell--do{border-right:1px solid var(--mist);border-top:3px solid var(--success)}
+.voice-pair__cell--dont{background:#FEF6F6;border-top:3px solid var(--danger)}
+.voice-pair__head{font-family:var(--font-head);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+.voice-pair__head--do{color:var(--success)}
+.voice-pair__head--dont{color:var(--danger)}
+.voice-pair__quote{font-size:16px;font-style:italic;color:var(--charcoal);line-height:1.5}
+
+/* ── UI preview ── */
+.ui-preview{background:#fff;border:1px solid var(--mist);border-radius:12px;padding:24px}
+.btn{font-family:var(--font-head);font-weight:600;font-size:14px;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--signal);color:#fff}
+.btn-primary:hover{background:#2458D6}
+.btn-secondary{background:#fff;color:var(--navy);border:1px solid var(--border)}
+.btn-ghost{background:transparent;color:var(--signal);padding:10px 16px}
+.btn-danger{background:var(--danger);color:#fff}
+.input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:var(--font-body);background:#fff}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:9999px;font-family:var(--font-head);font-size:11px;font-weight:600;letter-spacing:.04em}
+.badge-success{background:#F0FDF4;color:#166534;border:1px solid #BBF7D0}
+.badge-warn{background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
+.badge-info{background:#EFF6FF;color:#1E40AF;border:1px solid #BFDBFE}
+
+/* ── Applications mockups ── */
+.mockup-card{background:#fff;border:1px solid var(--mist);border-radius:12px;overflow:hidden}
+.mockup-card__stage{background:linear-gradient(135deg,#EFF2F8,#F5F7FA);padding:32px;min-height:240px;display:flex;align-items:center;justify-content:center}
+.mockup-card__body{padding:14px 18px;background:#fff;border-top:1px solid var(--mist)}
+.mockup-card__name{font-family:var(--font-head);font-weight:600;color:var(--navy);font-size:14px;margin-bottom:2px}
+.mockup-card__note{font-size:12px;color:var(--muted)}
+.business-card{background:#fff;border-radius:8px;padding:24px;width:320px;height:200px;box-shadow:var(--shadow-lg);position:relative;display:flex;flex-direction:column;justify-content:space-between}
+.business-card--back{background:var(--navy);color:#fff;position:relative}
+.business-card__name{font-family:var(--font-head);font-weight:700;font-size:16px;color:var(--navy);margin-bottom:2px}
+.business-card__role{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.business-card__contact{font-size:11px;line-height:1.5;color:var(--slate);font-family:var(--font-mono)}
+.email-sig{font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--charcoal);background:#fff;padding:20px 24px;border-radius:8px;border:1px solid var(--mist);max-width:420px}
+.email-sig .line1{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:16px}
+.email-sig .line2{color:var(--muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px;font-weight:500}
+.email-sig .divider{width:40px;height:2px;background:linear-gradient(90deg,var(--ion),var(--signal));margin:10px 0}
+.email-sig .line3{font-size:13px;color:var(--slate)}
+
+.social-avatar{width:120px;height:120px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-lg)}
+.social-avatar img{width:70%;height:70%;object-fit:contain}
+.social-avatar--light{background:#fff;border:1px solid var(--mist)}
+
+/* ── Do/Don't ── */
+.dodont{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dodont__card{border-radius:12px;overflow:hidden;border:1px solid var(--mist);background:#fff}
+.dodont__head{padding:14px 20px;font-family:var(--font-head);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.dodont__head--do{background:#F0FDF4;color:#166534;border-bottom:1px solid #BBF7D0}
+.dodont__head--dont{background:#FEF6F6;color:#991B1B;border-bottom:1px solid #FECACA}
+.dodont__body{padding:0;list-style:none}
+.dodont__body li{padding:12px 20px;border-bottom:1px solid var(--mist);font-size:14px;line-height:1.45}
+.dodont__body li:last-child{border-bottom:none}
+.dodont__body li::before{content:"•";color:var(--muted);margin-right:8px}
+
+/* ── Footer ── */
+.footer{background:var(--navy);color:rgba(255,255,255,.65);padding:64px 32px;margin-top:0}
+.footer__inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px}
+.footer h4{font-family:var(--font-head);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#fff;margin-bottom:16px}
+.footer a{color:var(--ion-2)}
+.footer__logo{max-width:180px;margin-bottom:20px}
+.footer__bottom{max-width:1200px;margin:40px auto 0;padding:24px 0 0;border-top:1px solid rgba(255,255,255,.12);font-size:13px;color:rgba(255,255,255,.45);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+
+/* ── Icons ── */
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:16px}
+.icon-cell{background:#fff;border:1px solid var(--mist);border-radius:10px;padding:20px 12px;text-align:center}
+.icon-cell svg{width:32px;height:32px;margin:0 auto 8px;color:var(--signal)}
+.icon-cell__name{font-size:11px;color:var(--muted);font-family:var(--font-mono)}
+
+/* ── Responsive ── */
+@media (max-width:768px){
+  .hero-title{font-size:52px}
+  .hero-sub{font-size:18px}
+  .section{padding:64px 0}
+  .section__title{font-size:36px}
+  .section__lead{font-size:17px}
+  .toc{padding:24px}
+  .dodont{grid-template-columns:1fr}
+  .clearspace-diagram{grid-template-columns:1fr}
+  .voice-pair{grid-template-columns:1fr}
+  .voice-pair__cell--do{border-right:none;border-bottom:1px solid var(--mist)}
+  .footer__inner{grid-template-columns:1fr}
+}
+@media print{
+  body{background:#fff}
+  .bg-hero{background:#fff !important;color:var(--navy) !important;padding:40px 32px}
+  .hero-title{-webkit-text-fill-color:var(--navy);background:none;color:var(--navy)}
+  .hero-sub{color:var(--charcoal)}
+  .section{page-break-inside:avoid;padding:40px 0;border-bottom:1px solid var(--mist)}
+  .toc{box-shadow:none}
+  .footer{background:#fff;color:var(--navy);border-top:1px solid var(--mist)}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════════════════════ -->
+<header class="bg-hero">
+  <div class="hero">
+    <img src="logos/v2-production/png/2048/transparent/praxion-inverse.png" alt="Praxion" style="max-width:220px;margin-bottom:48px;filter:drop-shadow(0 8px 24px rgba(0,0,0,.3));">
+    <div class="hero-kicker">BRAND GUIDELINES · VERSION 2.0</div>
+    <h1 class="hero-title">The Praxion<br>Brand System.</h1>
+    <p class="hero-sub">Our identity is a promise — to HR teams who choose us, and to every employee whose working life we touch. This document is how we keep that promise visible, consistent, and unmistakably ours.</p>
+    <div class="hero-meta">
+      <div class="hero-meta__item"><span class="hero-meta__label">Owner</span><span class="hero-meta__value">Praxion Brand Team</span></div>
+      <div class="hero-meta__item"><span class="hero-meta__label">Version</span><span class="hero-meta__value">2.0 (Apr 2026)</span></div>
+      <div class="hero-meta__item"><span class="hero-meta__label">Supersedes</span><span class="hero-meta__value">v1.0 — Apr 2026</span></div>
+      <div class="hero-meta__item"><span class="hero-meta__label">Contact</span><span class="hero-meta__value">brand@praxionhr.com</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     TABLE OF CONTENTS
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="shell">
+  <nav class="toc">
+    <h3>Contents</h3>
+    <ul class="toc__grid">
+      <li><a href="#brand-story"><span class="toc__num">01</span>Brand Story</a></li>
+      <li><a href="#positioning"><span class="toc__num">02</span>Positioning</a></li>
+      <li><a href="#logo"><span class="toc__num">03</span>Logo System</a></li>
+      <li><a href="#clearspace"><span class="toc__num">04</span>Clear Space & Sizing</a></li>
+      <li><a href="#misuse"><span class="toc__num">05</span>Logo Misuse</a></li>
+      <li><a href="#color"><span class="toc__num">06</span>Color System</a></li>
+      <li><a href="#typography"><span class="toc__num">07</span>Typography</a></li>
+      <li><a href="#iconography"><span class="toc__num">08</span>Iconography</a></li>
+      <li><a href="#imagery"><span class="toc__num">09</span>Imagery</a></li>
+      <li><a href="#illustration"><span class="toc__num">10</span>Illustration</a></li>
+      <li><a href="#voice"><span class="toc__num">11</span>Voice & Tone</a></li>
+      <li><a href="#ui"><span class="toc__num">12</span>UI in Motion</a></li>
+      <li><a href="#applications"><span class="toc__num">13</span>Applications</a></li>
+      <li><a href="#accessibility"><span class="toc__num">14</span>Accessibility</a></li>
+      <li><a href="#dodont"><span class="toc__num">15</span>Do & Don't</a></li>
+      <li><a href="#downloads"><span class="toc__num">16</span>Downloads</a></li>
+    </ul>
+  </nav>
+</div>
+
+<div class="shell">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     01 — BRAND STORY
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="brand-story" class="section">
+  <div class="section__num">01 — Foundation</div>
+  <h2 class="section__title">Our story.</h2>
+  <p class="section__lead">Praxion is a Human Resource Operating System — an HROS — built from the ground up for organizations that want HR to stop being a bottleneck and start being a multiplier.</p>
+
+  <div class="grid grid--2">
+    <div class="card">
+      <div class="eyebrow mb-4">Mission</div>
+      <p style="font-size:18px;line-height:1.55;color:var(--navy);font-weight:500;">We give HR teams a single source of truth for people, and the execution layer to act on it — so every decision about a person is fast, fair, and traceable.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow mb-4">Vision</div>
+      <p style="font-size:18px;line-height:1.55;color:var(--navy);font-weight:500;">A workplace where every employee experience is intentional, every compliance requirement is met by default, and every HR leader finally has the intelligence to see around corners.</p>
+    </div>
+  </div>
+
+  <div class="grid grid--3 mt-8">
+    <div class="card" style="border-top:4px solid var(--signal);">
+      <div class="eyebrow mb-4" style="color:var(--signal);">Execution</div>
+      <p class="h4">Work gets done.</p>
+      <p class="text-muted">Workflows complete. Approvals close. Payroll runs. HR stops being where requests go to die.</p>
+    </div>
+    <div class="card" style="border-top:4px solid var(--ion);">
+      <div class="eyebrow mb-4" style="color:#0F7F74;">Intelligence</div>
+      <p class="h4">Insight by default.</p>
+      <p class="text-muted">Every interaction generates data. Every dashboard answers a real question. You see the org before the org sees itself.</p>
+    </div>
+    <div class="card" style="border-top:4px solid var(--amber);">
+      <div class="eyebrow mb-4" style="color:#B45309;">Flow</div>
+      <p class="h4">Nothing stutters.</p>
+      <p class="text-muted">Employee to manager to HR to payroll to ledger — one unbroken motion. No re-keying. No context loss. No handoff tax.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     02 — POSITIONING
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="positioning" class="section">
+  <div class="section__num">02 — Foundation</div>
+  <h2 class="section__title">How we position.</h2>
+  <p class="section__lead">Praxion is not a suite of HR apps. It is an operating system for HR — one data model, thirteen modules, one voice across every touchpoint.</p>
+
+  <div class="card card--nav mb-8" style="padding:40px 48px;">
+    <div class="eyebrow mb-4" style="color:var(--ion-2);">Positioning Statement</div>
+    <p style="font-size:28px;font-weight:500;line-height:1.35;color:#fff;letter-spacing:-.015em;">For HR leaders who are tired of stitching together disconnected tools, <strong style="color:var(--ion-2);font-weight:700;">Praxion</strong> is the unified HR operating system that gives them an end-to-end platform — from hire to retire, payroll to performance — built on one model and one voice, so HR finally operates at the speed of the business.</p>
+  </div>
+
+  <div class="grid grid--2">
+    <div class="card">
+      <div class="eyebrow mb-4">We are</div>
+      <ul style="list-style:none;padding:0;font-size:15px;line-height:2;">
+        <li>→ An operating system, not a tool.</li>
+        <li>→ Built on one model — people, positions, policies.</li>
+        <li>→ Opinionated about process, flexible about policy.</li>
+        <li>→ Designed for mid-market and enterprise, not SMB.</li>
+        <li>→ Regionally-aware: MENA first, global-ready.</li>
+      </ul>
+    </div>
+    <div class="card" style="background:#FEF6F6;border-color:#FECACA;">
+      <div class="eyebrow mb-4" style="color:var(--danger);">We are not</div>
+      <ul style="list-style:none;padding:0;font-size:15px;line-height:2;">
+        <li>→ A payroll point solution.</li>
+        <li>→ An applicant tracking system.</li>
+        <li>→ A bolt-on survey tool.</li>
+        <li>→ A generic workflow engine with HR labels.</li>
+        <li>→ The cheapest option — we are the right one.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid grid--4 mt-8">
+    <div class="card" style="text-align:center;padding:32px 20px;">
+      <div class="h3" style="font-size:36px;color:var(--signal);margin-bottom:4px;">13</div>
+      <div class="text-muted" style="font-size:13px;">Modules in the platform</div>
+    </div>
+    <div class="card" style="text-align:center;padding:32px 20px;">
+      <div class="h3" style="font-size:36px;color:var(--ion);margin-bottom:4px;">1</div>
+      <div class="text-muted" style="font-size:13px;">Unified data model</div>
+    </div>
+    <div class="card" style="text-align:center;padding:32px 20px;">
+      <div class="h3" style="font-size:36px;color:var(--amber);margin-bottom:4px;">MENA</div>
+      <div class="text-muted" style="font-size:13px;">Launch region</div>
+    </div>
+    <div class="card" style="text-align:center;padding:32px 20px;">
+      <div class="h3" style="font-size:36px;color:var(--navy);margin-bottom:4px;">Q3·26</div>
+      <div class="text-muted" style="font-size:13px;">Phase 1 launch</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     03 — LOGO SYSTEM
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="logo" class="section">
+  <div class="section__num">03 — Identity</div>
+  <h2 class="section__title">The Praxion logo.</h2>
+  <p class="section__lead">A three-dimensional cube anchored by four colored vertices. It reads as structure with motion — an operating system with personality. The amber dot at the bottom-left is deliberate: it breaks the cool-palette symmetry and signals the brand's willingness to make a sharp call when it matters.</p>
+
+  <div class="logo-primary-stage mb-8">
+    <img src="logos/v2-production/png/2048/transparent/praxion-full.png" alt="Praxion logo — primary lockup">
+  </div>
+
+  <div class="grid grid--2 mb-12">
+    <div>
+      <div class="eyebrow mb-4">Construction</div>
+      <p class="h4">The cube</p>
+      <p class="text-muted mb-6">An isometric hex-footprint cube with three visible faces. The top face carries illumination (white→ice-blue gradient), the left face carries cool shadow, and the right face is teal-infused — a quiet way to double-down on our growth color without adding another accent.</p>
+      <p class="h4">The dots</p>
+      <p class="text-muted mb-6">Seven vertex dots, sized in proportion to the cube. Four are Navy; the other three carry our three brand accents — Signal Blue (top), Ion Teal (bottom-right), and <strong style="color:var(--amber);">Amber (bottom-left)</strong>. The amber dot is the only warm note in the mark; it is doing load-bearing work and must never be substituted.</p>
+      <p class="h4">The shadow</p>
+      <p class="text-muted mb-6">A stacked-ellipse ground shadow sits the mark in space. It is baked into every file; do not add a second shadow in Photoshop or Figma.</p>
+      <p class="h4">The wordmark</p>
+      <p class="text-muted">Set in Inter ExtraBold with custom spacing. The cube rests to the left, the wordmark to the right, with the tagline <em>EXECUTION · INTELLIGENCE · FLOW</em> sitting beneath a short gradient bar (Ion → Signal).</p>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div style="background:#F5F7FA;padding:48px 32px;border-bottom:1px solid var(--mist);text-align:center;">
+        <img src="logos/v2-production/png/2048/transparent/praxion-icon-full.png" alt="Praxion cube mark" style="max-width:260px;margin:0 auto;">
+      </div>
+      <div style="padding:20px 28px;font-size:13px;">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--mist);"><span class="text-muted">Top vertex</span><span class="mono">#2F6BFF · Signal</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--mist);"><span class="text-muted">Right vertex</span><span class="mono">#19D3C5 · Ion</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--mist);"><span class="text-muted">Bottom-left vertex</span><span class="mono" style="color:var(--amber);font-weight:600;">#F59E0B · Amber</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;"><span class="text-muted">Navy positions</span><span class="mono">#0B1437 · 4 dots</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variants -->
+  <h3 class="h3" style="margin-bottom:20px;">The eight production variants.</h3>
+  <p class="text-muted mb-8" style="max-width:680px;">Pick the variant that matches the background first, then the color capacity of the medium. Every variant is available as SVG, PDF, EPS, and PNG at 1024/2048/4096/8192 px.</p>
+  <div class="grid grid--4">
+    <div class="logo-variant-card">
+      <div class="logo-variant-card__stage logo-variant-card__stage--light">
+        <img src="logos/v2-production/png/1024/transparent/praxion-full.png" alt="Full — light">
+      </div>
+      <div class="logo-variant-card__body"><div class="name">Full — light</div><div class="note">Default. Light backgrounds.</div></div>
+    </div>
+    <div class="logo-variant-card">
+      <div class="logo-variant-card__stage logo-variant-card__stage--dark">
+        <img src="logos/v2-production/png/1024/transparent/praxion-inverse.png" alt="Full — inverse">
+      </div>
+      <div class="logo-variant-card__body"><div class="name">Inverse</div><div class="note">Dark / navy backgrounds.</div></div>
+    </div>
+    <div class="logo-variant-card">
+      <div class="logo-variant-card__stage logo-variant-card__stage--mono-light">
+        <img src="logos/v2-production/png/1024/transparent/praxion-mono-black.png" alt="Mono black">
+      </div>
+      <div class="logo-variant-card__body"><div class="name">Mono — black</div><div class="note">Single-color print, fax, emboss.</div></div>
+    </div>
+    <div class="logo-variant-card">
+      <div class="logo-variant-card__stage logo-variant-card__stage--mono-dark">
+        <img src="logos/v2-production/png/1024/transparent/praxion-mono-white.png" alt="Mono white">
+      </div>
+      <div class="logo-variant-card__body"><div class="name">Mono — white</div><div class="note">On color or photo backgrounds.</div></div>
+    </div>
+    <div class="logo-variant-card">
+      <div class="logo-variant-card__stage logo-variant-card__stage--light">
+        <img src="logos/v2-production/png/1024/transparent/praxion-icon-full.png" alt="Icon — color">
+      </div>
+      <div class="logo-variant-card__body"><div class="name">Icon — color</div><div class="note">Avatars, favicons, app icons.</div></div>
+    </div>
+    <div class="logo-variant-card">
+      <div class="logo-variant-card__stage logo-variant-card__stage--dark">
+        <img src="logos/v2-production/png/1024/transparent/praxion-icon-inverse.png" alt="Icon — inverse">
+      </div>
+      <div class="logo-variant-card__body"><div class="name">Icon — inverse</div><div class="note">Dark avatars, dark UI.</div></div>
+    </div>
+    <div class="logo-variant-card">
+      <div class="logo-variant-card__stage logo-variant-card__stage--mono-light">
+        <img src="logos/v2-production/png/1024/transparent/praxion-icon-mono-black.png" alt="Icon mono black">
+      </div>
+      <div class="logo-variant-card__body"><div class="name">Icon — mono black</div><div class="note">Mono-only contexts.</div></div>
+    </div>
+    <div class="logo-variant-card">
+      <div class="logo-variant-card__stage logo-variant-card__stage--mono-dark">
+        <img src="logos/v2-production/png/1024/transparent/praxion-icon-mono-white.png" alt="Icon mono white">
+      </div>
+      <div class="logo-variant-card__body"><div class="name">Icon — mono white</div><div class="note">Mono-only on dark.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     04 — CLEAR SPACE & SIZING
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="clearspace" class="section">
+  <div class="section__num">04 — Identity</div>
+  <h2 class="section__title">Clear space & minimum sizes.</h2>
+  <p class="section__lead">The logo needs room to breathe. Protect it with an invisible margin equal to the height of the cube on all four sides. Inside that boundary, nothing — no text, no imagery, no edge.</p>
+
+  <div class="clearspace-diagram mb-8">
+    <div class="clearspace-figure">
+      <img src="logos/v2-production/png/1024/transparent/praxion-full.png" alt="Clear space">
+    </div>
+    <div>
+      <div class="eyebrow mb-4">The rule</div>
+      <p class="h4">X = cube height</p>
+      <p class="text-muted mb-6">Measure the cube at its tallest point (top vertex to bottom vertex). That distance is X. Every side of the logo must have at least X of empty space before anything else appears.</p>
+      <p class="h4">Applies to</p>
+      <p class="text-muted">Page edges · other logos · text · photography · background imagery · patterns. If you aren't sure, double it.</p>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Minimum sizes.</h3>
+  <p class="text-muted mb-6" style="max-width:680px;">Below these sizes the mark loses legibility. If you need to go smaller, switch to the icon-only variant.</p>
+  <div class="grid grid--2">
+    <div class="card">
+      <div class="eyebrow mb-4">Digital</div>
+      <div class="minsize-row">
+        <div class="minsize-row__label">Full lockup<span class="spec">min 120 px wide</span></div>
+        <div class="minsize-row__img"><img src="logos/v2-production/png/1024/transparent/praxion-full.png" style="width:120px;" alt=""></div>
+      </div>
+      <div class="minsize-row">
+        <div class="minsize-row__label">Icon only<span class="spec">min 24 px</span></div>
+        <div class="minsize-row__img"><img src="logos/v2-production/png/1024/transparent/praxion-icon-full.png" style="width:32px;display:inline-block;" alt=""></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="eyebrow mb-4">Print</div>
+      <div class="minsize-row">
+        <div class="minsize-row__label">Full lockup<span class="spec">min 30 mm wide</span></div>
+        <div class="minsize-row__img"><span class="mono">~85 px @300dpi</span></div>
+      </div>
+      <div class="minsize-row">
+        <div class="minsize-row__label">Icon only<span class="spec">min 8 mm</span></div>
+        <div class="minsize-row__img"><span class="mono">~95 px @300dpi</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     05 — LOGO MISUSE
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="misuse" class="section">
+  <div class="section__num">05 — Identity</div>
+  <h2 class="section__title">Logo misuse.</h2>
+  <p class="section__lead">The approved files carry every tweak we need. Modifying them — even in small ways — breaks recognition across the system. Never do any of the following.</p>
+
+  <div class="grid grid--3">
+    <div class="misuse-card">
+      <div class="misuse-card__stage" style="background:#FDE68A;">
+        <img src="logos/v2-production/png/1024/transparent/praxion-full.png" style="max-width:140px;" alt="">
+      </div>
+      <div class="misuse-card__body"><span class="marker">✗</span>Don't place the color lockup on a non-approved background color.</div>
+    </div>
+    <div class="misuse-card">
+      <div class="misuse-card__stage">
+        <img src="logos/v2-production/png/1024/transparent/praxion-full.png" style="max-width:140px;transform:rotate(-10deg);" alt="">
+      </div>
+      <div class="misuse-card__body"><span class="marker">✗</span>Don't rotate, skew, or tilt the logo.</div>
+    </div>
+    <div class="misuse-card">
+      <div class="misuse-card__stage">
+        <img src="logos/v2-production/png/1024/transparent/praxion-full.png" style="max-width:140px;transform:scaleY(1.6);" alt="">
+      </div>
+      <div class="misuse-card__body"><span class="marker">✗</span>Don't stretch or re-proportion the lockup.</div>
+    </div>
+    <div class="misuse-card">
+      <div class="misuse-card__stage">
+        <img src="logos/v2-production/png/1024/transparent/praxion-full.png" style="max-width:140px;filter:hue-rotate(90deg) saturate(1.5);" alt="">
+      </div>
+      <div class="misuse-card__body"><span class="marker">✗</span>Don't recolor. The palette is fixed.</div>
+    </div>
+    <div class="misuse-card">
+      <div class="misuse-card__stage" style="background:url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=400') center/cover;">
+        <img src="logos/v2-production/png/1024/transparent/praxion-full.png" style="max-width:140px;" alt="">
+      </div>
+      <div class="misuse-card__body"><span class="marker">✗</span>Don't place the color logo over busy photography — use the inverse variant.</div>
+    </div>
+    <div class="misuse-card">
+      <div class="misuse-card__stage">
+        <img src="logos/v2-production/png/1024/transparent/praxion-full.png" style="max-width:140px;filter:drop-shadow(0 0 12px rgba(47,107,255,.8));" alt="">
+      </div>
+      <div class="misuse-card__body"><span class="marker">✗</span>Don't add glows, shadows, strokes, or effects.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     06 — COLOR SYSTEM
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="color" class="section">
+  <div class="section__num">06 — Tokens</div>
+  <h2 class="section__title">Color.</h2>
+  <p class="section__lead">One anchor (Navy), two brand accents (Signal and Ion), one warm counterweight (Amber), plus a disciplined neutral ramp. The palette resolves every screen with one of three dominants.</p>
+
+  <div class="palette-strip mb-8">
+    <div style="background:#0B1437;"></div>
+    <div style="background:#2F6BFF;"></div>
+    <div style="background:#19D3C5;"></div>
+    <div style="background:#F59E0B;"></div>
+    <div style="background:#F5F7FA;"></div>
+    <div style="background:#E8ECF3;"></div>
+    <div style="background:#6B7A99;"></div>
+  </div>
+
+  <h3 class="h3 mb-4">Brand palette.</h3>
+  <div class="grid grid--4 mb-12">
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#0B1437;">Navy</div>
+      <div class="swatch__body">
+        <div class="swatch__name">Navy</div>
+        <div class="swatch__row"><span>HEX</span><span>#0B1437</span></div>
+        <div class="swatch__row"><span>RGB</span><span>11, 20, 55</span></div>
+        <div class="swatch__row"><span>CMYK</span><span>98 / 92 / 36 / 61</span></div>
+        <div class="swatch__row"><span>Role</span><span>Anchor, text</span></div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#2F6BFF;">Signal Blue</div>
+      <div class="swatch__body">
+        <div class="swatch__name">Signal Blue</div>
+        <div class="swatch__row"><span>HEX</span><span>#2F6BFF</span></div>
+        <div class="swatch__row"><span>RGB</span><span>47, 107, 255</span></div>
+        <div class="swatch__row"><span>CMYK</span><span>82 / 60 / 0 / 0</span></div>
+        <div class="swatch__row"><span>Role</span><span>Primary CTA, links</span></div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#19D3C5;color:#0B1437;">Ion Teal</div>
+      <div class="swatch__body">
+        <div class="swatch__name">Ion Teal</div>
+        <div class="swatch__row"><span>HEX</span><span>#19D3C5</span></div>
+        <div class="swatch__row"><span>RGB</span><span>25, 211, 197</span></div>
+        <div class="swatch__row"><span>CMYK</span><span>70 / 0 / 30 / 0</span></div>
+        <div class="swatch__row"><span>Role</span><span>Growth, accent</span></div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#F59E0B;">Amber</div>
+      <div class="swatch__body">
+        <div class="swatch__name">Amber</div>
+        <div class="swatch__row"><span>HEX</span><span>#F59E0B</span></div>
+        <div class="swatch__row"><span>RGB</span><span>245, 158, 11</span></div>
+        <div class="swatch__row"><span>CMYK</span><span>0 / 40 / 100 / 0</span></div>
+        <div class="swatch__row"><span>Role</span><span>Warm accent, warning</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Neutrals.</h3>
+  <div class="grid grid--5 mb-12">
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#FFFFFF;color:var(--navy);border-bottom:1px solid var(--mist);">White</div>
+      <div class="swatch__body"><div class="swatch__name">White</div><div class="swatch__row"><span>HEX</span><span>#FFFFFF</span></div><div class="swatch__row"><span>Role</span><span>Cards, content</span></div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#F5F7FA;color:var(--navy);">Cloud</div>
+      <div class="swatch__body"><div class="swatch__name">Cloud</div><div class="swatch__row"><span>HEX</span><span>#F5F7FA</span></div><div class="swatch__row"><span>Role</span><span>Page background</span></div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#E8ECF3;color:var(--navy);">Mist</div>
+      <div class="swatch__body"><div class="swatch__name">Mist</div><div class="swatch__row"><span>HEX</span><span>#E8ECF3</span></div><div class="swatch__row"><span>Role</span><span>Borders, dividers</span></div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#6B7A99;">Muted</div>
+      <div class="swatch__body"><div class="swatch__name">Muted</div><div class="swatch__row"><span>HEX</span><span>#6B7A99</span></div><div class="swatch__row"><span>Role</span><span>Secondary text</span></div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#1E293B;">Charcoal</div>
+      <div class="swatch__body"><div class="swatch__name">Charcoal</div><div class="swatch__row"><span>HEX</span><span>#1E293B</span></div><div class="swatch__row"><span>Role</span><span>Body text</span></div></div>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Semantic (UI state).</h3>
+  <p class="text-muted mb-4" style="max-width:680px;">Used inside the product for status, not in brand communications. Amber is the one color that crosses the boundary — it carries brand weight in the logo and warning weight in the UI.</p>
+  <div class="grid grid--4 mb-12">
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#22C55E;">Success</div>
+      <div class="swatch__body"><div class="swatch__name">Success</div><div class="swatch__row"><span>HEX</span><span>#22C55E</span></div><div class="swatch__row"><span>Role</span><span>Approved, active</span></div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#F59E0B;">Warning</div>
+      <div class="swatch__body"><div class="swatch__name">Warning</div><div class="swatch__row"><span>HEX</span><span>#F59E0B</span></div><div class="swatch__row"><span>Role</span><span>Pending, expiring</span></div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#EF4444;">Danger</div>
+      <div class="swatch__body"><div class="swatch__name">Danger</div><div class="swatch__row"><span>HEX</span><span>#EF4444</span></div><div class="swatch__row"><span>Role</span><span>Error, reject</span></div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#3B82F6;">Info</div>
+      <div class="swatch__body"><div class="swatch__name">Info</div><div class="swatch__row"><span>HEX</span><span>#3B82F6</span></div><div class="swatch__row"><span>Role</span><span>Informational</span></div></div>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Color proportions.</h3>
+  <p class="text-muted mb-4" style="max-width:680px;">Our screens follow a 60/30/10 rhythm. Anchor dominant. One accent supporting. A third accent used sparingly for lift. Never give all accents equal weight — the result is loud and generic.</p>
+  <div class="card" style="padding:0;overflow:hidden;">
+    <div style="display:flex;height:72px;font-family:var(--font-head);font-weight:700;color:#fff;">
+      <div style="flex:6;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:.1em;">NAVY · 60%</div>
+      <div style="flex:3;background:var(--signal);display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:.1em;">SIGNAL · 30%</div>
+      <div style="flex:1;background:var(--ion);color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:.1em;">ION · 10%</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     07 — TYPOGRAPHY
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="typography" class="section">
+  <div class="section__num">07 — Tokens</div>
+  <h2 class="section__title">Typography.</h2>
+  <p class="section__lead">A three-font system: <strong>Inter</strong> for headings and UI, <strong>DM Sans</strong> for body copy, <strong>JetBrains Mono</strong> for numbers, identifiers, and code. Together they're quiet, precise, and slightly technical — the voice of an operating system.</p>
+
+  <div class="grid grid--2 mb-8">
+    <div class="typespec" style="font-family:var(--font-head);">
+      <div class="typespec__kicker">INTER · HEADINGS & UI</div>
+      <div class="typespec__big" style="font-family:var(--font-head);font-weight:800;">Aa</div>
+      <div class="typespec__alpha" style="font-family:var(--font-head);">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz 0123456789</div>
+      <div class="typespec__weights" style="font-family:var(--font-head);">
+        <span style="font-weight:400;">Regular 400</span>
+        <span style="font-weight:500;">Medium 500</span>
+        <span style="font-weight:600;">Semi 600</span>
+        <span style="font-weight:700;">Bold 700</span>
+        <span style="font-weight:800;">ExtraBold 800</span>
+      </div>
+    </div>
+    <div class="typespec" style="font-family:var(--font-body);">
+      <div class="typespec__kicker">DM SANS · BODY & CONTENT</div>
+      <div class="typespec__big" style="font-family:var(--font-body);font-weight:500;">Aa</div>
+      <div class="typespec__alpha" style="font-family:var(--font-body);">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz 0123456789</div>
+      <div class="typespec__weights" style="font-family:var(--font-body);">
+        <span style="font-weight:400;">Regular 400</span>
+        <span style="font-weight:500;">Medium 500</span>
+        <span style="font-weight:700;">Bold 700</span>
+        <span style="font-style:italic;">Italic 400</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="typespec mb-12">
+    <div class="typespec__kicker">JETBRAINS MONO · NUMBERS, IDS, CODE</div>
+    <div class="typespec__big" style="font-family:var(--font-mono);font-weight:400;font-size:56px;">0123456789</div>
+    <div class="typespec__alpha" style="font-family:var(--font-mono);font-size:13px;">EGP 12,500.00 · 2026-04-18 · employee_id: 0x4F2A · v2.0.3 · SHA-256</div>
+  </div>
+
+  <h3 class="h3 mb-4">Type scale.</h3>
+  <div class="card mb-12">
+    <div class="type-row"><span class="type-row__spec">--text-4xl · 48px · ExtraBold</span><span style="font-family:var(--font-head);font-weight:800;font-size:48px;letter-spacing:-.03em;line-height:1;">Dashboard</span></div>
+    <div class="type-row"><span class="type-row__spec">--text-3xl · 38px · ExtraBold</span><span style="font-family:var(--font-head);font-weight:800;font-size:38px;letter-spacing:-.025em;line-height:1;">Page Title</span></div>
+    <div class="type-row"><span class="type-row__spec">--text-2xl · 30px · Bold</span><span style="font-family:var(--font-head);font-weight:700;font-size:30px;letter-spacing:-.02em;line-height:1.15;">Section Head</span></div>
+    <div class="type-row"><span class="type-row__spec">--text-xl · 24px · Bold</span><span style="font-family:var(--font-head);font-weight:700;font-size:24px;line-height:1.2;">Card Title</span></div>
+    <div class="type-row"><span class="type-row__spec">--text-lg · 20px · Semi 600</span><span style="font-family:var(--font-head);font-weight:600;font-size:20px;line-height:1.3;">Subtitle</span></div>
+    <div class="type-row"><span class="type-row__spec">--text-md · 17px · Medium</span><span style="font-family:var(--font-body);font-weight:500;font-size:17px;line-height:1.4;">Large body / lead</span></div>
+    <div class="type-row"><span class="type-row__spec">--text-base · 15px · Regular</span><span style="font-family:var(--font-body);font-size:15px;line-height:1.5;">Default body paragraph</span></div>
+    <div class="type-row"><span class="type-row__spec">--text-sm · 13px · Medium</span><span style="font-family:var(--font-head);font-weight:500;font-size:13px;line-height:1.4;">Table cells, labels</span></div>
+    <div class="type-row"><span class="type-row__spec">--text-xs · 11px · Semi</span><span style="font-family:var(--font-head);font-weight:600;font-size:11px;letter-spacing:.08em;line-height:1.3;">OVERLINES, BADGES</span></div>
+  </div>
+
+  <h3 class="h3 mb-4">Pairing rules.</h3>
+  <div class="grid grid--2">
+    <div class="card">
+      <div class="eyebrow mb-4" style="color:var(--success);">Do</div>
+      <ul style="list-style:none;padding:0;font-size:14px;line-height:1.8;">
+        <li>→ Inter for everything that labels, titles, or commands.</li>
+        <li>→ DM Sans for everything that a user reads in-line.</li>
+        <li>→ JetBrains Mono for anything precise (IDs, dates, amounts, code).</li>
+        <li>→ Pair bold heading with regular body — never bold + bold.</li>
+        <li>→ Negative tracking on display (-.02 to -.04em).</li>
+      </ul>
+    </div>
+    <div class="card" style="background:#FEF6F6;border-color:#FECACA;">
+      <div class="eyebrow mb-4" style="color:var(--danger);">Don't</div>
+      <ul style="list-style:none;padding:0;font-size:14px;line-height:1.8;">
+        <li>→ Don't substitute with a different sans-serif ("just use Roboto").</li>
+        <li>→ Don't set body text in Inter — it's built for UI, not reading.</li>
+        <li>→ Don't set paragraphs in mono.</li>
+        <li>→ Don't use italics on display headings.</li>
+        <li>→ Don't go below 13px for any body copy.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     08 — ICONOGRAPHY
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="iconography" class="section">
+  <div class="section__num">08 — System</div>
+  <h2 class="section__title">Iconography.</h2>
+  <p class="section__lead">Icons are outline-style, 24×24 on a 2px stroke, with rounded line caps and joins. Built on the Lucide icon set — common, open, and easy for every vendor to extend. When we draw a custom one, it matches Lucide's rhythm exactly.</p>
+
+  <div class="icon-grid mb-8">
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="icon-cell__name">home</div></div>
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7 7 0 0 1 13 0"/></svg><div class="icon-cell__name">user</div></div>
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><div class="icon-cell__name">calendar</div></div>
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div class="icon-cell__name">message</div></div>
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><circle cx="18" cy="7" r="2"/></svg><div class="icon-cell__name">team</div></div>
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div class="icon-cell__name">time</div></div>
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg><div class="icon-cell__name">chart</div></div>
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><div class="icon-cell__name">settings</div></div>
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg><div class="icon-cell__name">email</div></div>
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 11l3 3 6-6"/></svg><div class="icon-cell__name">check</div></div>
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg><div class="icon-cell__name">modules</div></div>
+    <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><div class="icon-cell__name">chat</div></div>
+  </div>
+
+  <div class="grid grid--3">
+    <div class="card">
+      <div class="eyebrow mb-4">Stroke</div>
+      <p class="h4">2 px, round caps</p>
+      <p class="text-muted">Never fill. Never outline + fill. Never reduce below 1.5px at small sizes.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow mb-4">Sizes</div>
+      <p class="h4">16 / 20 / 24 / 32</p>
+      <p class="text-muted">Four fixed sizes. 24 is default in UI. 16 sits beside 13px labels. 32 in empty states.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow mb-4">Color</div>
+      <p class="h4">Inherit from text</p>
+      <p class="text-muted">By default icons inherit color from their parent. Use Signal for primary, Muted for secondary, never rainbow icons.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     09 — IMAGERY
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="imagery" class="section">
+  <div class="section__num">09 — System</div>
+  <h2 class="section__title">Imagery.</h2>
+  <p class="section__lead">We show real workplaces and real moments. Natural light, candid composition, an emphasis on the human gesture — a hand reaching for a keyboard, a manager leaning across a desk — over staged heroics. The camera is a quiet observer, not the star.</p>
+
+  <div class="grid grid--2 mb-8">
+    <div class="card">
+      <div class="eyebrow mb-4" style="color:var(--success);">Do photograph</div>
+      <ul style="list-style:none;padding:0;font-size:15px;line-height:1.9;">
+        <li>→ Diverse, multi-generational teams in their actual work environments</li>
+        <li>→ Gestures and micro-moments, not posed group shots</li>
+        <li>→ Natural daylight; avoid harsh fluorescent or cinematic gel lighting</li>
+        <li>→ MENA-region offices, factories, clinics, and classrooms (we're regional first)</li>
+        <li>→ Technology in use, never as hero object</li>
+      </ul>
+    </div>
+    <div class="card" style="background:#FEF6F6;border-color:#FECACA;">
+      <div class="eyebrow mb-4" style="color:var(--danger);">Avoid</div>
+      <ul style="list-style:none;padding:0;font-size:15px;line-height:1.9;">
+        <li>→ Stock imagery of people "celebrating" around laptops</li>
+        <li>→ Handshake-in-suits clichés</li>
+        <li>→ Ethnic or gender monocultures</li>
+        <li>→ Heavy filters, vintage fades, or Instagram presets</li>
+        <li>→ Imagery of tools that aren't ours (other dashboards, other logos)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Treatments.</h3>
+  <p class="text-muted mb-6" style="max-width:680px;">Two approved post-processing treatments — anything else must be approved by Brand.</p>
+  <div class="grid grid--3">
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div style="aspect-ratio:16/10;background:linear-gradient(135deg,#E8ECF3,#D5DBEA);"></div>
+      <div style="padding:14px 18px;"><div class="h4">Natural</div><p class="text-muted" style="font-size:13px;">Unfiltered, true color. Default for editorial and case studies.</p></div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div style="aspect-ratio:16/10;background:linear-gradient(135deg,#0B1437,#1E2A5E);position:relative;"><div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 0,rgba(11,20,55,.6) 100%);"></div></div>
+      <div style="padding:14px 18px;"><div class="h4">Navy duotone</div><p class="text-muted" style="font-size:13px;">Black→Navy for moody hero imagery over which we overlay the inverse logo or white copy.</p></div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div style="aspect-ratio:16/10;background:linear-gradient(135deg,#19D3C5,#2F6BFF);"></div>
+      <div style="padding:14px 18px;"><div class="h4">Ion gradient tint</div><p class="text-muted" style="font-size:13px;">Teal→Signal soft tint for growth / analytics content. Used sparingly, mostly in marketing.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     10 — ILLUSTRATION
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="illustration" class="section">
+  <div class="section__num">10 — System</div>
+  <h2 class="section__title">Illustration.</h2>
+  <p class="section__lead">Our illustration style extends the cube. Geometric. Isometric where it helps. Flat fills with occasional gradients for face-shading. No fleshy characters, no Corporate Memphis, no hand-drawn squiggles.</p>
+
+  <div class="grid grid--2 mb-8">
+    <div class="card" style="padding:48px;text-align:center;background:linear-gradient(135deg,#EFF2F8,#F5F7FA);">
+      <svg viewBox="0 0 200 200" style="max-width:180px;margin:0 auto;">
+        <defs>
+          <linearGradient id="iltop" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#E1EAFF"/>
+          </linearGradient>
+          <linearGradient id="illeft" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#CCD6EE"/><stop offset="1" stop-color="#9FB0D4"/>
+          </linearGradient>
+          <linearGradient id="ilright" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#CFEDE9"/><stop offset="1" stop-color="#7FCFC4"/>
+          </linearGradient>
+        </defs>
+        <polygon points="100,30 160,60 100,90 40,60" fill="url(#iltop)" stroke="#0B1437" stroke-width="2"/>
+        <polygon points="40,60 100,90 100,150 40,120" fill="url(#illeft)" stroke="#0B1437" stroke-width="2"/>
+        <polygon points="160,60 160,120 100,150 100,90" fill="url(#ilright)" stroke="#0B1437" stroke-width="2"/>
+        <circle cx="100" cy="30" r="6" fill="#2F6BFF"/>
+        <circle cx="160" cy="120" r="6" fill="#19D3C5"/>
+        <circle cx="40" cy="120" r="6" fill="#F59E0B"/>
+      </svg>
+      <div class="h4 mt-8">Geometric · isometric</div>
+      <p class="text-muted">Primary style. Built from cube-derived forms.</p>
+    </div>
+    <div class="card" style="padding:48px;text-align:center;background:linear-gradient(135deg,#EFF2F8,#F5F7FA);">
+      <svg viewBox="0 0 200 200" style="max-width:180px;margin:0 auto;">
+        <rect x="20" y="20" width="60" height="60" rx="8" fill="#2F6BFF" opacity=".9"/>
+        <rect x="100" y="20" width="80" height="30" rx="6" fill="#19D3C5"/>
+        <rect x="100" y="60" width="80" height="70" rx="6" fill="#0B1437"/>
+        <rect x="20" y="100" width="60" height="30" rx="6" fill="#F59E0B"/>
+        <rect x="20" y="140" width="160" height="40" rx="6" fill="#E8ECF3"/>
+      </svg>
+      <div class="h4 mt-8">Flat data-viz style</div>
+      <p class="text-muted">For dashboards, onboarding, empty states.</p>
+    </div>
+  </div>
+
+  <div class="card" style="background:var(--navy);color:#fff;padding:32px;">
+    <div class="eyebrow mb-4" style="color:var(--ion-2);">Rule of thumb</div>
+    <p style="font-size:18px;line-height:1.5;">Every illustration should look like it could tile next to the cube logo without feeling out of place. If it couldn't, it isn't on-brand.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     11 — VOICE & TONE
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="voice" class="section">
+  <div class="section__num">11 — Voice</div>
+  <h2 class="section__title">Voice & tone.</h2>
+  <p class="section__lead">Praxion sounds like a trusted operator: calm, specific, slightly dry, never hype. We explain clearly, we don't oversell, and we respect that the reader is probably mid-shift.</p>
+
+  <div class="grid grid--4 mb-12">
+    <div class="card" style="border-top:4px solid var(--signal);">
+      <div class="eyebrow mb-4" style="color:var(--signal);">Calm</div>
+      <p class="text-muted" style="font-size:14px;">No alarm language. Even when something breaks, we describe what happened and what to do — then stop.</p>
+    </div>
+    <div class="card" style="border-top:4px solid var(--ion);">
+      <div class="eyebrow mb-4" style="color:#0F7F74;">Specific</div>
+      <p class="text-muted" style="font-size:14px;">Numbers over adjectives. "Payroll ran in 4 minutes" beats "fast payroll." Always.</p>
+    </div>
+    <div class="card" style="border-top:4px solid var(--amber);">
+      <div class="eyebrow mb-4" style="color:#B45309;">Dry</div>
+      <p class="text-muted" style="font-size:14px;">One degree drier than most SaaS. No exclamation points. No "rockstar." No "magic."</p>
+    </div>
+    <div class="card" style="border-top:4px solid var(--navy);">
+      <div class="eyebrow mb-4">Respectful</div>
+      <p class="text-muted" style="font-size:14px;">We assume the reader is busy and capable. No hand-holding, no corporate jargon, no "touchbase."</p>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Voice in practice.</h3>
+
+  <div class="voice-pair mb-6">
+    <div class="voice-pair__cell voice-pair__cell--do">
+      <div class="voice-pair__head voice-pair__head--do">✓ Praxion sounds like</div>
+      <p class="voice-pair__quote">"Payroll for April has been approved. 412 employees. EGP 2.4M net. You can review the audit trail before finalizing."</p>
+    </div>
+    <div class="voice-pair__cell voice-pair__cell--dont">
+      <div class="voice-pair__head voice-pair__head--dont">✗ Not</div>
+      <p class="voice-pair__quote">"🎉 Yay! Your April payroll is ready to go! We've made it super easy to review — just hit the button below!"</p>
+    </div>
+  </div>
+
+  <div class="voice-pair mb-6">
+    <div class="voice-pair__cell voice-pair__cell--do">
+      <div class="voice-pair__head voice-pair__head--do">✓ Praxion sounds like</div>
+      <p class="voice-pair__quote">"Three probation reviews are overdue. The longest has been open 9 days. Assigning them to managers will send reminders automatically."</p>
+    </div>
+    <div class="voice-pair__cell voice-pair__cell--dont">
+      <div class="voice-pair__head voice-pair__head--dont">✗ Not</div>
+      <p class="voice-pair__quote">"Uh-oh! Some probation reviews need your attention — don't forget to complete them to keep everyone happy!"</p>
+    </div>
+  </div>
+
+  <div class="voice-pair mb-8">
+    <div class="voice-pair__cell voice-pair__cell--do">
+      <div class="voice-pair__head voice-pair__head--do">✓ Praxion sounds like</div>
+      <p class="voice-pair__quote">"We couldn't sync today's attendance because the biometric device at Gate 3 is offline. Manual entry is available while we retry."</p>
+    </div>
+    <div class="voice-pair__cell voice-pair__cell--dont">
+      <div class="voice-pair__head voice-pair__head--dont">✗ Not</div>
+      <p class="voice-pair__quote">"Oops! Something went wrong. Please try again later or contact support if the issue persists."</p>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Words we use / don't use.</h3>
+  <div class="dodont">
+    <div class="dodont__card">
+      <div class="dodont__head dodont__head--do">Use</div>
+      <ul class="dodont__body">
+        <li>operate, run, manage, review, approve, sync, flow</li>
+        <li>HR team · HR leader · HR ops · people team</li>
+        <li>workforce · employees · managers · administrators</li>
+        <li>platform · operating system · module · workflow</li>
+        <li>exact nouns: "payroll cycle" not "payroll thing"</li>
+      </ul>
+    </div>
+    <div class="dodont__card">
+      <div class="dodont__head dodont__head--dont">Avoid</div>
+      <ul class="dodont__body">
+        <li>empower, unleash, supercharge, skyrocket</li>
+        <li>best-in-class, world-class, game-changing</li>
+        <li>revolutionize, transform, reimagine</li>
+        <li>"just", "simply", "easy" (they're rarely true)</li>
+        <li>rockstar, ninja, guru, wizard — ever</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     12 — UI IN MOTION
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="ui" class="section">
+  <div class="section__num">12 — Application</div>
+  <h2 class="section__title">The brand in motion — the UI.</h2>
+  <p class="section__lead">A brand is ultimately a feel. The component library carries the tokens above into everything a user touches. This is a preview — the full design system lives at <code>praxion-design-system.html</code>.</p>
+
+  <h3 class="h3 mb-4">Buttons.</h3>
+  <div class="ui-preview mb-8">
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <button class="btn btn-primary">Primary action</button>
+      <button class="btn btn-secondary">Secondary</button>
+      <button class="btn btn-ghost">Ghost</button>
+      <button class="btn btn-danger">Danger</button>
+      <button class="btn btn-primary" disabled style="opacity:.5;cursor:not-allowed;">Disabled</button>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Inputs.</h3>
+  <div class="ui-preview mb-8" style="max-width:480px;">
+    <label style="display:block;font-family:var(--font-head);font-weight:500;font-size:13px;color:var(--navy);margin-bottom:6px;">Email address</label>
+    <input class="input" type="email" placeholder="name@company.com" value="mohamed.sabry@praxionhr.com" readonly>
+    <div style="margin-top:6px;font-size:12px;color:var(--muted);">We'll send a verification link.</div>
+  </div>
+
+  <h3 class="h3 mb-4">Cards & metrics.</h3>
+  <div class="grid grid--3 mb-8">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div class="eyebrow">Headcount</div>
+        <span class="badge badge-success">+12</span>
+      </div>
+      <div style="font-family:var(--font-head);font-weight:800;font-size:40px;color:var(--navy);letter-spacing:-.02em;line-height:1;">2,148</div>
+      <div class="text-muted" style="font-size:13px;margin-top:4px;">Active employees · 8 orgs</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div class="eyebrow">Payroll · Apr</div>
+        <span class="badge badge-warn">Pending</span>
+      </div>
+      <div style="font-family:var(--font-mono);font-weight:500;font-size:32px;color:var(--navy);letter-spacing:-.01em;line-height:1;">EGP 2.4M</div>
+      <div class="text-muted" style="font-size:13px;margin-top:4px;">Review closes in 2 days</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div class="eyebrow">Open roles</div>
+        <span class="badge badge-info">Updated</span>
+      </div>
+      <div style="font-family:var(--font-head);font-weight:800;font-size:40px;color:var(--navy);letter-spacing:-.02em;line-height:1;">17</div>
+      <div class="text-muted" style="font-size:13px;margin-top:4px;">5 in Engineering · 3 offer-out</div>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Badges & status.</h3>
+  <div class="ui-preview">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <span class="badge badge-success">● Active</span>
+      <span class="badge badge-warn">● Pending</span>
+      <span class="badge badge-info">● In review</span>
+      <span class="badge" style="background:#FEF2F2;color:#991B1B;border:1px solid #FECACA;">● Rejected</span>
+      <span class="badge" style="background:var(--mist);color:var(--navy);">● Draft</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     13 — APPLICATIONS
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="applications" class="section">
+  <div class="section__num">13 — Application</div>
+  <h2 class="section__title">Applications.</h2>
+  <p class="section__lead">How the brand shows up in the world — stationery, digital footprint, signage, and the everyday artifacts that tell people we were here.</p>
+
+  <h3 class="h3 mb-4">Stationery.</h3>
+  <div class="grid grid--2 mb-12">
+    <div class="mockup-card">
+      <div class="mockup-card__stage">
+        <div class="business-card">
+          <div>
+            <img src="logos/v2-production/png/1024/transparent/praxion-icon-full.png" style="height:40px;" alt="">
+          </div>
+          <div>
+            <div class="business-card__name">Mohamed Sabry</div>
+            <div class="business-card__role">Product Owner · Praxion HROS</div>
+            <div style="height:2px;background:linear-gradient(90deg,var(--ion),var(--signal));width:32px;margin:8px 0;"></div>
+            <div class="business-card__contact">mohamed.sabry@praxionhr.com<br>+20 • praxionhr.com</div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-card__body"><div class="mockup-card__name">Business card — front</div><div class="mockup-card__note">85 × 55 mm · Silk matte · 350gsm</div></div>
+    </div>
+    <div class="mockup-card">
+      <div class="mockup-card__stage">
+        <div class="business-card business-card--back" style="align-items:center;justify-content:center;">
+          <img src="logos/v2-production/png/1024/transparent/praxion-inverse.png" style="max-width:200px;" alt="">
+        </div>
+      </div>
+      <div class="mockup-card__body"><div class="mockup-card__name">Business card — back</div><div class="mockup-card__note">Navy flood + inverse logo</div></div>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Email signature.</h3>
+  <div class="grid grid--2 mb-12">
+    <div>
+      <p class="text-muted mb-4">One approved format — plain HTML, no attached logo image, safe across every client. Font stacks fall back cleanly to Arial and Georgia when Inter/DM Sans aren't available.</p>
+    </div>
+    <div class="email-sig">
+      <div class="line1">Mohamed Sabry</div>
+      <div class="line2">Product Owner · Praxion HROS</div>
+      <div class="divider"></div>
+      <div class="line3">mohamed.sabry@praxionhr.com<br>praxionhr.com</div>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Social avatars.</h3>
+  <div class="grid grid--5 mb-12">
+    <div style="text-align:center;">
+      <div class="social-avatar"><img src="logos/v2-production/png/1024/transparent/praxion-icon-inverse.png" alt=""></div>
+      <div class="text-muted mt-4" style="font-size:12px;">LinkedIn</div>
+    </div>
+    <div style="text-align:center;">
+      <div class="social-avatar social-avatar--light"><img src="logos/v2-production/png/1024/transparent/praxion-icon-full.png" alt=""></div>
+      <div class="text-muted mt-4" style="font-size:12px;">Twitter / X</div>
+    </div>
+    <div style="text-align:center;">
+      <div class="social-avatar"><img src="logos/v2-production/png/1024/transparent/praxion-icon-inverse.png" alt=""></div>
+      <div class="text-muted mt-4" style="font-size:12px;">Instagram</div>
+    </div>
+    <div style="text-align:center;">
+      <div class="social-avatar social-avatar--light"><img src="logos/v2-production/png/1024/transparent/praxion-icon-full.png" alt=""></div>
+      <div class="text-muted mt-4" style="font-size:12px;">YouTube</div>
+    </div>
+    <div style="text-align:center;">
+      <div class="social-avatar"><img src="logos/v2-production/png/1024/transparent/praxion-icon-mono-white.png" alt=""></div>
+      <div class="text-muted mt-4" style="font-size:12px;">Favicon</div>
+    </div>
+  </div>
+
+  <h3 class="h3 mb-4">Slide template.</h3>
+  <div class="mockup-card mb-12">
+    <div style="aspect-ratio:16/9;background:linear-gradient(135deg,#0B1437 0%,#1E2A5E 70%,#2F6BFF 130%);display:flex;flex-direction:column;justify-content:space-between;padding:48px;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 85% 20%,rgba(25,211,197,.15),transparent 50%);pointer-events:none;"></div>
+      <div style="position:relative;z-index:1;">
+        <img src="logos/v2-production/png/1024/transparent/praxion-inverse.png" style="height:48px;" alt="">
+      </div>
+      <div style="position:relative;z-index:1;">
+        <div style="font-family:var(--font-head);font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#80F2E6;margin-bottom:16px;">QUARTERLY REVIEW · Q2 2026</div>
+        <div style="font-family:var(--font-head);font-weight:800;font-size:52px;line-height:1;letter-spacing:-.03em;color:#fff;">We shipped Core HRIS<br>on schedule.</div>
+      </div>
+      <div style="position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-head);font-size:12px;color:rgba(255,255,255,.55);letter-spacing:.08em;">
+        <span>PRAXION HR · INTERNAL</span>
+        <span>01 / 24</span>
+      </div>
+    </div>
+    <div class="mockup-card__body"><div class="mockup-card__name">Title slide — 16:9</div><div class="mockup-card__note">Navy gradient · Inverse logo · Inter ExtraBold 52pt headline</div></div>
+  </div>
+
+  <h3 class="h3 mb-4">Letterhead.</h3>
+  <div class="mockup-card">
+    <div style="aspect-ratio:1/1.414;background:#fff;padding:48px;display:flex;flex-direction:column;max-width:480px;margin:0 auto;border:1px solid var(--mist);">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:24px;border-bottom:1px solid var(--mist);">
+        <img src="logos/v2-production/png/1024/transparent/praxion-full.png" style="height:36px;" alt="">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);text-align:right;">praxionhr.com<br>brand@praxionhr.com</div>
+      </div>
+      <div style="padding:32px 0;flex:1;font-size:11px;color:var(--slate);line-height:1.6;">
+        <div style="font-family:var(--font-head);font-weight:700;color:var(--navy);margin-bottom:8px;">Dear [Recipient],</div>
+        <p style="margin-bottom:12px;">Thank you for your interest in Praxion. We're writing to confirm the arrangements for...</p>
+        <p style="margin-bottom:12px;">The body of the letter runs here in DM Sans 11pt with a 1.6 line-height and 16pt margin between paragraphs for legibility on A4.</p>
+        <p>Sincerely,<br><strong style="font-family:var(--font-head);color:var(--navy);">Praxion Brand Team</strong></p>
+      </div>
+      <div style="padding-top:16px;border-top:1px solid var(--mist);display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:9px;color:var(--muted);">
+        <span>Praxion HR · Cairo</span>
+        <span>Page 1 of 1</span>
+      </div>
+    </div>
+    <div class="mockup-card__body"><div class="mockup-card__name">A4 letterhead</div><div class="mockup-card__note">Full-color logo top-left · Mono contact top-right · Navy footer mark</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     14 — ACCESSIBILITY
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="accessibility" class="section">
+  <div class="section__num">14 — Inclusion</div>
+  <h2 class="section__title">Accessibility.</h2>
+  <p class="section__lead">The brand is only as strong as its legibility. Every color combination we use publicly meets WCAG 2.1 AA contrast for body text (4.5:1) or large display text (3.0:1). The combinations below are pre-approved.</p>
+
+  <table class="contrast-table mb-8">
+    <thead>
+      <tr><th>Combination</th><th>Ratio</th><th>AA body</th><th>AA large</th><th>Sample</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Navy on White</td><td class="mono">16.4 : 1</td><td class="pass">Pass</td><td class="pass">Pass</td><td><span class="sample" style="background:#FFFFFF;color:#0B1437;">Navy on white</span></td></tr>
+      <tr><td>White on Navy</td><td class="mono">16.4 : 1</td><td class="pass">Pass</td><td class="pass">Pass</td><td><span class="sample" style="background:#0B1437;color:#FFFFFF;">White on navy</span></td></tr>
+      <tr><td>Charcoal on Cloud</td><td class="mono">13.1 : 1</td><td class="pass">Pass</td><td class="pass">Pass</td><td><span class="sample" style="background:#F5F7FA;color:#1E293B;">Charcoal on cloud</span></td></tr>
+      <tr><td>Signal on White</td><td class="mono">4.9 : 1</td><td class="pass">Pass</td><td class="pass">Pass</td><td><span class="sample" style="background:#FFFFFF;color:#2F6BFF;">Signal on white</span></td></tr>
+      <tr><td>White on Signal</td><td class="mono">4.9 : 1</td><td class="pass">Pass</td><td class="pass">Pass</td><td><span class="sample" style="background:#2F6BFF;color:#FFFFFF;">White on signal</span></td></tr>
+      <tr><td>Ion on Navy</td><td class="mono">10.2 : 1</td><td class="pass">Pass</td><td class="pass">Pass</td><td><span class="sample" style="background:#0B1437;color:#19D3C5;">Ion on navy</span></td></tr>
+      <tr><td>Amber on Navy</td><td class="mono">8.5 : 1</td><td class="pass">Pass</td><td class="pass">Pass</td><td><span class="sample" style="background:#0B1437;color:#F59E0B;">Amber on navy</span></td></tr>
+      <tr><td>Muted on White</td><td class="mono">4.8 : 1</td><td class="pass">Pass</td><td class="pass">Pass</td><td><span class="sample" style="background:#FFFFFF;color:#6B7A99;">Muted on white</span></td></tr>
+      <tr><td style="color:var(--muted);">Ion on White <em>(decorative only)</em></td><td class="mono">1.7 : 1</td><td class="fail">Fail</td><td class="fail">Fail</td><td><span class="sample" style="background:#FFFFFF;color:#19D3C5;">Do not use for text</span></td></tr>
+      <tr><td style="color:var(--muted);">Amber on White <em>(decorative only)</em></td><td class="mono">2.3 : 1</td><td class="fail">Fail</td><td class="fail">Fail</td><td><span class="sample" style="background:#FFFFFF;color:#F59E0B;">Do not use for text</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid grid--3">
+    <div class="card">
+      <div class="eyebrow mb-4">Focus states</div>
+      <p class="text-muted">Always visible. 3px Signal-blue outline with 2px offset. Never remove. Never replace with color change alone.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow mb-4">Motion</div>
+      <p class="text-muted">Respect <code>prefers-reduced-motion</code>. Disable parallax, auto-playing gradients, and non-essential transitions.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow mb-4">Typography</div>
+      <p class="text-muted">Minimum 13px for any UI body copy. Minimum 15px for long-form reading content.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     15 — DO & DON'T (OMNIBUS)
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="dodont" class="section">
+  <div class="section__num">15 — Summary</div>
+  <h2 class="section__title">Do & Don't.</h2>
+  <p class="section__lead">Every rule from the book above, condensed. If you're about to use the brand in a way that isn't covered here, ask Brand first.</p>
+
+  <div class="dodont mb-6">
+    <div class="dodont__card">
+      <div class="dodont__head dodont__head--do">Do</div>
+      <ul class="dodont__body">
+        <li>Use the approved v2 logo files from <code>/Brand/logos/v2-production/</code></li>
+        <li>Match the variant to the background (inverse on dark, mono for single-color)</li>
+        <li>Preserve clear space (X = cube height on all four sides)</li>
+        <li>Let Navy dominate (60%), one accent support (30%), one accent lift (10%)</li>
+        <li>Pair Inter headings with DM Sans body</li>
+        <li>Use JetBrains Mono for numbers, amounts, dates, IDs</li>
+        <li>Write in calm, specific, dry sentences</li>
+        <li>Use outline-style 2px-stroke Lucide icons</li>
+        <li>Check every text/background combination for WCAG AA contrast</li>
+      </ul>
+    </div>
+    <div class="dodont__card">
+      <div class="dodont__head dodont__head--dont">Don't</div>
+      <ul class="dodont__body">
+        <li>Don't edit files inside <code>v2-production/</code> — create v3 if change is needed</li>
+        <li>Don't rotate, skew, or recolor the logo</li>
+        <li>Don't stretch the lockup or alter its proportions</li>
+        <li>Don't substitute the typefaces ("just use Roboto")</li>
+        <li>Don't give all three accents equal weight</li>
+        <li>Don't set body text in Inter or Mono</li>
+        <li>Don't use exclamation points in product or marketing copy</li>
+        <li>Don't use Ion or Amber for body text on white (contrast fails)</li>
+        <li>Don't add glows, shadows, or filters — they're already baked in</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     16 — DOWNLOADS
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="downloads" class="section">
+  <div class="section__num">16 — Reference</div>
+  <h2 class="section__title">Downloads & contact.</h2>
+  <p class="section__lead">Everything linked below is the current source of truth. If you find a newer version somewhere else, the file you found is wrong — use these.</p>
+
+  <div class="grid grid--2 mb-8">
+    <div class="card">
+      <div class="eyebrow mb-4">Logo package</div>
+      <p class="h4">/Brand/logos/v2-production/</p>
+      <p class="text-muted mb-4">88 files — 8 SVG, 8 PDF, 8 EPS, 64 PNG (1024 / 2048 / 4096 / 8192 px, transparent + white-bg).</p>
+      <p class="mono" style="font-size:12px;color:var(--muted);">See README.md inside the folder for the picker.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow mb-4">Design system</div>
+      <p class="h4">praxion-design-system.html</p>
+      <p class="text-muted mb-4">The full component library: buttons, cards, tables, tabs, alerts, modals, progress, empty states, layout patterns, domain components.</p>
+      <p class="mono" style="font-size:12px;color:var(--muted);">Currently v1.0 — brand tokens are already v2-aligned.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow mb-4">This document</div>
+      <p class="h4">Praxion-Brand-Guidelines-v2.0</p>
+      <p class="text-muted mb-4">Ships as an interactive HTML microsite, a print-ready PDF, and a presentation deck — all three in this folder.</p>
+      <p class="mono" style="font-size:12px;color:var(--muted);">/Brand/Praxion-Brand-Guidelines-v2.0.*</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow mb-4">Questions or approvals</div>
+      <p class="h4">brand@praxionhr.com</p>
+      <p class="text-muted mb-4">Anything outside this book — new asset type, new color combo, new voice context — goes here first. We'd rather answer than rebrand.</p>
+      <p class="mono" style="font-size:12px;color:var(--muted);">Brand owner: Sabry · PraxionHR</p>
+    </div>
+  </div>
+
+  <div class="card card--nav" style="padding:48px;text-align:center;">
+    <img src="logos/v2-production/png/1024/transparent/praxion-inverse.png" style="max-width:220px;margin:0 auto 32px;" alt="">
+    <div style="font-family:var(--font-head);font-size:20px;font-weight:500;line-height:1.5;color:rgba(255,255,255,.85);max-width:640px;margin:0 auto;">A brand is a promise kept, quietly, every day.<br><span style="color:var(--ion-2);">Thank you for keeping ours.</span></div>
+  </div>
+</section>
+
+</div><!-- .shell -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div>
+      <img src="logos/v2-production/png/1024/transparent/praxion-inverse.png" class="footer__logo" alt="Praxion">
+      <p style="max-width:420px;">Praxion is the unified HR operating system built for mid-market and enterprise. One data model, thirteen modules, one voice across every touchpoint.</p>
+    </div>
+    <div>
+      <h4>Document</h4>
+      <p>Version 2.0<br>Published 2026-04-18<br>Supersedes v1.0 (Apr 2026)</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>brand@praxionhr.com<br>praxionhr.com<br>Cairo · Remote</p>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2026 Praxion HR. All rights reserved.</span>
+    <span>Praxion Brand Guidelines & Identity — v2.0</span>
+  </div>
+</footer>
+
+</body>
+</html>

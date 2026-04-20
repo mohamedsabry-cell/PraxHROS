@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Praxion — Technical Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  :root {
+    --navy: #0B2545;
+    --navy-dk: #061733;
+    --ink: #13315C;
+    --accent: #8DA9C4;
+    --cream: #F8F6F0;
+    --line: #E5E7EB;
+    --ok: #2E7D32;
+    --warn: #C05621;
+    --err: #9B1C1C;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--cream); color:var(--navy-dk); }
+  a { color: var(--ink); }
+  code, pre { font-family:'JetBrains Mono',monospace; font-size:13px; }
+  pre.code-block {
+    background: #0F1E3A; color:#E6EEF9; padding:16px 18px; border-radius:8px;
+    overflow-x:auto; line-height:1.55; white-space:pre;
+  }
+  .container { max-width: 960px; margin:0 auto; padding: 24px 20px 80px; }
+  .brand-bar {
+    background: var(--navy); color:#fff; padding:14px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+    position:sticky; top:0; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.08);
+  }
+  .brand-bar .logo { font-weight:700; font-size:18px; letter-spacing:.3px; }
+  .brand-bar .logo span { color: var(--accent); }
+  .timer { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:600; background:var(--navy-dk); padding:6px 14px; border-radius:6px; }
+  .timer.warn { color: #FFB703; }
+  .timer.crit { color: #FF6B6B; }
+
+  .card {
+    background:#fff; border:1px solid var(--line); border-radius:10px;
+    padding:28px 30px; margin-bottom:20px;
+    box-shadow: 0 1px 2px rgba(11,37,69,.04);
+  }
+  .card h2 { margin:0 0 6px; color:var(--navy); font-size:22px; }
+  .card h3 { margin:24px 0 8px; color:var(--ink); font-size:16px; }
+  .card p  { line-height:1.6; color:#30445F; }
+  .pill {
+    display:inline-block; font-size:11px; font-weight:600; letter-spacing:.05em;
+    text-transform:uppercase; padding:4px 10px; border-radius:999px;
+    background: var(--accent); color:#fff;
+  }
+  .pill.alt { background: #E8F0F9; color: var(--ink); }
+  .meta-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
+
+  label { display:block; font-size:13px; font-weight:600; color:var(--ink); margin:14px 0 6px; }
+  input[type=text], input[type=email], select, textarea {
+    width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:6px;
+    font: inherit; color: var(--navy-dk); background:#fff;
+  }
+  textarea { min-height: 140px; resize: vertical; line-height:1.5; }
+  textarea.code { font-family:'JetBrains Mono',monospace; font-size:13px; min-height:180px; background:#FAFBFC; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset:1px; }
+  .help { font-size:12px; color:#5A6B82; margin-top:4px; }
+
+  .btn {
+    background: var(--navy); color:#fff; border:none; padding:12px 22px;
+    border-radius:6px; font: inherit; font-weight:600; cursor:pointer;
+    transition: background .15s;
+  }
+  .btn:hover { background: var(--navy-dk); }
+  .btn.ghost { background:transparent; color:var(--navy); border:1px solid var(--navy); }
+  .btn.ghost:hover { background:#EAF1FA; }
+  .btn:disabled { opacity:.5; cursor:not-allowed; }
+
+  .progress {
+    background: #E5EEF7; height:6px; border-radius:3px; overflow:hidden; margin: 10px 0 18px;
+  }
+  .progress > div { height:100%; background: var(--navy); transition: width .3s; }
+
+  .nav-row { display:flex; justify-content:space-between; align-items:center; margin-top:22px; gap:12px; }
+  .step-list { font-size:13px; color:#5A6B82; }
+
+  .callout { border-left:4px solid var(--accent); background:#F0F6FC; padding:14px 16px; border-radius:4px; margin:14px 0; }
+  .callout.warn { border-left-color:#E0A800; background:#FDF7E4; }
+  .answer-indicator { font-size:12px; margin-left:8px; color:#5A6B82; }
+
+  .question { padding: 18px 20px; border:1px solid var(--line); border-radius:8px; margin-bottom:14px; background: #FDFDFD; }
+  .question .q-head { font-weight:600; color:var(--navy); margin-bottom:6px; }
+  .question .q-body { font-size:14px; color:#30445F; line-height:1.55; }
+
+  .footer-note { font-size:12px; color:#5A6B82; text-align:center; margin-top:20px; }
+  .tag-row { display:flex; gap:6px; flex-wrap:wrap; }
+  .tag { font-size:11px; background:#EEF3F9; color:var(--ink); padding:3px 8px; border-radius:4px; font-weight:500; }
+
+  @media (max-width: 640px) {
+    .card { padding: 20px 18px; }
+    .brand-bar { padding:12px 16px; }
+    .container { padding: 16px 14px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel" data-presets="env,react">
+
+/* =========================================================================
+   PRAXION — TECHNICAL ASSESSMENT
+   Single-file React app. Deploys as a static site on Netlify.
+   Submission target: Google Form (see google-form-setup.md)
+   ========================================================================= */
+
+const { useState, useEffect, useMemo, useRef } = React;
+
+// ----- CONFIG -------------------------------------------------------------
+// Paste your Google Form formResponse URL here (ends in /formResponse).
+// See google-form-setup.md for how to create the form and get entry IDs.
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSehFs-GdRlg6wxEUcRb7M3FFXhiPKxJRRSAvpdiX92GKhrigA/formResponse";
+
+// Map our fields to the Google Form entry.xxxxxx IDs.
+// See google-form-setup.md — open your form's prefilled-link URL to get these.
+const FORM_FIELDS = {
+  name:        "entry.1754765851",
+  email:       "entry.1635854209",
+  role:        "entry.72292711",
+  startedAt:   "entry.1743209024",
+  submittedAt: "entry.758476813",
+  durationMin: "entry.275154278",
+  tabSwitches: "entry.1873442556",
+  answersJson: "entry.1290160498",
+};
+
+const DURATION_MIN = 75; // total minutes
+
+// ----- QUESTIONS ----------------------------------------------------------
+
+// Common section — all candidates (15 min target)
+const COMMON = [
+  {
+    id: "A1",
+    timeHint: "5 min",
+    title: "A1 — Push-back on product ask",
+    prompt:
+      "Your PM says: “Let's add a button on the employee list that bulk-deletes selected employees. It'll save HR admins a lot of time.”\n\n" +
+      "Answer three things in your own words:\n" +
+      "  (a) What do you actually build? Describe the behaviour.\n" +
+      "  (b) What do you refuse to build, and why? Be specific.\n" +
+      "  (c) What's the one question you'd ask the PM before writing any code?",
+    placeholder: "Write in full sentences. We're looking for judgment, not a framework.",
+  },
+  {
+    id: "A2",
+    timeHint: "5 min",
+    title: "A2 — Severity ranking in context",
+    prompt:
+      "It's the morning of monthly payroll run. Five bug reports landed overnight.\n" +
+      "  (1) The company logo on the login page is slightly pixelated on Safari.\n" +
+      "  (2) Exporting the payroll CSV truncates names longer than 20 chars.\n" +
+      "  (3) Employees in the 'terminated' state still appear in the payroll total.\n" +
+      "  (4) The filter dropdown's caret icon is mis-aligned by 2px.\n" +
+      "  (5) Changing an employee's salary does NOT create a history row — it overwrites.\n\n" +
+      "Rank 1–5 from most urgent to least. For each, one sentence on why.\n" +
+      "We care about the reasoning more than the order.",
+    placeholder: "1. #? — because ...\n2. #? — because ...\n...",
+  },
+  {
+    id: "A3",
+    timeHint: "5 min",
+    title: "A3 — What do you push back on?",
+    prompt:
+      "A teammate proposes implementing soft-delete on the `employees` table by adding a boolean column `is_deleted`. They want to ship it this afternoon.\n\n" +
+      "List at least three concrete concerns you would raise, in order of importance. Focus on the HR/payroll domain, not just generic database hygiene.",
+    placeholder: "1. ...\n2. ...\n3. ...",
+  },
+];
+
+// Frontend track (60 min target)
+const FRONTEND = [
+  {
+    id: "B1",
+    timeHint: "15 min",
+    title: "B1 — Code review: link bug to symptom",
+    prompt:
+      "A junior dev built the component below to show an employee list with a search filter. QA filed four separate symptom reports (S1–S4).\n\n" +
+      "Your job: (a) list every bug you find, (b) map each bug to which symptom it causes, (c) give the fix order you'd ship and why.\n\n" +
+      "SYMPTOMS:\n" +
+      "  S1 — On slow connections, typing quickly in the search box sometimes shows stale results (results from an earlier query).\n" +
+      "  S2 — When an employee's name changes on the server, the UI shows the new name but the wrong avatar.\n" +
+      "  S3 — Clicking the 'Refresh' button immediately after the page loads does nothing the first time; works on the second click.\n" +
+      "  S4 — The list re-fetches on every keystroke even when the query hasn't meaningfully changed.",
+    code:
+`function EmployeeList() {
+  const [query, setQuery] = React.useState("");
+  const [employees, setEmployees] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+
+  const fetchEmployees = async () => {
+    setLoading(true);
+    const res = await fetch("/api/employees?q=" + query);
+    const data = await res.json();
+    setEmployees(data);
+    setLoading(false);
+  };
+
+  React.useEffect(() => {
+    fetchEmployees();
+  }, [query]);
+
+  return (
+    <div>
+      <input value={query} onChange={(e) => setQuery(e.target.value)} />
+      <button onClick={fetchEmployees}>Refresh</button>
+      {loading && <p>Loading…</p>}
+      <ul>
+        {employees.map((emp, i) => (
+          <li key={i}>
+            <img src={emp.avatarUrl} />
+            {emp.name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}`,
+    placeholder:
+      "Bugs:\n  B1.1 — ...\n  B1.2 — ...\n\nBug → symptom map:\n  S1 caused by B1.? because ...\n  S2 caused by B1.? because ...\n  S3 caused by B1.? because ...\n  S4 caused by B1.? because ...\n\nFix order:\n  1. ... (why)\n  2. ...",
+  },
+  {
+    id: "B2",
+    timeHint: "30 min",
+    title: "B2 — Build: bulk-action employee table",
+    prompt:
+      "Build (pseudo-code or real React, your choice) a component `<EmployeeBulkTable />` that:\n\n" +
+      "  • Renders a table of employees passed in via props. Each row has: checkbox, name, status ('active' | 'inactive' | 'on_leave'), department.\n" +
+      "  • Shows a 'select all' checkbox in the header.\n" +
+      "  • Shows a bulk-action bar when ≥ 1 row is selected, with three actions:\n" +
+      "      – 'Deactivate'  (only valid for active employees)\n" +
+      "      – 'Reactivate'  (only valid for inactive employees)\n" +
+      "      – 'Move to department…' (valid for any employee)\n" +
+      "  • Spec line: “Inactive employees must appear visually dimmed and their row checkbox must be disabled.”\n\n" +
+      "IMPORTANT: The spec above has a conflict with one of the three bulk actions. You do not have to fix it yet.\n" +
+      "Answer these in order:\n" +
+      "  (1) Describe the conflict in one sentence.\n" +
+      "  (2) State the assumption you chose to resolve it and why.\n" +
+      "  (3) Write the component (code or structured pseudo-code). Handlers can call `console.log` — the mechanics aren't graded; the state model and the assumption handling are.",
+    placeholder: "Conflict:\n\nAssumption:\n\nCode / pseudo-code:",
+    codeTextarea: true,
+  },
+  {
+    id: "B3",
+    timeHint: "15 min",
+    title: "B3 — UX judgment: pick a filter pattern",
+    prompt:
+      "For the Employee List page (thousands of employees, 8 filterable fields), three FE engineers have proposed different filter patterns. No wireframes — just the descriptions:\n\n" +
+      "  Option 1 — Top bar of 8 dropdowns, always visible.\n" +
+      "  Option 2 — A single 'Filters' button that opens a side panel with all 8 fields; apply button at the bottom.\n" +
+      "  Option 3 — A smart search input that parses typed tokens like `department:Eng status:active`, with chip suggestions below.\n\n" +
+      "Answer:\n" +
+      "  (a) Which do you pick for the v1 launch, given that our users are HR generalists (not power users)?\n" +
+      "  (b) Which do you pick for v2 once adoption is strong?\n" +
+      "  (c) Name one failure mode for each of the three you'd watch for.",
+    placeholder: "v1 pick:\nv2 pick:\nFailure modes:\n  O1 — ...\n  O2 — ...\n  O3 — ...",
+  },
+];
+
+// Backend track (60 min target)
+const BACKEND = [
+  {
+    id: "C1",
+    timeHint: "15 min",
+    title: "C1 — API review: rank by severity for THIS domain",
+    prompt:
+      "Review the Express route below. It transfers an employee to another department. List every issue you find, then rank them by severity FOR AN HR / PAYROLL APP. Then, briefly answer: would your ranking change if this were a gaming leaderboard app, and why?",
+    code:
+`// POST /api/employees/:id/transfer
+app.post("/api/employees/:id/transfer", async (req, res) => {
+  const { id } = req.params;
+  const { newDepartmentId } = req.body;
+
+  const employee = await db.query("SELECT * FROM employees WHERE id = " + id);
+  const dept = await db.query("SELECT * FROM departments WHERE id = " + newDepartmentId);
+
+  const managers = [];
+  for (const m of dept.rows[0].manager_ids) {
+    const r = await db.query("SELECT * FROM users WHERE id = $1", [m]);
+    managers.push(r.rows[0]);
+  }
+
+  await db.query(
+    "UPDATE employees SET department_id = $1 WHERE id = $2",
+    [newDepartmentId, id]
+  );
+
+  try {
+    await auditLog.emit({
+      type: "employee.transferred",
+      employeeId: id,
+      newDepartmentId,
+      managers,
+    });
+  } catch (e) { /* ignore */ }
+
+  res.json({ ok: true });
+});`,
+    placeholder:
+      "Issues found:\n  I1 — ...\n  I2 — ...\n\nSeverity ranking (HR app):\n  1. I? — because ...\n  2. I? — because ...\n\nGaming app — would ranking change? Why/why not:",
+  },
+  {
+    id: "C2",
+    timeHint: "30 min",
+    title: "C2 — Design: employee transfer endpoint, done properly",
+    prompt:
+      "You're rebuilding the transfer endpoint. Given this skeleton schema:\n\n" +
+      "  employees(id, hire_date, current_department_id, status)\n" +
+      "  departments(id, name)\n" +
+      "  employee_department_history(id, employee_id, department_id, valid_from, valid_to, created_by, reason)\n\n" +
+      "Requirements:\n" +
+      "  R1 — History must be preserved. No UPDATE that loses the previous department.\n" +
+      "  R2 — Transfers can be future-dated (e.g., 'move to Sales effective 2026-06-01').\n" +
+      "  R3 — Backdating to before the employee's hire_date is rejected.\n" +
+      "  R4 — Emit an audit event on success. If the event emit fails, the transfer itself must still be durable — but the failure must not be silently lost.\n" +
+      "  R5 — Two concurrent transfers for the same employee must not corrupt history.\n\n" +
+      "Deliver, in this order:\n" +
+      "  (1) Any questions or ambiguities you'd raise before writing code.\n" +
+      "  (2) The data-model adjustments (if any) you'd make to the schema above, with a one-line reason each.\n" +
+      "  (3) Pseudo-code or real Node/Express handler. Transactions, locking strategy, and failure handling must be visible in the code.",
+    placeholder: "(1) Questions / ambiguities:\n\n(2) Schema adjustments:\n\n(3) Handler:",
+    codeTextarea: true,
+  },
+  {
+    id: "C3",
+    timeHint: "15 min",
+    title: "C3 — Schema: dotted-line managers",
+    prompt:
+      "A client says: “Employees can have multiple managers — one solid-line, and sometimes additional dotted-line managers.”\n\n" +
+      "Answer in order:\n" +
+      "  (a) Design the data model. Keep it small — table names, columns, and keys.\n" +
+      "  (b) Which query becomes hardest/slowest at 50k employees? Why?\n" +
+      "  (c) Where does this break approval workflows (e.g., 'manager approves leave request')? What would you change?",
+    placeholder: "(a) Schema:\n\n(b) Hardest query + why:\n\n(c) Impact on approval workflow:",
+  },
+];
+
+// ----- APP ---------------------------------------------------------------
+
+function App() {
+  const [stage, setStage] = useState(() => {
+    return localStorage.getItem("px_stage") || "intro";
+  });
+  const [meta, setMeta] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("px_meta") || "null") || {}; }
+    catch { return {}; }
+  });
+  const [answers, setAnswers] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("px_answers") || "null") || {}; }
+    catch { return {}; }
+  });
+  const [tabSwitches, setTabSwitches] = useState(() =>
+    Number(localStorage.getItem("px_tab_switches") || 0)
+  );
+  const [startedAt, setStartedAt] = useState(() => localStorage.getItem("px_started_at"));
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(() => localStorage.getItem("px_submitted") === "1");
+
+  useEffect(() => { localStorage.setItem("px_stage", stage); }, [stage]);
+  useEffect(() => { localStorage.setItem("px_meta", JSON.stringify(meta)); }, [meta]);
+  useEffect(() => { localStorage.setItem("px_answers", JSON.stringify(answers)); }, [answers]);
+
+  // tab-switch counter (signal for reviewers)
+  useEffect(() => {
+    const onVis = () => {
+      if (document.hidden) {
+        setTabSwitches((n) => {
+          const next = n + 1;
+          localStorage.setItem("px_tab_switches", String(next));
+          return next;
+        });
+      }
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
+
+  const role = meta.role; // 'frontend' | 'backend'
+
+  const sections = useMemo(() => {
+    if (role === "frontend") return [{ key: "common", qs: COMMON }, { key: "frontend", qs: FRONTEND }];
+    if (role === "backend")  return [{ key: "common", qs: COMMON }, { key: "backend",  qs: BACKEND  }];
+    return [];
+  }, [role]);
+
+  const allQuestions = sections.flatMap(s => s.qs);
+
+  // timer
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    if (stage !== "assessment") return;
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, [stage]);
+
+  const elapsedMs = startedAt ? now - Number(startedAt) : 0;
+  const remainingMs = Math.max(0, DURATION_MIN * 60 * 1000 - elapsedMs);
+  const remainingStr = fmtTime(remainingMs);
+  const timeUp = remainingMs === 0;
+
+  // auto-submit when time up
+  useEffect(() => {
+    if (timeUp && stage === "assessment" && !submitted && !submitting) {
+      handleSubmit(true);
+    }
+    // eslint-disable-next-line
+  }, [timeUp]);
+
+  function startAssessment(formValues) {
+    const nowTs = Date.now();
+    setMeta(formValues);
+    setStartedAt(String(nowTs));
+    localStorage.setItem("px_started_at", String(nowTs));
+    setStage("assessment");
+    window.scrollTo(0, 0);
+  }
+
+  function updateAnswer(qid, value) {
+    setAnswers((prev) => ({ ...prev, [qid]: value }));
+  }
+
+  async function handleSubmit(auto=false) {
+    if (submitting || submitted) return;
+    if (!auto) {
+      const unanswered = allQuestions.filter((q) => !(answers[q.id] || "").trim());
+      if (unanswered.length > 0) {
+        const proceed = window.confirm(
+          `You have ${unanswered.length} unanswered question(s): ${unanswered.map(q=>q.id).join(", ")}.\n\nSubmit anyway?`
+        );
+        if (!proceed) return;
+      }
+    }
+    setSubmitting(true);
+    const submittedAtTs = Date.now();
+    const durationMin = Math.round((submittedAtTs - Number(startedAt)) / 60000);
+    const payload = {
+      ...meta,
+      startedAt: new Date(Number(startedAt)).toISOString(),
+      submittedAt: new Date(submittedAtTs).toISOString(),
+      durationMin,
+      tabSwitches,
+      autoSubmitted: !!auto,
+      answers,
+    };
+    try {
+      if (GOOGLE_FORM_URL.startsWith("REPLACE_")) {
+        console.warn("Google Form URL not configured. Payload:", payload);
+      } else {
+        const body = new URLSearchParams();
+        body.append(FORM_FIELDS.name,        meta.name || "");
+        body.append(FORM_FIELDS.email,       meta.email || "");
+        body.append(FORM_FIELDS.role,        meta.role || "");
+        body.append(FORM_FIELDS.startedAt,   payload.startedAt);
+        body.append(FORM_FIELDS.submittedAt, payload.submittedAt);
+        body.append(FORM_FIELDS.durationMin, String(durationMin));
+        body.append(FORM_FIELDS.tabSwitches, String(tabSwitches));
+        body.append(FORM_FIELDS.answersJson, JSON.stringify(answers));
+        await fetch(GOOGLE_FORM_URL, { method: "POST", mode: "no-cors", body });
+      }
+      localStorage.setItem("px_submitted", "1");
+      setSubmitted(true);
+      setStage("done");
+    } catch (e) {
+      console.error("Submit error:", e);
+      alert("There was a problem submitting. Please copy your answers and email them to mohamed.sabry@praxionhr.com");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  function resetSession() {
+    if (!window.confirm("Clear all saved answers and restart?")) return;
+    ["px_stage","px_meta","px_answers","px_started_at","px_tab_switches","px_submitted"]
+      .forEach(k => localStorage.removeItem(k));
+    location.reload();
+  }
+
+  return (
+    <div>
+      <div className="brand-bar">
+        <div className="logo">PRAXION <span>/ Assessment</span></div>
+        {stage === "assessment" && (
+          <div className={"timer " + (remainingMs < 5*60*1000 ? "crit" : remainingMs < 15*60*1000 ? "warn" : "")}>
+            {remainingStr}
+          </div>
+        )}
+      </div>
+
+      <div className="container">
+        {stage === "intro" && <Intro onStart={startAssessment} />}
+        {stage === "assessment" && (
+          <Assessment
+            sections={sections}
+            answers={answers}
+            onChange={updateAnswer}
+            onSubmit={() => handleSubmit(false)}
+            submitting={submitting}
+            role={role}
+            meta={meta}
+          />
+        )}
+        {stage === "done" && <Done meta={meta} />}
+
+        {stage !== "intro" && !submitted && (
+          <div className="footer-note">
+            Your answers auto-save to this browser. Do not switch devices mid-assessment.
+            <br/>
+            <a href="#" onClick={(e)=>{e.preventDefault(); resetSession();}} style={{fontSize:11}}>Reset session</a>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ----- INTRO --------------------------------------------------------------
+
+function Intro({ onStart }) {
+  const [form, setForm] = useState({ name:"", email:"", role:"frontend" });
+  const [ack, setAck] = useState(false);
+  const canStart = form.name.trim() && /\S+@\S+\.\S+/.test(form.email) && form.role && ack;
+
+  return (
+    <div className="card">
+      <span className="pill">Technical Assessment</span>
+      <h2 style={{marginTop:10}}>Welcome — and good luck.</h2>
+      <p>
+        This assessment is designed to learn how you <em>reason</em>, not how fast you can type.
+        Most questions have several reasonable answers — we're reading for the thinking behind them.
+      </p>
+
+      <h3>Format</h3>
+      <p style={{marginTop:0}}>
+        <strong>75 minutes.</strong> Two sections: a short common section for everyone, then one track based on your role.
+        All answers auto-save in your browser. You'll click Submit at the end (or we auto-submit when time runs out).
+      </p>
+
+      <h3>Ground rules</h3>
+      <ul style={{lineHeight:1.7, color:'#30445F'}}>
+        <li>Write in your own words. We can tell AI-generated answers — they tend to be generic and miss the domain pitfalls.</li>
+        <li>If a question feels ambiguous, <strong>state your assumption</strong> and keep going. That's a signal, not a problem.</li>
+        <li>Pseudo-code is fully acceptable where asked. We care about the structure and reasoning.</li>
+        <li>No one is watching your screen. Use the internet to look up syntax — but don't paste the questions into an LLM.</li>
+      </ul>
+
+      <div className="callout warn">
+        <strong>A note on AI tools.</strong> You're welcome to consult documentation. But the questions are written so that a straight
+        copy-paste into ChatGPT / Claude gives a confident but wrong-shaped answer. Your human judgment is what we're hiring.
+      </div>
+
+      <h3>Let's get your details</h3>
+      <label>Full name</label>
+      <input type="text" value={form.name} onChange={(e)=>setForm({...form, name:e.target.value})} placeholder="e.g. Walid Sayed" />
+
+      <label>Email address</label>
+      <input type="email" value={form.email} onChange={(e)=>setForm({...form, email:e.target.value})} placeholder="you@example.com" />
+      <div className="help">Use the email where Praxion invited you. We match submissions to candidates by email.</div>
+
+      <label>Role you're interviewing for</label>
+      <select value={form.role} onChange={(e)=>setForm({...form, role:e.target.value})}>
+        <option value="frontend">Frontend (React)</option>
+        <option value="backend">Backend (Node.js / Express)</option>
+      </select>
+      <div className="help">If you're not sure, check the email from Praxion — it says which role.</div>
+
+      <label style={{marginTop:20, fontWeight:500, display:'flex', gap:8, alignItems:'flex-start'}}>
+        <input type="checkbox" checked={ack} onChange={(e)=>setAck(e.target.checked)} style={{marginTop:4, width:'auto'}}/>
+        <span style={{fontSize:13, color:'#30445F'}}>
+          I understand the 75-minute timer starts the moment I click Start, and that I shouldn't copy these questions into an external AI tool.
+        </span>
+      </label>
+
+      <div className="nav-row">
+        <div className="step-list">A short common section, then your role-specific track.</div>
+        <button className="btn" disabled={!canStart} onClick={() => onStart(form)}>Start 75-min assessment →</button>
+      </div>
+    </div>
+  );
+}
+
+// ----- ASSESSMENT ---------------------------------------------------------
+
+function Assessment({ sections, answers, onChange, onSubmit, submitting, role, meta }) {
+  const answeredCount = sections.flatMap(s=>s.qs).filter(q => (answers[q.id]||"").trim()).length;
+  const total = sections.flatMap(s=>s.qs).length;
+  const pct = Math.round((answeredCount / total) * 100);
+
+  return (
+    <>
+      <div className="card">
+        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+          <div>
+            <span className="pill alt">{meta.name}</span>
+            <span className="pill alt" style={{marginLeft:6}}>{role}</span>
+          </div>
+          <div style={{fontSize:13, color:'#5A6B82'}}>{answeredCount} / {total} answered</div>
+        </div>
+        <div className="progress"><div style={{width: pct + "%"}} /></div>
+        <p style={{marginTop:0, fontSize:13, color:'#5A6B82'}}>
+          Answer every question you can. If one is ambiguous, say so in your answer — that's fine, it's expected.
+        </p>
+      </div>
+
+      {sections.map((section, i) => (
+        <div key={section.key}>
+          <div className="card" style={{paddingBottom:14}}>
+            <span className="pill">{section.key === "common" ? "Section 1 — All candidates" : (role === "frontend" ? "Section 2 — Frontend" : "Section 2 — Backend")}</span>
+            <h2 style={{marginTop:10, marginBottom:4}}>
+              {section.key === "common" ? "Judgment & prioritisation" : (role === "frontend" ? "React & UX reasoning" : "API, data, and schema reasoning")}
+            </h2>
+            <p style={{marginBottom:0, fontSize:14}}>
+              {section.key === "common"
+                ? "We care about the reasoning, not the length. Brief and sharp beats long and generic."
+                : (role === "frontend"
+                  ? "Write real code or structured pseudo-code — whichever lets you think fastest."
+                  : "Transactions, edge cases, and failure handling are what we read for.")}
+            </p>
+          </div>
+
+          {section.qs.map((q) => (
+            <QuestionCard
+              key={q.id}
+              q={q}
+              value={answers[q.id] || ""}
+              onChange={(v) => onChange(q.id, v)}
+            />
+          ))}
+        </div>
+      ))}
+
+      <div className="card" style={{textAlign:'center'}}>
+        <h3 style={{marginTop:0}}>Ready to submit?</h3>
+        <p>Once you submit, the session is closed. If you close the tab before submitting, your answers are saved and you can resume — but the timer keeps running.</p>
+        <button className="btn" onClick={onSubmit} disabled={submitting}>
+          {submitting ? "Submitting…" : "Submit assessment"}
+        </button>
+      </div>
+    </>
+  );
+}
+
+function QuestionCard({ q, value, onChange }) {
+  return (
+    <div className="card">
+      <div className="meta-row">
+        <span className="pill alt">{q.timeHint}</span>
+        {(value || "").trim() && <span className="answer-indicator">✓ saved</span>}
+      </div>
+      <h3 style={{marginTop:12, marginBottom:10, color:'var(--navy)', fontSize:18}}>{q.title}</h3>
+      <div style={{whiteSpace:'pre-wrap', lineHeight:1.6, color:'#30445F', fontSize:14}}>
+        {q.prompt}
+      </div>
+      {q.code && (
+        <pre className="code-block" style={{marginTop:14}}>{q.code}</pre>
+      )}
+      <label style={{marginTop:16}}>Your answer</label>
+      <textarea
+        className={q.codeTextarea ? "code" : ""}
+        value={value}
+        placeholder={q.placeholder || ""}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
+  );
+}
+
+// ----- DONE ---------------------------------------------------------------
+
+function Done({ meta }) {
+  return (
+    <div className="card" style={{textAlign:'center'}}>
+      <span className="pill">Submitted</span>
+      <h2 style={{marginTop:10}}>Thank you, {meta.name || "candidate"}.</h2>
+      <p>Your assessment has been recorded. You may close this tab.</p>
+      <p style={{fontSize:13, color:'#5A6B82'}}>
+        The Praxion team will review responses and get back to you within a few business days.
+        Any questions — email <a href="mailto:mohamed.sabry@praxionhr.com">mohamed.sabry@praxionhr.com</a>.
+      </p>
+    </div>
+  );
+}
+
+// ----- UTIL ---------------------------------------------------------------
+
+function fmtTime(ms) {
+  const s = Math.ceil(ms / 1000);
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  return `${String(m).padStart(2,"0")}:${String(r).padStart(2,"0")}`;
+}
+
+// ----- MOUNT -------------------------------------------------------------
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+</script>
+</body>
+</html>

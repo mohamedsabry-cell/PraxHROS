@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Praxion mark — 3D cube">
+  <defs>
+    <!-- Top face: lightest, picks up light -->
+    <linearGradient id="pxTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E1EAFF"/>
+    </linearGradient>
+    <!-- Left face: cool mid tone (in shadow) -->
+    <linearGradient id="pxLeft" x1="0%" y1="0%" x2="100%" y2="60%">
+      <stop offset="0%"   stop-color="#CCD6EE"/>
+      <stop offset="100%" stop-color="#9FB0D4"/>
+    </linearGradient>
+    <!-- Right face: teal-infused (more of the color Salem liked) -->
+    <linearGradient id="pxRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#CFEDE9"/>
+      <stop offset="100%" stop-color="#7FCFC4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Soft layered ground-shadow (stacked ellipses fake a blur, render everywhere) -->
+  <g>
+    <ellipse cx="48" cy="80" rx="28" ry="4.5" fill="#0B1437" opacity="0.08"/>
+    <ellipse cx="48" cy="80" rx="22" ry="3.4" fill="#0B1437" opacity="0.12"/>
+    <ellipse cx="48" cy="80" rx="16" ry="2.4" fill="#0B1437" opacity="0.18"/>
+  </g>
+
+  <g transform="translate(16,12)">
+    <!-- Three cube faces (rhombuses) -->
+    <path d="M32 4  L60 18 L32 32 L4 18 Z"   fill="url(#pxTop)"/>
+    <path d="M4 18  L32 32 L32 60 L4 46 Z"   fill="url(#pxLeft)"/>
+    <path d="M60 18 L60 46 L32 60 L32 32 Z"  fill="url(#pxRight)"/>
+
+    <!-- Outer hex outline -->
+    <path d="M32 4 L60 18 L60 46 L32 60 L4 46 L4 18 Z"
+          fill="none" stroke="#0B1437" stroke-width="2.6"
+          stroke-linejoin="round" stroke-linecap="round"/>
+
+    <!-- 3 internal cube edges meeting at the front corner -->
+    <path d="M32 4 L32 32 M4 18 L32 32 M60 18 L32 32"
+          fill="none" stroke="#0B1437" stroke-width="2.6"
+          stroke-linejoin="round" stroke-linecap="round"/>
+
+    <!-- Network accent: ghost lines preserving the original molecular feel -->
+    <path d="M32 32 L32 60 M32 32 L4 46 M32 32 L60 46"
+          fill="none" stroke="#0B1437" stroke-width="1.4"
+          stroke-linejoin="round" stroke-linecap="round" opacity="0.28"/>
+
+    <!-- Vertex nodes — 3 accent colors: blue · teal · orange -->
+    <circle cx="32" cy="4"  r="4.4" fill="#2F6BFF"/><!-- Top: Signal Blue -->
+    <circle cx="60" cy="18" r="4.4" fill="#0B1437"/>
+    <circle cx="60" cy="46" r="4.4" fill="#19D3C5"/><!-- Teal -->
+    <circle cx="32" cy="60" r="4.4" fill="#0B1437"/>
+    <circle cx="4"  cy="46" r="4.4" fill="#F59E0B"/><!-- Orange (NEW) -->
+    <circle cx="4"  cy="18" r="4.4" fill="#0B1437"/>
+    <circle cx="32" cy="32" r="5.4" fill="#0B1437"/><!-- Center front corner -->
+  </g>
+</svg>

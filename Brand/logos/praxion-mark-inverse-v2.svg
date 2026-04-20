@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Praxion mark — 3D cube (inverse)">
+  <defs>
+    <!-- Solid face colors pre-blended for navy backgrounds -->
+    <linearGradient id="pxTopI" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#2D3A66"/>
+      <stop offset="100%" stop-color="#1B274F"/>
+    </linearGradient>
+    <linearGradient id="pxLeftI" x1="0%" y1="0%" x2="100%" y2="60%">
+      <stop offset="0%"   stop-color="#1A2348"/>
+      <stop offset="100%" stop-color="#131B3A"/>
+    </linearGradient>
+    <linearGradient id="pxRightI" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#1B4E55"/>
+      <stop offset="100%" stop-color="#14625E"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Layered ground shadow on navy -->
+  <g>
+    <ellipse cx="48" cy="80" rx="28" ry="4.5" fill="#000000" opacity="0.22"/>
+    <ellipse cx="48" cy="80" rx="22" ry="3.4" fill="#000000" opacity="0.35"/>
+    <ellipse cx="48" cy="80" rx="16" ry="2.4" fill="#000000" opacity="0.50"/>
+  </g>
+
+  <g transform="translate(16,12)">
+    <path d="M32 4  L60 18 L32 32 L4 18 Z"   fill="url(#pxTopI)"/>
+    <path d="M4 18  L32 32 L32 60 L4 46 Z"   fill="url(#pxLeftI)"/>
+    <path d="M60 18 L60 46 L32 60 L32 32 Z"  fill="url(#pxRightI)"/>
+
+    <path d="M32 4 L60 18 L60 46 L32 60 L4 46 L4 18 Z"
+          fill="none" stroke="#FFFFFF" stroke-width="2.6"
+          stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M32 4 L32 32 M4 18 L32 32 M60 18 L32 32"
+          fill="none" stroke="#FFFFFF" stroke-width="2.6"
+          stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M32 32 L32 60 M32 32 L4 46 M32 32 L60 46"
+          fill="none" stroke="#FFFFFF" stroke-width="1.4"
+          stroke-linejoin="round" stroke-linecap="round" opacity="0.4"/>
+
+    <circle cx="32" cy="4"  r="4.4" fill="#2F6BFF"/>
+    <circle cx="60" cy="18" r="4.4" fill="#FFFFFF"/>
+    <circle cx="60" cy="46" r="4.4" fill="#19D3C5"/>
+    <circle cx="32" cy="60" r="4.4" fill="#FFFFFF"/>
+    <circle cx="4"  cy="46" r="4.4" fill="#F59E0B"/>
+    <circle cx="4"  cy="18" r="4.4" fill="#FFFFFF"/>
+    <circle cx="32" cy="32" r="5.4" fill="#FFFFFF"/>
+  </g>
+</svg>
