@@ -7,6 +7,31 @@ This file is the canonical primer for Claude Code working in the Praxion-HROS wo
 
 ---
 
+## 0. ⭐ Primary build reference — read this BEFORE writing any code
+
+**`Workflows/Praxion-Workflows-Master.html`** is the number-one reference for all implementation work. It is the source of truth for:
+
+- All 13 module workflows (business logic, state transitions, decision points)
+- Cross-module event flows (e.g., hire → M1 creates employee → emits `employee.hired` → M3 onboarding → M10 access provisioning → M6 payroll enrollment)
+- Domain events that connect modules (Kafka-style event names and payloads)
+- Employee lifecycle end-to-end (recruit → hire → onboard → active → leave → terminate → offboard → archive)
+- State machines for key entities (employee status, leave request, offboarding case, etc.)
+
+**Build rules — non-negotiable:**
+1. Any data model, API endpoint, state machine, or UI flow Claude Code implements must trace back to a workflow in this file. If a feature has no workflow here, pause and ask — don't invent.
+2. Module boundaries match the 13 modules defined here. Do not merge responsibilities across modules.
+3. Event names (e.g., `employee.hired`, `employee.terminated`) are canonical — use them verbatim in code, queues, and logs.
+4. If a workflow appears to conflict with a BRD, the workflow wins for *process* questions; the BRD wins for *requirements* questions. Flag any conflict before proceeding.
+5. When proposing a technical stack or architecture, explicitly map your design to the cross-module event flows in this file.
+
+Secondary references (read after workflows, in this order):
+- `Architecture/Praxion-System-Architecture.docx` — system-level architecture
+- `BRDs/Praxion-BRD-M{n}-*.docx` — per-module functional requirements
+- `User-Stories/Praxion-User-Stories-Master.docx` — acceptance criteria
+- `Modules/M{n}-*/Discovery/` — functional detail from discovery questionnaires
+
+---
+
 ## 1. What Praxion is
 
 Praxion is a **13-module Human Resources Operating System (HROS)** being built by PraxionHR. The product is a full HR platform covering the employee lifecycle from recruitment to offboarding, plus payroll, learning, performance, contractor management, analytics, and client-facing portals.
@@ -158,6 +183,8 @@ Labels in use: `epic-e0` .. `epic-e8`, `foundation`, `platform`, plus module/pha
 
 | Need | Path |
 |---|---|
+| **⭐ Primary build reference — workflows, events, state machines** | **`Workflows/Praxion-Workflows-Master.html`** |
+| Workflow companion docs | `Workflows/Praxion-Workflows-Reference.docx`, `Praxion-User-Journey-Maps.*` |
 | Latest BRD for any module | `BRDs/Praxion-BRD-M{n}-*.docx` |
 | Module deep-dive (BRD + Architecture + Specs + User-Stories etc.) | `Modules/M{n}-*/` |
 | Discovery questionnaires | `Questionnaires/` (consolidated + component) |
